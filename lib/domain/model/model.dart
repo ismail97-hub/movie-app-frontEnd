@@ -56,13 +56,13 @@ class Movie {
 class HomeData {
   List<Movie> newMovies;
   List<Movie> trending;
-  List<Movie> topMovies;
+  List<Movie> foreignMovies;
   List<Movie> indianMovies;
   List<Movie> arabicMovies;
   List<Category> categories;
   List<Genre> genres;
 
-  HomeData(this.newMovies, this.trending, this.topMovies, this.indianMovies,
+  HomeData(this.newMovies, this.trending, this.foreignMovies, this.indianMovies,
       this.arabicMovies, this.categories, this.genres);
 }
 

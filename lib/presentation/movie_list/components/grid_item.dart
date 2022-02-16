@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/components/ratting_item.dart';
@@ -24,8 +25,8 @@ class GridItem extends StatelessWidget {
               left: AppSize.s0,
               right: AppSize.s0,
               top: AppSize.s0,
-              child: Image.network(
-                movie.image,
+              child: CachedNetworkImage(
+                imageUrl:movie.image,
                 fit: BoxFit.fill,
               ),
             ),

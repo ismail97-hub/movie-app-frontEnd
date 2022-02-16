@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
@@ -85,11 +86,19 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             height: AppSize.s350,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(movie.image), fit: BoxFit.cover)),
+            child: CachedNetworkImage(
+              imageUrl: movie.image,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
           ),
           detailsAppBar(context: context, viewModel: _viewModel, movie: movie),
           Container(
@@ -111,7 +120,10 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                         child: WatchButton(
                             margin: EdgeInsets.only(
                               top: AppSize.s130,
-                            ), onPressed: (){_viewModel.watch(context, movie);}),
+                            ),
+                            onPressed: () {
+                              _viewModel.watch(context, movie);
+                            }),
                       ),
                     )
                   ],
@@ -123,11 +135,6 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                 _getMetaSection(movie),
                 SizedBox(
                   height: AppPadding.p20,
-                ),
-                // related section title
-                _getSection(AppStrings.related),
-                SizedBox(
-                  height: AppPadding.p15,
                 ),
                 // related movies
                 _getRelatedMovies(detailsData.relatedMovies),
@@ -172,9 +179,6 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           ),
           // rating item
           RatingItem(movie.rating),
-          SizedBox(
-            height: AppPadding.p15,
-          ),
           // genres list
           _geGenresTag(movie.genres),
           SizedBox(
@@ -193,38 +197,62 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   }
 
   Widget _getRelatedMovies(List<Movie> relatedMovies) {
-    return SizedBox(
-      height: AppSize.s250,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children:
-            relatedMovies.map((movie) => HorizontalListmovie(movie)).toList(),
-      ),
-    );
+    if (relatedMovies.isNotEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // related section title
+          _getSection(AppStrings.related),
+          SizedBox(
+            height: AppPadding.p15,
+          ),
+          SizedBox(
+            height: AppSize.s250,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              children: relatedMovies
+                  .map((movie) => HorizontalListmovie(movie))
+                  .toList(),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget _getSection(String title) {
     return Text(
       title,
-      style: getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary),
+      style:
+          getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary),
     );
   }
 
   Widget _geGenresTag(List<Genre>? genres) {
-    if (genres != null) {
-      return SizedBox(
-        height: AppSize.s30,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          children: genres
-              .map(
-                (genre) => TagItem(genre),
-              )
-              .toList(),
-        ),
+    if (genres != null && genres.isNotEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: AppPadding.p15,
+          ),
+          SizedBox(
+            height: AppSize.s30,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: genres
+                  .map(
+                    (genre) => TagItem(genre),
+                  )
+                  .toList(),
+            ),
+          ),
+        ],
       );
     } else {
       return Container();

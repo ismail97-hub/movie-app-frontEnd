@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MovieImageItem extends StatelessWidget {
   final String image;
@@ -14,8 +15,8 @@ class MovieImageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
-      child: Image.network(
-        image,
+      child: CachedNetworkImage(
+        imageUrl:image,
         fit: BoxFit.fill,
         width: width,
       ),

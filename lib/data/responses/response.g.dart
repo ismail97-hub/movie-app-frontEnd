@@ -97,7 +97,7 @@ HomeResponse _$HomeResponseFromJson(Map<String, dynamic> json) {
     (json['newMovies'] as List<dynamic>?)
         ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
         .toList(),
-    (json['topMovies'] as List<dynamic>?)
+    (json['foreignMovies'] as List<dynamic>?)
         ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
         .toList(),
     (json['indianMovies'] as List<dynamic>?)
@@ -119,7 +119,7 @@ Map<String, dynamic> _$HomeResponseToJson(HomeResponse instance) =>
     <String, dynamic>{
       'trending': instance.trending,
       'newMovies': instance.newMovies,
-      'topMovies': instance.topMovies,
+      'foreignMovies': instance.foreignMovies,
       'indianMovies': instance.indianMovies,
       'arabicMovies': instance.arabicMovies,
       'categories': instance.categories,

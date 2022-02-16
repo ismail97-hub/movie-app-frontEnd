@@ -124,8 +124,8 @@ class HomeResponse {
   @JsonKey(name: "newMovies")
   List<MovieResponse>? newMovies;
 
-  @JsonKey(name: "topMovies")
-  List<MovieResponse>? topMovies;
+  @JsonKey(name: "foreignMovies")
+  List<MovieResponse>? foreignMovies;
 
   @JsonKey(name: "indianMovies")
   List<MovieResponse>? indianMovies;
@@ -139,7 +139,7 @@ class HomeResponse {
   @JsonKey(name: "genres")
   List<GenreResponse>? genres;
 
-  HomeResponse(this.trending, this.newMovies, this.topMovies,this.indianMovies,this.arabicMovies,this.categories,this.genres);
+  HomeResponse(this.trending, this.newMovies, this.foreignMovies,this.indianMovies,this.arabicMovies,this.categories,this.genres);
 
   //from json
   factory HomeResponse.fromJson(Map<String, dynamic> json) =>

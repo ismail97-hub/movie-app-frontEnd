@@ -11,6 +11,7 @@ class AppStrings {
   static const String trending = "Trending";
   static const String newMovies = "New releases";
   static const String topMovies = "Top movies";
+  static const String foreignMovies = "Foreign movies";
   static const String indianMovies = "Indian movies";
   static const String arabicMovies = "Arabic movies";
   static const String byCategory = "By Category";
@@ -27,8 +28,12 @@ class AppStrings {
 
 
   static const String noResultFound = "No result found";
+  static const String noOverviewFound = "No overview found";
   static const String emptyFavorites = "You haven't selected any movie yet";
   static const String emptyHistory = "You haven't watched any movie yet";
+  
+  static const String showMore = "Show more";
+  static const String showLess = "Show less";
   
   // error handler
   static const String success = "Success";

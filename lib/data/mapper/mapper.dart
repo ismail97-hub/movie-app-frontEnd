@@ -84,7 +84,7 @@ extension HomeResponseExtension on HomeResponse? {
   HomeData toDomain() {
     List<MovieResponse>? newMovies = this?.newMovies;
     List<MovieResponse>? trending = this?.trending;
-    List<MovieResponse>? topMovies = this?.topMovies;
+    List<MovieResponse>? foreignMovies = this?.foreignMovies;
     List<MovieResponse>? indianMovies = this?.indianMovies;
     List<MovieResponse>? arabicMovies = this?.arabicMovies;
     List<CategoryResponse>? categories = this?.categories;
@@ -93,7 +93,7 @@ extension HomeResponseExtension on HomeResponse? {
     return HomeData(
         newMovies.toDomain(),
         trending.toDomain(),
-        topMovies.toDomain(),
+        foreignMovies.toDomain(),
         indianMovies.toDomain(),
         arabicMovies.toDomain(),
         categories.toDomain(),

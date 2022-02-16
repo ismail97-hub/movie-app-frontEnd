@@ -4,7 +4,7 @@ import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 
 enum HomeSections {
-  TOP_MOVIES,
+  FOREIGN_MOVIES,
   TRENDING,
   NEW_MOVIES,
   INDIAN_MOVIES,
@@ -14,8 +14,8 @@ enum HomeSections {
 extension HomeDataExtension on HomeSections {
   MovieListArgs getMovieListArgs({AppBarState? appBarState}) {
     switch (this) {
-      case HomeSections.TOP_MOVIES:
-        return MovieListArgs(Endpoints.top, AppStrings.topMovies,appBarState:appBarState);
+      case HomeSections.FOREIGN_MOVIES:
+        return MovieListArgs(Endpoints.foreign, AppStrings.foreignMovies,appBarState:appBarState);
       case HomeSections.TRENDING:
         return MovieListArgs(Endpoints.trending, AppStrings.trending,appBarState:appBarState);
       case HomeSections.NEW_MOVIES:

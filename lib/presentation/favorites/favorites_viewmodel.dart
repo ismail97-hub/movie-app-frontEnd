@@ -27,7 +27,6 @@ class FavoriteViewModel extends BaseViewModel
   }
 
   void getFavorites() async {
-    
     inputState.add(LoadingState());
     (await _favoriteUseCase.execute(Void)).fold((failure) {
       inputState.add(ErrorState(
@@ -43,23 +42,22 @@ class FavoriteViewModel extends BaseViewModel
     });
   }
 
-
   @override
   void dispose() {
     _favoritesStreamController.close();
     super.dispose();
   }
-  
+
   @override
-  unFavorite(List<Movie> favorites,Movie movie)async {
-    (await _favoriteUseCase.unFavorite(movie.id.toString())).fold(
-      (failure) {
-        
-      }, 
-      (isFav) {
-        favorites.remove(movie);
-        inputFavorites.add(favorites);
-      });
+  unFavorite(List<Movie> favorites, Movie movie) async {
+    (await _favoriteUseCase.unFavorite(movie.id.toString())).fold((failure) {},
+        (isFav) {
+      favorites.remove(movie);
+      inputFavorites.add(favorites);
+      if (favorites.isEmpty) {
+        inputState.add(EmptyState(AppStrings.emptyFavorites, JsonAssets.favorite));
+      }
+    });
   }
 
   @override
@@ -68,11 +66,10 @@ class FavoriteViewModel extends BaseViewModel
   @override
   Stream<List<Movie>> get outputFavorites =>
       _favoritesStreamController.stream.map((favorites) => favorites);
-
 }
 
 abstract class FavoriteViewModelInput {
-  unFavorite(List<Movie> favorites,Movie movie);
+  unFavorite(List<Movie> favorites, Movie movie);
   Sink get inputFavorites;
 }
 

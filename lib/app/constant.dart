@@ -7,6 +7,7 @@ class Constant {
 class Endpoints {
   static const String top = "top";
   static const String neW = "new";
+  static const String foreign = "foreign";
   static const String genre = "genre";
   static const String category = "category";
   static const String trending = "trending";
