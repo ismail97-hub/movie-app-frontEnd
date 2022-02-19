@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/di.dart';
@@ -7,7 +8,8 @@ import 'package:movieapp/app/di.dart';
 import 'app/app.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); //
+  await Firebase.initializeApp();
   await initAppModule();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());

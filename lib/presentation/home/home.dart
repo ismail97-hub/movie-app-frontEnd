@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/di.dart';
@@ -29,9 +30,10 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   HomeViewModel _viewModel = instance<HomeViewModel>();
   AppPreferences _appPreferences = instance<AppPreferences>();
-
+  FirebaseMessaging _firebaseMessaging = instance<FirebaseMessaging>();
   _bind() {
     _viewModel.start();
+    _firebaseMessaging.getToken().then((value) => print("fireBase token:"+value.toString()));
   }
 
   @override

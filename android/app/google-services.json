@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448818797028",
+    "project_id": "movcima",
+    "storage_bucket": "movcima.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448818797028:android:da4a4d19dc722d6b358ff1",
+        "android_client_info": {
+          "package_name": "com.movcima.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448818797028-044mvqs25v9059r5pahlh0su0nt7gtos.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhsExU96jLumD4rJCt-eQW_9EJdp1dbn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448818797028-044mvqs25v9059r5pahlh0su0nt7gtos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

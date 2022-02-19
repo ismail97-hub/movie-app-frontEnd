@@ -1,6 +1,7 @@
 
 
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/data/data_source/local_data_source.dart';
@@ -32,12 +33,16 @@ final instance = GetIt.instance;
 Future<void> initAppModule()async{
   
   final sharedPreferences = await SharedPreferences.getInstance();
+  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   
   //shared Prefernces
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
   //app preferences
   instance.registerLazySingleton<AppPreferences>(() => AppPreferences(instance()));
+  
+  //FireBase Messaging
+  instance.registerLazySingleton<FirebaseMessaging>(() => firebaseMessaging);
 
   //network info
   instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(DataConnectionChecker()));
