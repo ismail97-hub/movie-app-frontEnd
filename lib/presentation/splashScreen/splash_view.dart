@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
@@ -64,10 +65,24 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Widget _getContentWidget() {
+    // return Center(
+    //     child: Text(
+    //   "N",
+    //   style: getBoldStyle(color: ColorManager.secondary, fontSize: 80),
+    // ));
     return Center(
-        child: Text(
-      "N",
-      style: getBoldStyle(color: ColorManager.secondary, fontSize: 80),
-    ));
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(FontAwesomeIcons.play, size: 100, color: ColorManager.secondary),
+          SizedBox(height:20),
+          Text(
+            "MOVCIMA",
+            style: getBoldStyle(color: ColorManager.secondary, fontSize: 30),
+          )
+        ],
+      ),
+    );
   }
 }

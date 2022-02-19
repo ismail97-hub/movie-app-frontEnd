@@ -52,7 +52,9 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: ColorManager.primary,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(AppStrings.home),
+        title: Text("MOVCIMA",style: getBoldStyle(
+              fontSize: FontSize.s18, color: ColorManager.secondary)),
+        centerTitle: false,
         actions: [
           IconButton(
               onPressed: _onTap(HomeSections.NEW_MOVIES
