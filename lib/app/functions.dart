@@ -16,7 +16,7 @@ Future<DeviceInfo> getDeviceDetails() async {
       // return android device info
       var build = await deviceInfoPlugin.androidInfo;
       name = build.brand + " " + build.model;
-      identifier = build.androidId;
+      identifier = build.id;
     } else if (Platform.isIOS) {
       // return ios device info
       var build = await deviceInfoPlugin.iosInfo;

@@ -52,10 +52,16 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: ColorManager.primary,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("MOVCIMA",style: getBoldStyle(
-              fontSize: FontSize.s18, color: ColorManager.secondary)),
+        title: Text("MOVCIMA",
+            style: getBoldStyle(
+                fontSize: FontSize.s18, color: ColorManager.secondary)),
         centerTitle: false,
         actions: [
+          IconButton(
+              onPressed: (){
+                _appPreferences.logout();
+              },
+              icon: Icon(IconManager.home)),
           IconButton(
               onPressed: _onTap(HomeSections.NEW_MOVIES
                   .getMovieListArgs(appBarState: SearchAppBarState())),
@@ -127,7 +133,8 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Text(
             title,
-            style: getBoldStyle(fontSize: FontSize.s15, color: ColorManager.secondary),
+            style: getBoldStyle(
+                fontSize: FontSize.s15, color: ColorManager.secondary),
           ),
           InkWell(
             onTap: onTap,
@@ -159,7 +166,9 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _getListView(List<Movie> movies,) {
+  Widget _getListView(
+    List<Movie> movies,
+  ) {
     return Container(
       height: AppSize.s250,
       margin: EdgeInsets.only(left: AppMargin.m15, bottom: AppMargin.m20),
@@ -167,11 +176,7 @@ class _HomeViewState extends State<HomeView> {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
-        children: movies
-            .map((movie) => HorizontalListmovie(
-                  movie
-                ))
-            .toList(),
+        children: movies.map((movie) => HorizontalListmovie(movie)).toList(),
       ),
     );
   }
