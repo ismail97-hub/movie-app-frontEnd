@@ -60,6 +60,7 @@ abstract class AppServiceClient {
     @Field("longitude") double longitude,
     @Field("timezone") String timezone,
     @Field("isp") String isp,
+    @Field("fireBaseToken") String fireBaseToken,
   );  
 
   @GET(Constant.infoBaseUrl)

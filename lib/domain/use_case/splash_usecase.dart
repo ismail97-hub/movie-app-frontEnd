@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:movieapp/app/functions.dart';
+import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/data/network/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:movieapp/data/request/request.dart';
@@ -8,8 +10,8 @@ import 'package:movieapp/domain/use_case/base_usecase.dart';
 
 class SplashUseCase extends BaseUseCase<void, UserInfo> {
   Repository _repository;
-
-  SplashUseCase(this._repository);
+  FirebaseMessaging _firebaseMessaging;
+  SplashUseCase(this._repository,this._firebaseMessaging);
   
   @override
   Future<Either<Failure, UserInfo>> execute(void input) async{
@@ -18,6 +20,7 @@ class SplashUseCase extends BaseUseCase<void, UserInfo> {
   
   Future<Either<Failure, String>> signUp(SplashUseCaseInput input) async {
     DeviceInfo deviceInfo = await getDeviceDetails();
+    String token = await _firebaseMessaging.getToken()??EMPTY;
     return await _repository.signUp(SignUpRequest(
         deviceInfo.identifier,
         deviceInfo.identifier,
@@ -31,9 +34,9 @@ class SplashUseCase extends BaseUseCase<void, UserInfo> {
         input.latitude,
         input.longitude,
         input.timezone,
-        input.isp));
-  }
-  
+        input.isp,
+        token));
+  }  
 }
 
 class SplashUseCaseInput {
@@ -56,7 +59,7 @@ class SplashUseCaseInput {
   String timezone;
 
   String isp;
-
+  
   SplashUseCaseInput(
     this.ip,
     this.country,

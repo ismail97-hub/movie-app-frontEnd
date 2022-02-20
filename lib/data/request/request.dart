@@ -24,6 +24,8 @@ class SignUpRequest {
   String timezone;
 
   String isp;
+
+  String fireBaseToken;
   
   SignUpRequest(
     this.username,
@@ -39,5 +41,6 @@ class SignUpRequest {
     this.longitude,
     this.timezone,
     this.isp,
+    this.fireBaseToken
   );
 }

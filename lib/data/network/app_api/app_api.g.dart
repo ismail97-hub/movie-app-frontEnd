@@ -210,8 +210,21 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<SignUpResponse> signUp(username, password, deviceType, ip, country,
-      region, regionName, city, zip, latitude, longitude, timezone, isp) async {
+  Future<SignUpResponse> signUp(
+      username,
+      password,
+      deviceType,
+      ip,
+      country,
+      region,
+      regionName,
+      city,
+      zip,
+      latitude,
+      longitude,
+      timezone,
+      isp,
+      fireBaseToken) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = {
@@ -227,7 +240,8 @@ class _AppServiceClient implements AppServiceClient {
       'latitude': latitude,
       'longitude': longitude,
       'timezone': timezone,
-      'isp': isp
+      'isp': isp,
+      'fireBaseToken': fireBaseToken
     };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<SignUpResponse>(

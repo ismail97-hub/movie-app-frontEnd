@@ -78,6 +78,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       signUpRequest.longitude,
       signUpRequest.timezone,
       signUpRequest.isp,
+      signUpRequest.fireBaseToken
     );
   }
 

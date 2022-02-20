@@ -50,7 +50,11 @@ class DioFactory {
     );
 
     if(!kReleaseMode){
-      dio.interceptors.add(PrettyDioLogger(responseBody: false,requestHeader: true,responseHeader:false,requestBody: false));
+      dio.interceptors.add(PrettyDioLogger(
+        responseBody: false,
+        requestHeader: true,
+        responseHeader:false,
+        requestBody: false));
     }
 
 

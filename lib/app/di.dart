@@ -112,7 +112,7 @@ initMovieListModule(){
 
 initSplashModule(){
   if(!GetIt.I.isRegistered<SplashUseCase>()){
-    instance.registerFactory<SplashUseCase>(() => SplashUseCase(instance()));
+    instance.registerFactory<SplashUseCase>(() => SplashUseCase(instance(),instance()));
     instance.registerFactory<SplashViewModel>(() => SplashViewModel(instance(),instance()));
   }
 }
