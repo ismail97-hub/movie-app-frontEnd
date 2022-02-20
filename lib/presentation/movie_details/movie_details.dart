@@ -54,17 +54,15 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: StreamBuilder<FlowState>(
-            stream: _viewModel.outputState,
-            builder: (context, snapshot) {
-              return snapshot.data
-                      ?.getScreenWidget(context, _getcontentWidget(), () {
-                    _bind();
-                  }) ??
-                  Container();
-            }),
-      ),
+      body: StreamBuilder<FlowState>(
+          stream: _viewModel.outputState,
+          builder: (context, snapshot) {
+            return snapshot.data
+                    ?.getScreenWidget(context, _getcontentWidget(), () {
+                  _bind();
+                }) ??
+                Container();
+          }),
     );
   }
 

@@ -13,71 +13,69 @@ class FavoriteGridItem extends StatelessWidget {
   final Function unFavorite;
   const FavoriteGridItem(
     this.movie, {
-      required this.unFavorite,
+    required this.unFavorite,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: movie.id);
+      onTap: () {
+        Navigator.pushNamed(context, Routes.movieDetailsRoute,
+            arguments: movie.id);
       },
-      child: Column(
+      child: Stack(
+        fit: StackFit.expand,
         children: [
-          Expanded(
-              flex: 10,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Positioned(
-                    top: AppSize.s0,
-                    // left: AppSize.s0,
-                    bottom: AppSize.s0,
-                    // right: AppSize.s0,
-                    child: MovieImageItem(
-                      image: movie.image,
-                      radius: AppSize.s8,
-                    ),
-                  ),
-                  Positioned(
-                    top: AppSize.s5,
-                    left: AppSize.s5,
-                    height: AppSize.s35,
-                    width: AppSize.s35,
-                    child: CircleAvatar(
-                      radius: AppSize.s30,
-                      backgroundColor: ColorManager.black.withOpacity(0.3),
-                      child: IconButton(
-                          onPressed: () {
-                            unFavorite.call();
-                          },
-                          icon: Icon(
-                            IconManager.favorite,
-                            color: ColorManager.secondary,
-                            size: FontSize.s20,
-                          )),
-                    ),
-                  ),
-                ],
-              )),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.all(AppPadding.p5),
-              child: Column(
-                children: [
-                  Text(movie.title,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: getSemiBoldStyle(
-                          fontSize: FontSize.s12, color: Colors.white)),
-                  Text(movie.year,
-                      style: getBoldStyle(
-                          fontSize: FontSize.s12, color: ColorManager.secondary)),
-                ],
+          Column(
+            children: [
+              Expanded(
+                flex: 10,
+                child: MovieImageItem(
+                  image: movie.image,
+                  width: double.infinity,
+                  radius: AppSize.s8,
+                ),
               ),
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: EdgeInsets.all(AppPadding.p5),
+                  child: Column(
+                    children: [
+                      Text(movie.title,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: getSemiBoldStyle(
+                              fontSize: FontSize.s12, color: Colors.white)),
+                      Text(movie.year,
+                          style: getBoldStyle(
+                              fontSize: FontSize.s12,
+                              color: ColorManager.secondary)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: AppSize.s5,
+            left: AppSize.s10,
+            height: AppSize.s35,
+            width: AppSize.s35,
+            child: CircleAvatar(
+              radius: AppSize.s30,
+              backgroundColor: ColorManager.black.withOpacity(0.3),
+              child: IconButton(
+                  onPressed: () {
+                    unFavorite.call();
+                  },
+                  icon: Icon(
+                    IconManager.favorite,
+                    color: ColorManager.secondary,
+                    size: FontSize.s20,
+                  )),
             ),
           ),
         ],
