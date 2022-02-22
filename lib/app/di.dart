@@ -25,6 +25,7 @@ import 'package:movieapp/presentation/history/history_viewmodel.dart';
 import 'package:movieapp/presentation/home/home_viewmodel.dart';
 import 'package:movieapp/presentation/movie_details/movie_details_viewmodel.dart';
 import 'package:movieapp/presentation/movie_list/movie_list_viewmodel.dart';
+import 'package:movieapp/presentation/movie_player/movie_player_viewmodel.dart';
 import 'package:movieapp/presentation/splashScreen/splash_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -117,6 +118,12 @@ initSplashModule(){
   }
 }
 
+initMoviePlayerModule(){
+  if(!GetIt.I.isRegistered<MoviePlayerViewModel>()){
+    instance.registerFactory<MoviePlayerViewModel>(() => MoviePlayerViewModel());
+  }
+}
+
 resetModule(){
   instance.reset(dispose: false);
   initAppModule();
@@ -126,4 +133,5 @@ resetModule(){
   initHistoryModule();
   initMovieListModule();
   initSplashModule();
+  initMoviePlayerModule();
 }

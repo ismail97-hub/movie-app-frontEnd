@@ -8,6 +8,7 @@ import 'package:movieapp/presentation/history/history_view.dart';
 import 'package:movieapp/presentation/home/home.dart';
 import 'package:movieapp/presentation/movie_details/movie_details.dart';
 import 'package:movieapp/presentation/movie_list/movie_list.dart';
+import 'package:movieapp/presentation/movie_player/movie_player.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/splashScreen/splash_view.dart';
 import 'package:movieapp/web_view.dart';
@@ -42,8 +43,9 @@ class RouteGenerator {
         MovieListArgs args = routeSettings.arguments as MovieListArgs;
         return CupertinoPageRoute(builder: (_) => MovieListView(args: args));
       case Routes.watchRoute:
+        initMoviePlayerModule();
         String url = routeSettings.arguments as String;
-        return CupertinoPageRoute(builder: (_) => WebViewExample(url: url));  
+        return CupertinoPageRoute(builder: (_) => MoviePlayer(url: url));  
       case Routes.movieDetailsRoute:
         initMovieDetailsModule();
         int id = routeSettings.arguments as int;
