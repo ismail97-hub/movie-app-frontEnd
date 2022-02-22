@@ -33,7 +33,6 @@ class FavoriteGridItem extends StatelessWidget {
                 flex: 10,
                 child: MovieImageItem(
                   image: movie.image,
-                  width: double.infinity,
                   radius: AppSize.s8,
                 ),
               ),

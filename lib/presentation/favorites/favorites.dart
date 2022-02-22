@@ -74,7 +74,6 @@ class _FavoritesViewState extends State<FavoritesView> {
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 crossAxisCount: 2,
-                crossAxisSpacing: AppSize.s14,
                 childAspectRatio: 4 / 7,
                 children: favorites
                     .map((favorite) => FavoriteGridItem(favorite, unFavorite: (){

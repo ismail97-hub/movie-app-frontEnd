@@ -8,18 +8,18 @@ class TitleYearItem extends StatelessWidget {
   final double radius;
   final double width;
   final double height;
-  const TitleYearItem({Key? key,
+  const TitleYearItem(
+      {Key? key,
       required this.title,
       required this.year,
       Color? color,
       double? radius,
       double? width,
-      double? height
-      }) : 
-      radius = radius ?? AppSize.s15,
-      width = width ?? AppSize.s50,
-      height= height ?? AppSize.s20,
-      super(key: key);
+      double? height})
+      : radius = radius ?? AppSize.s15,
+        width = width ?? AppSize.s50,
+        height = height ?? AppSize.s20,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +30,22 @@ class TitleYearItem extends StatelessWidget {
           style: Theme.of(context).textTheme.headline1,
         ),
         WidgetSpan(
-            child: ClipRRect(
-          borderRadius: BorderRadius.circular(radius),
-          child: Container(
-            width: width,
-            height: height,
-            color: ColorManager.secondary,
-            child: Center(
-              child: Text(
-                year,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-            ),
-          ),
-        ))
+            child: year.isEmpty
+                ? Container()
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(radius),
+                    child: Container(
+                      width: width,
+                      height: height,
+                      color: ColorManager.secondary,
+                      child: Center(
+                        child: Text(
+                          year,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                      ),
+                    ),
+                  ))
       ]),
     );
   }
