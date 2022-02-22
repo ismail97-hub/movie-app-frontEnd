@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //
   await Firebase.initializeApp();
   await initAppModule();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
