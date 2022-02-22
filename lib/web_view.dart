@@ -38,8 +38,10 @@ class _WebViewExampleState extends State<WebViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.primary,
-      body: Center(
+      backgroundColor: ColorManager.black,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height ,
         child: WebView(
           backgroundColor: ColorManager.primary,
           initialUrl: widget.url,
