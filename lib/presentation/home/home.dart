@@ -55,15 +55,9 @@ class _HomeViewState extends State<HomeView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text("MOVCIMA",
-            style: getBoldStyle(
-                fontSize: FontSize.s18, color: ColorManager.secondary)),
+            style: getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary)),
         centerTitle: false,
         actions: [
-          IconButton(
-              onPressed:(){
-                _appPreferences.logout();
-              },
-              icon: Icon(IconManager.home)),
           IconButton(
               onPressed: _onTap(HomeSections.NEW_MOVIES
                   .getMovieListArgs(appBarState: SearchAppBarState())),

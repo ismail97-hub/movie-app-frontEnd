@@ -65,11 +65,6 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Widget _getContentWidget() {
-    // return Center(
-    //     child: Text(
-    //   "N",
-    //   style: getBoldStyle(color: ColorManager.secondary, fontSize: 80),
-    // ));
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,7 +75,7 @@ class _SplashViewState extends State<SplashView> {
           Text(
             "MOVCIMA",
             style: getBoldStyle(color: ColorManager.secondary, fontSize: 30),
-          )
+          ),
         ],
       ),
     );
