@@ -60,6 +60,11 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: false,
         actions: [
           IconButton(
+              onPressed:(){
+                _appPreferences.logout();
+              },
+              icon: Icon(IconManager.home)),
+          IconButton(
               onPressed: _onTap(HomeSections.NEW_MOVIES
                   .getMovieListArgs(appBarState: SearchAppBarState())),
               icon: Icon(IconManager.search))
