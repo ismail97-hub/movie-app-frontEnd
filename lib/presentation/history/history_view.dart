@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/di.dart';
+import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:movieapp/presentation/favorites/components/favorite_grid_item.dart';
@@ -56,14 +57,14 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   Widget _getContentScreen() {
-    return StreamBuilder<List<Movie>>(
+    return StreamBuilder<List<History>>(
         stream: _viewModel.outputHistory,
         builder: (context, snapshot) {
-          return getListHistory(snapshot.data);
+          return getHistoryGrid(snapshot.data);
         });
   }
 
-  Widget getListHistory(List<Movie>? histories) {
+  Widget getHistoryGrid(List<History>? histories) {
     if (histories != null) {
       return Padding(
         padding: EdgeInsets.only(
@@ -75,8 +76,7 @@ class _HistoryViewState extends State<HistoryView> {
           physics: ClampingScrollPhysics(),
           crossAxisCount: 2,
           childAspectRatio: 4 / 7,
-          children:
-              histories.map((history) => HistoryGridItem(history)).toList(),
+          children: histories.map((history) => HistoryGridItem(history)).toList(),
         ),
       );
     } else {

@@ -1,4 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart';
+import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/data/network/failure.dart';
@@ -18,58 +20,9 @@ class SplashUseCase extends BaseUseCase<void, UserInfo> {
     return await _repository.userInfo();
   }  
   
-  Future<Either<Failure, String>> signUp(SplashUseCaseInput input) async {
-    DeviceInfo deviceInfo = await getDeviceDetails();
+  Future<Either<Failure, String>> signUp(void input) async {
     String token = await _firebaseMessaging.getToken()??EMPTY;
-    return await _repository.signUp(SignUpRequest(
-        deviceInfo.identifier,
-        deviceInfo.identifier,
-        deviceInfo.name,
-        input.ip,
-        input.country,
-        input.region,
-        input.regionName,
-        input.city,
-        input.zip,
-        input.latitude,
-        input.longitude,
-        input.timezone,
-        input.isp,
-        token));
+    return await _repository.signIn(SignInRequest(Constant.client,Constant.client));
   }  
 }
 
-class SplashUseCaseInput {
-  String ip;
-
-  String country;
-
-  String region;
-
-  String regionName;
-
-  String city;
-
-  String zip;
-
-  double latitude;
-
-  double longitude;
-
-  String timezone;
-
-  String isp;
-  
-  SplashUseCaseInput(
-    this.ip,
-    this.country,
-    this.region,
-    this.regionName,
-    this.city,
-    this.zip,
-    this.latitude,
-    this.longitude,
-    this.timezone,
-    this.isp,
-  );
-}

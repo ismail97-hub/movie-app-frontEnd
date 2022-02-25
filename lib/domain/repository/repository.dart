@@ -2,7 +2,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:movieapp/data/network/failure.dart';
 import 'package:movieapp/data/request/request.dart';
-import 'package:movieapp/data/responses/response.dart';
 import 'package:movieapp/domain/model/model.dart';
 
 abstract class Repository {
@@ -12,6 +11,7 @@ abstract class Repository {
    Future<Either<Failure,List<Movie>>> search(String query);
    Future<Either<Failure,UserInfo>> userInfo();
    Future<Either<Failure,String>> signUp(SignUpRequest signUpRequest);
+   Future<Either<Failure,String>> signIn(SignInRequest signInRequest);
    Future<Either<Failure,String>> view(String id);
    Future<Either<Failure,bool>> favorite(String id);
    Future<Either<Failure,List<Movie>>> myFavorite();

@@ -210,6 +210,21 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<SignUpResponse> signIn(username, password) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = {'username': username, 'password': password};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SignUpResponse>(
+            Options(method: 'POST', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/auth/signIn',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SignUpResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<SignUpResponse> signUp(
       username,
       password,

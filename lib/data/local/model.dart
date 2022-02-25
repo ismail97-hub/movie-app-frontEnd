@@ -28,8 +28,8 @@ const List<SqfEntityField> typeFields = [
     SqfEntityField('label', DbType.text),
 ];
 
-const tableMovie = SqfEntityTable(
-  tableName: 'localMovie',
+const tableHistory = SqfEntityTable(
+  tableName: 'History',
   primaryKeyName: 'id',
   primaryKeyType: PrimaryKeyType.integer_auto_incremental,
   useSoftDeleting: false,
@@ -37,7 +37,7 @@ const tableMovie = SqfEntityTable(
 );
 
 const tableFavorite = SqfEntityTable(
-  tableName: 'localFavorite',
+  tableName: 'Favorite',
   primaryKeyName: 'id',
   primaryKeyType: PrimaryKeyType.integer_auto_incremental,
   useSoftDeleting: false,
@@ -66,7 +66,7 @@ const myDbModel = SqfEntityModel(
     modelName: DATABASE_NAME, 
     databaseName: DATABASE_PATH,
     sequences: [seqIdentity],
-    databaseTables: [tableMovie,tableFavorite,tableCategory,tableGenre]
+    databaseTables: [tableHistory,tableFavorite,tableCategory,tableGenre]
 );
 
 

@@ -2,21 +2,39 @@
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/domain/model/model.dart';
 
-extension LocalFavoriteExtension on Movie? {
-  LocalFavorite toLocal() {
-    LocalFavorite localFavorite = LocalFavorite();
-    localFavorite.movieId = this?.id;
-    localFavorite.title = this?.title;
-    localFavorite.image = this?.image;
-    localFavorite.rating = this?.rating;
-    localFavorite.quality = this?.quality;
-    localFavorite.year = this?.year;
-    localFavorite.language = this?.language;
-    localFavorite.country = this?.country;
-    localFavorite.story = this?.story;
-    localFavorite.datepublication = this?.datePublication;
+extension FavoriteExtension on Movie? {
+  Favorite toFavorite() {
+    Favorite favorite = Favorite();
+    favorite.movieId = this?.id;
+    favorite.title = this?.title;
+    favorite.image = this?.image;
+    favorite.rating = this?.rating;
+    favorite.quality = this?.quality;
+    favorite.year = this?.year;
+    favorite.language = this?.language;
+    favorite.country = this?.country;
+    favorite.story = this?.story;
+    favorite.datepublication = this?.datePublication;
 
-    return localFavorite;
+    return favorite;
+  }
+}
+
+extension HistoryExtension on Movie? {
+  History toHistory() {
+    History history = History();
+    history.movieId = this?.id;
+    history.title = this?.title;
+    history.image = this?.image;
+    history.rating = this?.rating;
+    history.quality = this?.quality;
+    history.year = this?.year;
+    history.language = this?.language;
+    history.country = this?.country;
+    history.story = this?.story;
+    history.datepublication = this?.datePublication;
+
+    return history;
   }
 }
 

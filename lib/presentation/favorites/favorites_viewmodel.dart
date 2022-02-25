@@ -16,10 +16,10 @@ import 'package:rxdart/rxdart.dart';
 
 class FavoriteViewModel extends BaseViewModel
     with FavoriteViewModelInput, FavoriteViewModelOutput {
-  StreamController _favoritesStreamController = BehaviorSubject<List<Movie>>();
+  StreamController _favoritesStreamController = BehaviorSubject<List<Favorite>>();
 
-  FavoriteUseCase _favoriteUseCase;
-  FavoriteViewModel(this._favoriteUseCase);
+  FavoriteUseCase _useCase;
+  FavoriteViewModel(this._useCase);
 
   @override
   void start() async {
@@ -27,19 +27,13 @@ class FavoriteViewModel extends BaseViewModel
   }
 
   void getFavorites() async {
-    inputState.add(LoadingState());
-    (await _favoriteUseCase.execute(Void)).fold((failure) {
-      inputState.add(ErrorState(
-          failure.message, StateRendererType.FULL_SCREEN_ERROR_STATE));
-    }, (favorites) {
-      if (favorites.isEmpty) {
-        inputState
-            .add(EmptyState(AppStrings.emptyFavorites, JsonAssets.favorite));
-      } else {
-        inputFavorites.add(favorites);
-        inputState.add(ContentState());
-      }
-    });
+    inputState.add(ContentState());
+    List<Favorite> favorites = await _useCase.getAll();
+    if (favorites.isEmpty) {
+      inputState.add(EmptyState(AppStrings.emptyFavorites, JsonAssets.favorite));
+    } else {
+      inputFavorites.add(favorites);
+    }
   }
 
   @override
@@ -49,30 +43,24 @@ class FavoriteViewModel extends BaseViewModel
   }
 
   @override
-  unFavorite(List<Movie> favorites, Movie movie) async {
-    (await _favoriteUseCase.unFavorite(movie.id.toString())).fold((failure) {},
-        (isFav) {
-      favorites.remove(movie);
-      inputFavorites.add(favorites);
-      if (favorites.isEmpty) {
-        inputState.add(EmptyState(AppStrings.emptyFavorites, JsonAssets.favorite));
-      }
-    });
+  delete(int? id) async {
+    await _useCase.delete(id);
+    getFavorites();
   }
 
   @override
   Sink get inputFavorites => _favoritesStreamController.sink;
 
   @override
-  Stream<List<Movie>> get outputFavorites =>
+  Stream<List<Favorite>> get outputFavorites =>
       _favoritesStreamController.stream.map((favorites) => favorites);
 }
 
 abstract class FavoriteViewModelInput {
-  unFavorite(List<Movie> favorites, Movie movie);
+  delete(int id);
   Sink get inputFavorites;
 }
 
 abstract class FavoriteViewModelOutput {
-  Stream<List<Movie>> get outputFavorites;
+  Stream<List<Favorite>> get outputFavorites;
 }

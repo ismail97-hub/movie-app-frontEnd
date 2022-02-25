@@ -16,56 +16,17 @@ class MovieDetailsViewModel extends BaseViewModel
   StreamController _detailsDataStreamController = BehaviorSubject<MoviesDetailsData>();
   StreamController _favoriteIconStreamController = BehaviorSubject<IconData>();
 
-  MovieDetailsUseCase _movieDetailsUseCase;
-  MovieDetailsViewModel(this._movieDetailsUseCase);
+  MovieDetailsUseCase _useCase;
+  MovieDetailsViewModel(this._useCase);
 
   @override
   void start() async {
     
   }
 
-  Future<void> getFavoriteIcon(bool isFavorite) async {
-    print(isFavorite);
-    if (isFavorite) {
-      inputFavoriteIcon.add(IconManager.favorite);
-    } else {
-      inputFavoriteIcon.add(IconManager.emptyFavorite);
-    }
-  }
-
-  @override
-  onFavoriteClick(Movie movie) async{
-    (await _movieDetailsUseCase.favorite(movie.id.toString())).fold(
-      (failure) {
-        print(failure.message);
-      }, 
-      (isFavorite) {
-        movie.isFavorite = isFavorite;
-        print(movie.isFavorite);
-        getFavoriteIcon(movie.isFavorite);
-      });
-  }
-
-  void getDetails(int id) async {
-    inputState.add(LoadingState());
-    (await _movieDetailsUseCase.execute("$id")).fold((failure) {
-      inputState.add(ErrorState(
-          failure.message, StateRendererType.FULL_SCREEN_ERROR_STATE));
-    }, (moviesDetailsData) {
-      print("isViewed :"+moviesDetailsData.movie.isViewed.toString());
-      getFavoriteIcon(moviesDetailsData.movie.isFavorite);
-      inputDetails.add(moviesDetailsData);
-      inputState.add(ContentState());
-    });
-  }
-  
-  @override
-  watch(BuildContext context, Movie movie) async{
-    print(movie.isViewed);
-    if (!movie.isViewed) {
-      _setMovieIsViewed(context, movie.id.toString());
-    }
-    _goToMoviePlayer(context,movie.source);
+  init(int id){
+    _getDetails(id);
+    _getFavoriteIcon(id);
   }
 
   @override
@@ -74,6 +35,35 @@ class MovieDetailsViewModel extends BaseViewModel
     _favoriteIconStreamController.close();
     super.dispose();
   }
+ 
+  void _getDetails(int id) async {
+    inputState.add(LoadingState());
+    (await _useCase.execute("$id")).fold((failure) {
+      inputState.add(ErrorState(failure.message, StateRendererType.FULL_SCREEN_ERROR_STATE));
+    }, (moviesDetailsData) {
+      inputDetails.add(moviesDetailsData);
+      inputState.add(ContentState());
+    });
+  }
+  
+  void _getFavoriteIcon(int id)async{
+    IconData currentIcon = await _useCase.getFavoriteIcon(id);
+    inputFavoriteIcon.add(currentIcon);
+  }
+
+  @override
+  onFavoriteClick(Movie movie) async{
+    IconData currentIcon = await _useCase.onFavoriteClick(movie);
+    inputFavoriteIcon.add(currentIcon);
+  }
+  
+  @override
+  watch(BuildContext context, Movie movie) async{
+    await _useCase.watch(movie).then((_) {
+      _goToMoviePlayer(context, movie.source);
+    });
+  }
+
 
   @override
   Sink get inputDetails => _detailsDataStreamController.sink;
@@ -91,16 +81,6 @@ class MovieDetailsViewModel extends BaseViewModel
 
   _goToMoviePlayer(BuildContext context,String url){
     Navigator.pushNamed(context, Routes.watchRoute,arguments: url);
-  }
-
-  _setMovieIsViewed(BuildContext context, String id)async{
-    (await _movieDetailsUseCase.view(id)).fold(
-      (failure) {
-         print(failure);
-      }, 
-      (message) {
-         print(message);
-      });
   }
 
 }

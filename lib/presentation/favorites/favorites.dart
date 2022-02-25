@@ -9,6 +9,7 @@ import 'package:movieapp/presentation/favorites/favorites_viewmodel.dart';
 import 'package:movieapp/presentation/movie_list/components/grid_item.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
+import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 
@@ -50,20 +51,22 @@ class _FavoritesViewState extends State<FavoritesView> {
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,
           builder: (context, snapshot) {
-            return snapshot.data?.getScreenWidget(context, _getContentScreen(), (){})??Container();
+            return snapshot.data
+                    ?.getScreenWidget(context, _getContentScreen(), () {}) ??
+                Container();
           }),
     );
   }
 
   Widget _getContentScreen() {
-    return StreamBuilder<List<Movie>>(
+    return StreamBuilder<List<Favorite>>(
         stream: _viewModel.outputFavorites,
         builder: (context, snapshot) {
           return getListFavorites(snapshot.data);
         });
   }
 
-  Widget getListFavorites(List<Movie>? favorites) {
+  Widget getListFavorites(List<Favorite>? favorites) {
     if (favorites != null) {
       return Padding(
         padding: EdgeInsets.only(
@@ -71,16 +74,23 @@ class _FavoritesViewState extends State<FavoritesView> {
           left: AppPadding.p10,
         ),
         child: GridView.count(
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                crossAxisCount: 2,
-                childAspectRatio: 4 / 7,
-                children: favorites
-                    .map((favorite) => FavoriteGridItem(favorite, unFavorite: (){
-                        _viewModel.unFavorite(favorites, favorite);
-                    }))
-                    .toList(),
-              ),
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          crossAxisCount: 2,
+          childAspectRatio: 4 / 7,
+          children: favorites
+              .map((favorite) => FavoriteGridItem(
+                    favorite,
+                    unFavorite: () {
+                      _viewModel.delete(favorite.movieId);
+                    },
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: favorite.movieId)
+                          .then((_) => _bind());
+                    },
+                  ))
+              .toList(),
+        ),
       );
     } else {
       return Container();

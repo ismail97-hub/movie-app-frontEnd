@@ -44,3 +44,14 @@ class SignUpRequest {
     this.fireBaseToken
   );
 }
+
+class SignInRequest {
+  String username;
+
+  String password;
+  
+  SignInRequest(
+    this.username,
+    this.password
+  );
+}

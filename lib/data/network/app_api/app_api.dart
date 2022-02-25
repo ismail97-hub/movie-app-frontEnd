@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/data/responses/response.dart';
@@ -7,7 +6,7 @@ part 'app_api.g.dart';
 
 @RestApi(baseUrl: Constant.baseUrl)
 abstract class AppServiceClient {
-  factory AppServiceClient(Dio dio ,{String baseUrl}) = _AppServiceClient;
+  factory AppServiceClient(Dio dio, {String baseUrl}) = _AppServiceClient;
 
   @GET("/movie/trending")
   Future<List<MovieResponse>> trending();
@@ -26,10 +25,10 @@ abstract class AppServiceClient {
 
   @GET("/movie/{id}/details")
   Future<MovieDetailsResponse> movieDetails(@Path("id") String id);
-  
+
   @GET("/movie/{arg}")
   Future<List<MovieResponse>> movieList(@Path("arg") String arg);
-  
+
   @GET("/movie/search/{query}")
   Future<List<MovieResponse>> search(@Path("query") String query);
 
@@ -38,12 +37,18 @@ abstract class AppServiceClient {
 
   @POST("/movie/{id}/favorite")
   Future<bool> favorite(@Path("id") String id);
-  
+
   @GET("/movie/myFavorite")
   Future<List<MovieResponse>> myFavorite();
 
   @GET("/movie/history")
   Future<List<MovieResponse>> history();
+
+  @POST("/auth/signIn")
+  Future<SignUpResponse> signIn(
+    @Field("username") String username,
+    @Field("password") String password,
+  );
 
   @POST("/auth/signUp")
   Future<SignUpResponse> signUp(
@@ -61,7 +66,7 @@ abstract class AppServiceClient {
     @Field("timezone") String timezone,
     @Field("isp") String isp,
     @Field("fireBaseToken") String fireBaseToken,
-  );  
+  );
 
   @GET(Constant.infoBaseUrl)
   Future<UserInfoResponse> getInfo();

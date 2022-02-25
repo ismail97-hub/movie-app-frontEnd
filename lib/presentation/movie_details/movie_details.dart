@@ -35,7 +35,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
 
   _bind() {
     _viewModel.start();
-    _viewModel.getDetails(widget.id);
+    _viewModel.init(widget.id);
   }
 
   @override

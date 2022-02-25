@@ -12,18 +12,18 @@ part of 'model.dart';
 
 //  To use these SqfEntity classes do following:
 //  - import model.dart into where to use
-//  - start typing ex:LocalMovie.select()... (add a few filters with fluent methods)...(add orderBy/orderBydesc if you want)...
+//  - start typing ex:History.select()... (add a few filters with fluent methods)...(add orderBy/orderBydesc if you want)...
 //  - and then just put end of filters / or end of only select()  toSingle() / or toList()
 //  - you can select one or return List<yourObject> by your filters and orders
 //  - also you can batch update or batch delete by using delete/update methods instead of tosingle/tolist methods
 //    Enjoy.. Huseyin Tokpunar
 
 // BEGIN TABLES
-// LocalMovie TABLE
-class TableLocalMovie extends SqfEntityTableBase {
-  TableLocalMovie() {
+// History TABLE
+class TableHistory extends SqfEntityTableBase {
+  TableHistory() {
     // declare properties of EntityTable
-    tableName = 'localMovie';
+    tableName = 'History';
     primaryKeyName = 'id';
     primaryKeyType = PrimaryKeyType.integer_auto_incremental;
     useSoftDeleting = false;
@@ -58,15 +58,15 @@ class TableLocalMovie extends SqfEntityTableBase {
   }
   static SqfEntityTableBase? _instance;
   static SqfEntityTableBase get getInstance {
-    return _instance = _instance ?? TableLocalMovie();
+    return _instance = _instance ?? TableHistory();
   }
 }
 
-// LocalFavorite TABLE
-class TableLocalFavorite extends SqfEntityTableBase {
-  TableLocalFavorite() {
+// Favorite TABLE
+class TableFavorite extends SqfEntityTableBase {
+  TableFavorite() {
     // declare properties of EntityTable
-    tableName = 'localFavorite';
+    tableName = 'Favorite';
     primaryKeyName = 'id';
     primaryKeyType = PrimaryKeyType.integer_auto_incremental;
     useSoftDeleting = false;
@@ -101,7 +101,7 @@ class TableLocalFavorite extends SqfEntityTableBase {
   }
   static SqfEntityTableBase? _instance;
   static SqfEntityTableBase get getInstance {
-    return _instance = _instance ?? TableLocalFavorite();
+    return _instance = _instance ?? TableFavorite();
   }
 }
 
@@ -183,8 +183,8 @@ class MyMovieDataBase extends SqfEntityModelProvider {
     password = myDbModel.password;
     dbVersion = myDbModel.dbVersion;
     databaseTables = [
-      TableLocalMovie.getInstance,
-      TableLocalFavorite.getInstance,
+      TableHistory.getInstance,
+      TableFavorite.getInstance,
       TableLocalCategory.getInstance,
       TableLocalGenre.getInstance,
     ];
@@ -205,9 +205,9 @@ class MyMovieDataBase extends SqfEntityModelProvider {
 // END DATABASE MODEL
 
 // BEGIN ENTITIES
-// region LocalMovie
-class LocalMovie {
-  LocalMovie(
+// region History
+class History {
+  History(
       {this.id,
       this.movieId,
       this.title,
@@ -222,7 +222,7 @@ class LocalMovie {
       this.datepublication}) {
     _setDefaultValues();
   }
-  LocalMovie.withFields(
+  History.withFields(
       this.movieId,
       this.title,
       this.image,
@@ -236,7 +236,7 @@ class LocalMovie {
       this.datepublication) {
     _setDefaultValues();
   }
-  LocalMovie.withId(
+  History.withId(
       this.id,
       this.movieId,
       this.title,
@@ -252,7 +252,7 @@ class LocalMovie {
     _setDefaultValues();
   }
   // fromMap v2.0
-  LocalMovie.fromMap(Map<String, dynamic> o, {bool setDefaultValues = true}) {
+  History.fromMap(Map<String, dynamic> o, {bool setDefaultValues = true}) {
     if (setDefaultValues) {
       _setDefaultValues();
     }
@@ -291,7 +291,7 @@ class LocalMovie {
       datepublication = o['datepublication'].toString();
     }
   }
-  // FIELDS (LocalMovie)
+  // FIELDS (History)
   int? id;
   int? movieId;
   String? title;
@@ -306,13 +306,13 @@ class LocalMovie {
   String? datepublication;
 
   BoolResult? saveResult;
-  // end FIELDS (LocalMovie)
+  // end FIELDS (History)
 
   static const bool _softDeleteActivated = false;
-  LocalMovieManager? __mnLocalMovie;
+  HistoryManager? __mnHistory;
 
-  LocalMovieManager get _mnLocalMovie {
-    return __mnLocalMovie = __mnLocalMovie ?? LocalMovieManager();
+  HistoryManager get _mnHistory {
+    return __mnHistory = __mnHistory ?? HistoryManager();
   }
 
   // METHODS
@@ -424,12 +424,12 @@ class LocalMovie {
     return map;
   }
 
-  /// This method returns Json String [LocalMovie]
+  /// This method returns Json String [History]
   String toJson() {
     return json.encode(toMap(forJson: true));
   }
 
-  /// This method returns Json String [LocalMovie]
+  /// This method returns Json String [History]
   Future<String> toJsonWithChilds() async {
     return json.encode(await toMapWithChildren(false, true));
   }
@@ -467,14 +467,14 @@ class LocalMovie {
     ];
   }
 
-  static Future<List<LocalMovie>?> fromWebUrl(Uri uri,
+  static Future<List<History>?> fromWebUrl(Uri uri,
       {Map<String, String>? headers}) async {
     try {
       final response = await http.get(uri, headers: headers);
       return await fromJson(response.body);
     } catch (e) {
       print(
-          'SQFENTITY ERROR LocalMovie.fromWebUrl: ErrorMessage: ${e.toString()}');
+          'SQFENTITY ERROR History.fromWebUrl: ErrorMessage: ${e.toString()}');
       return null;
     }
   }
@@ -483,31 +483,29 @@ class LocalMovie {
     return http.post(uri, headers: headers, body: toJson());
   }
 
-  static Future<List<LocalMovie>> fromJson(String jsonBody) async {
+  static Future<List<History>> fromJson(String jsonBody) async {
     final Iterable list = await json.decode(jsonBody) as Iterable;
-    var objList = <LocalMovie>[];
+    var objList = <History>[];
     try {
       objList = list
-          .map((localmovie) =>
-              LocalMovie.fromMap(localmovie as Map<String, dynamic>))
+          .map((history) => History.fromMap(history as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      print(
-          'SQFENTITY ERROR LocalMovie.fromJson: ErrorMessage: ${e.toString()}');
+      print('SQFENTITY ERROR History.fromJson: ErrorMessage: ${e.toString()}');
     }
     return objList;
   }
 
-  static Future<List<LocalMovie>> fromMapList(List<dynamic> data,
+  static Future<List<History>> fromMapList(List<dynamic> data,
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields,
       bool setDefaultValues = true}) async {
-    final List<LocalMovie> objList = <LocalMovie>[];
+    final List<History> objList = <History>[];
     loadedFields = loadedFields ?? [];
     for (final map in data) {
-      final obj = LocalMovie.fromMap(map as Map<String, dynamic>,
+      final obj = History.fromMap(map as Map<String, dynamic>,
           setDefaultValues: setDefaultValues);
 
       objList.add(obj);
@@ -515,7 +513,7 @@ class LocalMovie {
     return objList;
   }
 
-  /// returns LocalMovie by ID if exist, otherwise returns null
+  /// returns History by ID if exist, otherwise returns null
   ///
   /// Primary Keys: int? id
   ///
@@ -530,8 +528,8 @@ class LocalMovie {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>returns LocalMovie if exist, otherwise returns null
-  Future<LocalMovie?> getById(int? id,
+  /// <returns>returns History if exist, otherwise returns null
+  Future<History?> getById(int? id,
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
@@ -539,54 +537,54 @@ class LocalMovie {
     if (id == null) {
       return null;
     }
-    LocalMovie? obj;
-    final data = await _mnLocalMovie.getById([id]);
+    History? obj;
+    final data = await _mnHistory.getById([id]);
     if (data.length != 0) {
-      obj = LocalMovie.fromMap(data[0] as Map<String, dynamic>);
+      obj = History.fromMap(data[0] as Map<String, dynamic>);
     } else {
       obj = null;
     }
     return obj;
   }
 
-  /// Saves the (LocalMovie) object. If the id field is null, saves as a new record and returns new id, if id is not null then updates record
+  /// Saves the (History) object. If the id field is null, saves as a new record and returns new id, if id is not null then updates record
 
   /// <returns>Returns id
   Future<int?> save() async {
     if (id == null || id == 0) {
-      id = await _mnLocalMovie.insert(this);
+      id = await _mnHistory.insert(this);
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
-      await _mnLocalMovie.update(this);
+      await _mnHistory.update(this);
     }
 
     return id;
   }
 
-  /// saveAs LocalMovie. Returns a new Primary Key value of LocalMovie
+  /// saveAs History. Returns a new Primary Key value of History
 
-  /// <returns>Returns a new Primary Key value of LocalMovie
+  /// <returns>Returns a new Primary Key value of History
   Future<int?> saveAs() async {
     id = null;
 
     return save();
   }
 
-  /// saveAll method saves the sent List<LocalMovie> as a bulk in one transaction
+  /// saveAll method saves the sent List<History> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
-  static Future<List<dynamic>> saveAll(List<LocalMovie> localmovies) async {
-    // final results = _mnLocalMovie.saveAll('INSERT OR REPLACE INTO localMovie (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',localmovies);
+  static Future<List<dynamic>> saveAll(List<History> histories) async {
+    // final results = _mnHistory.saveAll('INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',histories);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
-    for (final obj in localmovies) {
+    for (final obj in histories) {
       await obj.save();
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < localmovies.length; i++) {
-      if (localmovies[i].id == null) {
-        localmovies[i].id = result![i] as int;
+    for (int i = 0; i < histories.length; i++) {
+      if (histories[i].id == null) {
+        histories[i].id = result![i] as int;
       }
     }
 
@@ -599,8 +597,8 @@ class LocalMovie {
 
   Future<int?> upsert() async {
     try {
-      final result = await _mnLocalMovie.rawInsert(
-          'INSERT OR REPLACE INTO localMovie (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+      final result = await _mnHistory.rawInsert(
+          'INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
             movieId,
@@ -618,58 +616,58 @@ class LocalMovie {
       if (result! > 0) {
         saveResult = BoolResult(
             success: true,
-            successMessage: 'LocalMovie id=$id updated successfully');
+            successMessage: 'History id=$id updated successfully');
       } else {
         saveResult = BoolResult(
-            success: false, errorMessage: 'LocalMovie id=$id did not update');
+            success: false, errorMessage: 'History id=$id did not update');
       }
       return id;
     } catch (e) {
       saveResult = BoolResult(
           success: false,
-          errorMessage: 'LocalMovie Save failed. Error: ${e.toString()}');
+          errorMessage: 'History Save failed. Error: ${e.toString()}');
       return null;
     }
   }
 
-  /// inserts or replaces the sent List<<LocalMovie>> as a bulk in one transaction.
+  /// inserts or replaces the sent List<<History>> as a bulk in one transaction.
   ///
   /// upsertAll() method is faster then saveAll() method. upsertAll() should be used when you are sure that the primary key is greater than zero
   ///
   /// Returns a BoolCommitResult
-  Future<BoolCommitResult> upsertAll(List<LocalMovie> localmovies) async {
-    final results = await _mnLocalMovie.rawInsertAll(
-        'INSERT OR REPLACE INTO localMovie (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-        localmovies);
+  Future<BoolCommitResult> upsertAll(List<History> histories) async {
+    final results = await _mnHistory.rawInsertAll(
+        'INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        histories);
     return results;
   }
 
-  /// Deletes LocalMovie
+  /// Deletes History
 
   /// <returns>BoolResult res.success=Deleted, not res.success=Can not deleted
 
   Future<BoolResult> delete([bool hardDelete = false]) async {
-    print('SQFENTITIY: delete LocalMovie invoked (id=$id)');
+    print('SQFENTITIY: delete History invoked (id=$id)');
     if (!_softDeleteActivated || hardDelete) {
-      return _mnLocalMovie
+      return _mnHistory
           .delete(QueryParams(whereString: 'id=?', whereArguments: [id]));
     } else {
-      return _mnLocalMovie.updateBatch(
+      return _mnHistory.updateBatch(
           QueryParams(whereString: 'id=?', whereArguments: [id]),
           {'isDeleted': 1});
     }
   }
 
-  LocalMovieFilterBuilder select(
+  HistoryFilterBuilder select(
       {List<String>? columnsToSelect, bool? getIsDeleted}) {
-    return LocalMovieFilterBuilder(this)
+    return HistoryFilterBuilder(this)
       .._getIsDeleted = getIsDeleted == true
       ..qparams.selectColumns = columnsToSelect;
   }
 
-  LocalMovieFilterBuilder distinct(
+  HistoryFilterBuilder distinct(
       {List<String>? columnsToSelect, bool? getIsDeleted}) {
-    return LocalMovieFilterBuilder(this)
+    return HistoryFilterBuilder(this)
       .._getIsDeleted = getIsDeleted == true
       ..qparams.selectColumns = columnsToSelect
       ..qparams.distinct = true;
@@ -699,209 +697,209 @@ class LocalMovie {
      */
   // END CUSTOM CODE
 }
-// endregion localmovie
+// endregion history
 
-// region LocalMovieField
-class LocalMovieField extends SearchCriteria {
-  LocalMovieField(this.localmovieFB);
+// region HistoryField
+class HistoryField extends SearchCriteria {
+  HistoryField(this.historyFB);
   // { param = DbParameter(); }
   DbParameter param = DbParameter();
   String _waitingNot = '';
-  LocalMovieFilterBuilder localmovieFB;
+  HistoryFilterBuilder historyFB;
 
-  LocalMovieField get not {
+  HistoryField get not {
     _waitingNot = ' NOT ';
     return this;
   }
 
-  LocalMovieFilterBuilder equals(dynamic pValue) {
+  HistoryFilterBuilder equals(dynamic pValue) {
     param.expression = '=';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param, SqlSyntax.EQuals,
-            localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.NotEQuals, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param, SqlSyntax.EQuals,
+            historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param, SqlSyntax.NotEQuals,
+            historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder equalsOrNull(dynamic pValue) {
+  HistoryFilterBuilder equalsOrNull(dynamic pValue) {
     param.expression = '=';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.EQualsOrNull, localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.NotEQualsOrNull, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.EQualsOrNull, historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.NotEQualsOrNull, historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder isNull() {
-    localmovieFB._addedBlocks = setCriteria(
+  HistoryFilterBuilder isNull() {
+    historyFB._addedBlocks = setCriteria(
         0,
-        localmovieFB.parameters,
+        historyFB.parameters,
         param,
         SqlSyntax.IsNULL.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-        localmovieFB._addedBlocks);
+        historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder contains(dynamic pValue) {
+  HistoryFilterBuilder contains(dynamic pValue) {
     if (pValue != null) {
-      localmovieFB._addedBlocks = setCriteria(
+      historyFB._addedBlocks = setCriteria(
           '%${pValue.toString()}%',
-          localmovieFB.parameters,
+          historyFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localmovieFB._addedBlocks);
+          historyFB._addedBlocks);
       _waitingNot = '';
-      localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-          localmovieFB._addedBlocks.retVal;
+      historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+          historyFB._addedBlocks.retVal;
     }
-    return localmovieFB;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder startsWith(dynamic pValue) {
+  HistoryFilterBuilder startsWith(dynamic pValue) {
     if (pValue != null) {
-      localmovieFB._addedBlocks = setCriteria(
+      historyFB._addedBlocks = setCriteria(
           '${pValue.toString()}%',
-          localmovieFB.parameters,
+          historyFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localmovieFB._addedBlocks);
+          historyFB._addedBlocks);
       _waitingNot = '';
-      localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-          localmovieFB._addedBlocks.retVal;
-      localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-          localmovieFB._addedBlocks.retVal;
+      historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+          historyFB._addedBlocks.retVal;
+      historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+          historyFB._addedBlocks.retVal;
     }
-    return localmovieFB;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder endsWith(dynamic pValue) {
+  HistoryFilterBuilder endsWith(dynamic pValue) {
     if (pValue != null) {
-      localmovieFB._addedBlocks = setCriteria(
+      historyFB._addedBlocks = setCriteria(
           '%${pValue.toString()}',
-          localmovieFB.parameters,
+          historyFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localmovieFB._addedBlocks);
+          historyFB._addedBlocks);
       _waitingNot = '';
-      localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-          localmovieFB._addedBlocks.retVal;
+      historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+          historyFB._addedBlocks.retVal;
     }
-    return localmovieFB;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder between(dynamic pFirst, dynamic pLast) {
+  HistoryFilterBuilder between(dynamic pFirst, dynamic pLast) {
     if (pFirst != null && pLast != null) {
-      localmovieFB._addedBlocks = setCriteria(
+      historyFB._addedBlocks = setCriteria(
           pFirst,
-          localmovieFB.parameters,
+          historyFB.parameters,
           param,
           SqlSyntax.Between.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localmovieFB._addedBlocks,
+          historyFB._addedBlocks,
           pLast);
     } else if (pFirst != null) {
       if (_waitingNot != '') {
-        localmovieFB._addedBlocks = setCriteria(pFirst, localmovieFB.parameters,
-            param, SqlSyntax.LessThan, localmovieFB._addedBlocks);
+        historyFB._addedBlocks = setCriteria(pFirst, historyFB.parameters,
+            param, SqlSyntax.LessThan, historyFB._addedBlocks);
       } else {
-        localmovieFB._addedBlocks = setCriteria(pFirst, localmovieFB.parameters,
-            param, SqlSyntax.GreaterThanOrEquals, localmovieFB._addedBlocks);
+        historyFB._addedBlocks = setCriteria(pFirst, historyFB.parameters,
+            param, SqlSyntax.GreaterThanOrEquals, historyFB._addedBlocks);
       }
     } else if (pLast != null) {
       if (_waitingNot != '') {
-        localmovieFB._addedBlocks = setCriteria(pLast, localmovieFB.parameters,
-            param, SqlSyntax.GreaterThan, localmovieFB._addedBlocks);
+        historyFB._addedBlocks = setCriteria(pLast, historyFB.parameters, param,
+            SqlSyntax.GreaterThan, historyFB._addedBlocks);
       } else {
-        localmovieFB._addedBlocks = setCriteria(pLast, localmovieFB.parameters,
-            param, SqlSyntax.LessThanOrEquals, localmovieFB._addedBlocks);
+        historyFB._addedBlocks = setCriteria(pLast, historyFB.parameters, param,
+            SqlSyntax.LessThanOrEquals, historyFB._addedBlocks);
       }
     }
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder greaterThan(dynamic pValue) {
+  HistoryFilterBuilder greaterThan(dynamic pValue) {
     param.expression = '>';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.GreaterThan, localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.LessThanOrEquals, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.GreaterThan, historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.LessThanOrEquals, historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder lessThan(dynamic pValue) {
+  HistoryFilterBuilder lessThan(dynamic pValue) {
     param.expression = '<';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.LessThan, localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.GreaterThanOrEquals, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param, SqlSyntax.LessThan,
+            historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.GreaterThanOrEquals, historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder greaterThanOrEquals(dynamic pValue) {
+  HistoryFilterBuilder greaterThanOrEquals(dynamic pValue) {
     param.expression = '>=';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.GreaterThanOrEquals, localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.LessThan, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.GreaterThanOrEquals, historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param, SqlSyntax.LessThan,
+            historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder lessThanOrEquals(dynamic pValue) {
+  HistoryFilterBuilder lessThanOrEquals(dynamic pValue) {
     param.expression = '<=';
-    localmovieFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.LessThanOrEquals, localmovieFB._addedBlocks)
-        : setCriteria(pValue, localmovieFB.parameters, param,
-            SqlSyntax.GreaterThan, localmovieFB._addedBlocks);
+    historyFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.LessThanOrEquals, historyFB._addedBlocks)
+        : setCriteria(pValue, historyFB.parameters, param,
+            SqlSyntax.GreaterThan, historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 
-  LocalMovieFilterBuilder inValues(dynamic pValue) {
-    localmovieFB._addedBlocks = setCriteria(
+  HistoryFilterBuilder inValues(dynamic pValue) {
+    historyFB._addedBlocks = setCriteria(
         pValue,
-        localmovieFB.parameters,
+        historyFB.parameters,
         param,
         SqlSyntax.IN.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-        localmovieFB._addedBlocks);
+        historyFB._addedBlocks);
     _waitingNot = '';
-    localmovieFB._addedBlocks.needEndBlock![localmovieFB._blockIndex] =
-        localmovieFB._addedBlocks.retVal;
-    return localmovieFB;
+    historyFB._addedBlocks.needEndBlock![historyFB._blockIndex] =
+        historyFB._addedBlocks.retVal;
+    return historyFB;
   }
 }
-// endregion LocalMovieField
+// endregion HistoryField
 
-// region LocalMovieFilterBuilder
-class LocalMovieFilterBuilder extends SearchCriteria {
-  LocalMovieFilterBuilder(LocalMovie obj) {
+// region HistoryFilterBuilder
+class HistoryFilterBuilder extends SearchCriteria {
+  HistoryFilterBuilder(History obj) {
     whereString = '';
     groupByList = <String>[];
     _addedBlocks.needEndBlock!.add(false);
@@ -912,13 +910,13 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   int _blockIndex = 0;
   List<DbParameter> parameters = <DbParameter>[];
   List<String> orderByList = <String>[];
-  LocalMovie? _obj;
+  History? _obj;
   QueryParams qparams = QueryParams();
   int _pagesize = 0;
   int _page = 0;
 
   /// put the sql keyword 'AND'
-  LocalMovieFilterBuilder get and {
+  HistoryFilterBuilder get and {
     if (parameters.isNotEmpty) {
       parameters[parameters.length - 1].wOperator = ' AND ';
     }
@@ -926,7 +924,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   }
 
   /// put the sql keyword 'OR'
-  LocalMovieFilterBuilder get or {
+  HistoryFilterBuilder get or {
     if (parameters.isNotEmpty) {
       parameters[parameters.length - 1].wOperator = ' OR ';
     }
@@ -934,7 +932,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   }
 
   /// open parentheses
-  LocalMovieFilterBuilder get startBlock {
+  HistoryFilterBuilder get startBlock {
     _addedBlocks.waitingStartBlock!.add(true);
     _addedBlocks.needEndBlock!.add(false);
     _blockIndex++;
@@ -945,8 +943,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   }
 
   /// String whereCriteria, write raw query without 'where' keyword. Like this: 'field1 like 'test%' and field2 = 3'
-  LocalMovieFilterBuilder where(String? whereCriteria,
-      {dynamic parameterValue}) {
+  HistoryFilterBuilder where(String? whereCriteria, {dynamic parameterValue}) {
     if (whereCriteria != null && whereCriteria != '') {
       final DbParameter param = DbParameter(
           columnName: parameterValue == null ? null : '',
@@ -961,7 +958,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// page = page number,
   ///
   /// pagesize = row(s) per page
-  LocalMovieFilterBuilder page(int page, int pagesize) {
+  HistoryFilterBuilder page(int page, int pagesize) {
     if (page > 0) {
       _page = page;
     }
@@ -972,7 +969,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   }
 
   /// int count = LIMIT
-  LocalMovieFilterBuilder top(int count) {
+  HistoryFilterBuilder top(int count) {
     if (count > 0) {
       _pagesize = count;
     }
@@ -980,7 +977,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   }
 
   /// close parentheses
-  LocalMovieFilterBuilder get endBlock {
+  HistoryFilterBuilder get endBlock {
     if (_addedBlocks.needEndBlock![_blockIndex]) {
       parameters[parameters.length - 1].whereString += ' ) ';
     }
@@ -995,7 +992,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='name, date'
   ///
   /// Example 2: argFields = ['name', 'date']
-  LocalMovieFilterBuilder orderBy(dynamic argFields) {
+  HistoryFilterBuilder orderBy(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         orderByList.add(argFields);
@@ -1015,7 +1012,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='field1, field2'
   ///
   /// Example 2: argFields = ['field1', 'field2']
-  LocalMovieFilterBuilder orderByDesc(dynamic argFields) {
+  HistoryFilterBuilder orderByDesc(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         orderByList.add('$argFields desc ');
@@ -1035,7 +1032,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='field1, field2'
   ///
   /// Example 2: argFields = ['field1', 'field2']
-  LocalMovieFilterBuilder groupBy(dynamic argFields) {
+  HistoryFilterBuilder groupBy(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         groupByList.add(' $argFields ');
@@ -1055,7 +1052,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='name, date'
   ///
   /// Example 2: argFields = ['name', 'date']
-  LocalMovieFilterBuilder having(dynamic argFields) {
+  HistoryFilterBuilder having(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         havingList.add(argFields);
@@ -1070,72 +1067,71 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     return this;
   }
 
-  LocalMovieField setField(
-      LocalMovieField? field, String colName, DbType dbtype) {
-    return LocalMovieField(this)
+  HistoryField setField(HistoryField? field, String colName, DbType dbtype) {
+    return HistoryField(this)
       ..param = DbParameter(
           dbType: dbtype,
           columnName: colName,
           wStartBlock: _addedBlocks.waitingStartBlock![_blockIndex]);
   }
 
-  LocalMovieField? _id;
-  LocalMovieField get id {
+  HistoryField? _id;
+  HistoryField get id {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  LocalMovieField? _movieId;
-  LocalMovieField get movieId {
+  HistoryField? _movieId;
+  HistoryField get movieId {
     return _movieId = setField(_movieId, 'movieId', DbType.integer);
   }
 
-  LocalMovieField? _title;
-  LocalMovieField get title {
+  HistoryField? _title;
+  HistoryField get title {
     return _title = setField(_title, 'title', DbType.text);
   }
 
-  LocalMovieField? _image;
-  LocalMovieField get image {
+  HistoryField? _image;
+  HistoryField get image {
     return _image = setField(_image, 'image', DbType.text);
   }
 
-  LocalMovieField? _rating;
-  LocalMovieField get rating {
+  HistoryField? _rating;
+  HistoryField get rating {
     return _rating = setField(_rating, 'rating', DbType.real);
   }
 
-  LocalMovieField? _quality;
-  LocalMovieField get quality {
+  HistoryField? _quality;
+  HistoryField get quality {
     return _quality = setField(_quality, 'quality', DbType.text);
   }
 
-  LocalMovieField? _year;
-  LocalMovieField get year {
+  HistoryField? _year;
+  HistoryField get year {
     return _year = setField(_year, 'year', DbType.text);
   }
 
-  LocalMovieField? _language;
-  LocalMovieField get language {
+  HistoryField? _language;
+  HistoryField get language {
     return _language = setField(_language, 'language', DbType.text);
   }
 
-  LocalMovieField? _country;
-  LocalMovieField get country {
+  HistoryField? _country;
+  HistoryField get country {
     return _country = setField(_country, 'country', DbType.text);
   }
 
-  LocalMovieField? _story;
-  LocalMovieField get story {
+  HistoryField? _story;
+  HistoryField get story {
     return _story = setField(_story, 'story', DbType.text);
   }
 
-  LocalMovieField? _source;
-  LocalMovieField get source {
+  HistoryField? _source;
+  HistoryField get source {
     return _source = setField(_source, 'source', DbType.text);
   }
 
-  LocalMovieField? _datepublication;
-  LocalMovieField get datepublication {
+  HistoryField? _datepublication;
+  HistoryField get datepublication {
     return _datepublication =
         setField(_datepublication, 'datepublication', DbType.text);
   }
@@ -1218,7 +1214,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
         whereString += param.whereString;
       }
     }
-    if (LocalMovie._softDeleteActivated) {
+    if (History._softDeleteActivated) {
       if (whereString != '') {
         whereString =
             '${!_getIsDeleted ? 'ifnull(isDeleted,0)=0 AND' : ''} ($whereString)';
@@ -1237,17 +1233,17 @@ class LocalMovieFilterBuilder extends SearchCriteria {
       ..having = havingList.join(',');
   }
 
-  /// Deletes List<LocalMovie> bulk by query
+  /// Deletes List<History> bulk by query
   ///
   /// <returns>BoolResult res.success=Deleted, not res.success=Can not deleted
   Future<BoolResult> delete([bool hardDelete = false]) async {
     _buildParameters();
     var r = BoolResult(success: false);
 
-    if (LocalMovie._softDeleteActivated && !hardDelete) {
-      r = await _obj!._mnLocalMovie.updateBatch(qparams, {'isDeleted': 1});
+    if (History._softDeleteActivated && !hardDelete) {
+      r = await _obj!._mnHistory.updateBatch(qparams, {'isDeleted': 1});
     } else {
-      r = await _obj!._mnLocalMovie.delete(qparams);
+      r = await _obj!._mnHistory.delete(qparams);
     }
     return r;
   }
@@ -1261,12 +1257,12 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     _buildParameters();
     if (qparams.limit! > 0 || qparams.offset! > 0) {
       qparams.whereString =
-          'id IN (SELECT id from localMovie ${qparams.whereString!.isNotEmpty ? 'WHERE ${qparams.whereString}' : ''}${qparams.limit! > 0 ? ' LIMIT ${qparams.limit}' : ''}${qparams.offset! > 0 ? ' OFFSET ${qparams.offset}' : ''})';
+          'id IN (SELECT id from History ${qparams.whereString!.isNotEmpty ? 'WHERE ${qparams.whereString}' : ''}${qparams.limit! > 0 ? ' LIMIT ${qparams.limit}' : ''}${qparams.offset! > 0 ? ' OFFSET ${qparams.offset}' : ''})';
     }
-    return _obj!._mnLocalMovie.updateBatch(qparams, values);
+    return _obj!._mnHistory.updateBatch(qparams, values);
   }
 
-  /// This method always returns LocalMovie Obj if exist, otherwise returns null
+  /// This method always returns History Obj if exist, otherwise returns null
   ///
   /// bool preload: if true, loads all related child objects (Set preload to true if you want to load all fields related to child or parent)
   ///
@@ -1279,40 +1275,40 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>List<LocalMovie>
-  Future<LocalMovie?> toSingle(
+  /// <returns>List<History>
+  Future<History?> toSingle(
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields}) async {
     _pagesize = 1;
     _buildParameters();
-    final objFuture = _obj!._mnLocalMovie.toList(qparams);
+    final objFuture = _obj!._mnHistory.toList(qparams);
     final data = await objFuture;
-    LocalMovie? obj;
+    History? obj;
     if (data.isNotEmpty) {
-      obj = LocalMovie.fromMap(data[0] as Map<String, dynamic>);
+      obj = History.fromMap(data[0] as Map<String, dynamic>);
     } else {
       obj = null;
     }
     return obj;
   }
 
-  /// This method returns int. [LocalMovie]
+  /// This method returns int. [History]
   ///
   /// <returns>int
-  Future<int> toCount([VoidCallback Function(int c)? localmovieCount]) async {
+  Future<int> toCount([VoidCallback Function(int c)? historyCount]) async {
     _buildParameters();
     qparams.selectColumns = ['COUNT(1) AS CNT'];
-    final localmoviesFuture = await _obj!._mnLocalMovie.toList(qparams);
-    final int count = localmoviesFuture[0]['CNT'] as int;
-    if (localmovieCount != null) {
-      localmovieCount(count);
+    final historiesFuture = await _obj!._mnHistory.toList(qparams);
+    final int count = historiesFuture[0]['CNT'] as int;
+    if (historyCount != null) {
+      historyCount(count);
     }
     return count;
   }
 
-  /// This method returns List<LocalMovie> [LocalMovie]
+  /// This method returns List<History> [History]
   ///
   /// bool preload: if true, loads all related child objects (Set preload to true if you want to load all fields related to child or parent)
   ///
@@ -1325,23 +1321,23 @@ class LocalMovieFilterBuilder extends SearchCriteria {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>List<LocalMovie>
-  Future<List<LocalMovie>> toList(
+  /// <returns>List<History>
+  Future<List<History>> toList(
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields}) async {
     final data = await toMapList();
-    final List<LocalMovie> localmoviesData = await LocalMovie.fromMapList(data,
+    final List<History> historiesData = await History.fromMapList(data,
         preload: preload,
         preloadFields: preloadFields,
         loadParents: loadParents,
         loadedFields: loadedFields,
         setDefaultValues: qparams.selectColumns == null);
-    return localmoviesData;
+    return historiesData;
   }
 
-  /// This method returns Json String [LocalMovie]
+  /// This method returns Json String [History]
   Future<String> toJson() async {
     final list = <dynamic>[];
     final data = await toList();
@@ -1351,7 +1347,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     return json.encode(list);
   }
 
-  /// This method returns Json String. [LocalMovie]
+  /// This method returns Json String. [History]
   Future<String> toJsonWithChilds() async {
     final list = <dynamic>[];
     final data = await toList();
@@ -1361,15 +1357,15 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     return json.encode(list);
   }
 
-  /// This method returns List<dynamic>. [LocalMovie]
+  /// This method returns List<dynamic>. [History]
   ///
   /// <returns>List<dynamic>
   Future<List<dynamic>> toMapList() async {
     _buildParameters();
-    return await _obj!._mnLocalMovie.toList(qparams);
+    return await _obj!._mnHistory.toList(qparams);
   }
 
-  /// This method returns Primary Key List SQL and Parameters retVal = Map<String,dynamic>. [LocalMovie]
+  /// This method returns Primary Key List SQL and Parameters retVal = Map<String,dynamic>. [History]
   ///
   /// retVal['sql'] = SQL statement string, retVal['args'] = whereArguments List<dynamic>;
   ///
@@ -1379,7 +1375,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     if (buildParameters) {
       _buildParameters();
     }
-    _retVal['sql'] = 'SELECT `id` FROM localMovie WHERE ${qparams.whereString}';
+    _retVal['sql'] = 'SELECT `id` FROM History WHERE ${qparams.whereString}';
     _retVal['args'] = qparams.whereArguments;
     return _retVal;
   }
@@ -1392,7 +1388,7 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     }
     final List<int> idData = <int>[];
     qparams.selectColumns = ['id'];
-    final idFuture = await _obj!._mnLocalMovie.toList(qparams);
+    final idFuture = await _obj!._mnHistory.toList(qparams);
 
     final int count = idFuture.length;
     for (int i = 0; i < count; i++) {
@@ -1401,13 +1397,13 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     return idData;
   }
 
-  /// Returns List<dynamic> for selected columns. Use this method for 'groupBy' with min,max,avg..  [LocalMovie]
+  /// Returns List<dynamic> for selected columns. Use this method for 'groupBy' with min,max,avg..  [History]
   ///
   /// Sample usage: (see EXAMPLE 4.2 at https://github.com/hhtokpinar/sqfEntity#group-by)
   Future<List<dynamic>> toListObject() async {
     _buildParameters();
 
-    final objectFuture = _obj!._mnLocalMovie.toList(qparams);
+    final objectFuture = _obj!._mnHistory.toList(qparams);
 
     final List<dynamic> objectsData = <dynamic>[];
     final data = await objectFuture;
@@ -1420,12 +1416,12 @@ class LocalMovieFilterBuilder extends SearchCriteria {
 
   /// Returns List<String> for selected first column
   ///
-  /// Sample usage: await LocalMovie.select(columnsToSelect: ['columnName']).toListString()
+  /// Sample usage: await History.select(columnsToSelect: ['columnName']).toListString()
   Future<List<String>> toListString(
       [VoidCallback Function(List<String> o)? listString]) async {
     _buildParameters();
 
-    final objectFuture = _obj!._mnLocalMovie.toList(qparams);
+    final objectFuture = _obj!._mnHistory.toList(qparams);
 
     final List<String> objectsData = <String>[];
     final data = await objectFuture;
@@ -1439,10 +1435,10 @@ class LocalMovieFilterBuilder extends SearchCriteria {
     return objectsData;
   }
 }
-// endregion LocalMovieFilterBuilder
+// endregion HistoryFilterBuilder
 
-// region LocalMovieFields
-class LocalMovieFields {
+// region HistoryFields
+class HistoryFields {
   static TableField? _fId;
   static TableField get id {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
@@ -1513,24 +1509,24 @@ class LocalMovieFields {
         SqlSyntax.setField(_fDatepublication, 'datepublication', DbType.text);
   }
 }
-// endregion LocalMovieFields
+// endregion HistoryFields
 
-//region LocalMovieManager
-class LocalMovieManager extends SqfEntityProvider {
-  LocalMovieManager()
+//region HistoryManager
+class HistoryManager extends SqfEntityProvider {
+  HistoryManager()
       : super(MyMovieDataBase(),
             tableName: _tableName,
             primaryKeyList: _primaryKeyList,
             whereStr: _whereStr);
-  static final String _tableName = 'localMovie';
+  static final String _tableName = 'History';
   static final List<String> _primaryKeyList = ['id'];
   static final String _whereStr = 'id=?';
 }
 
-//endregion LocalMovieManager
-// region LocalFavorite
-class LocalFavorite {
-  LocalFavorite(
+//endregion HistoryManager
+// region Favorite
+class Favorite {
+  Favorite(
       {this.id,
       this.movieId,
       this.title,
@@ -1545,7 +1541,7 @@ class LocalFavorite {
       this.datepublication}) {
     _setDefaultValues();
   }
-  LocalFavorite.withFields(
+  Favorite.withFields(
       this.movieId,
       this.title,
       this.image,
@@ -1559,7 +1555,7 @@ class LocalFavorite {
       this.datepublication) {
     _setDefaultValues();
   }
-  LocalFavorite.withId(
+  Favorite.withId(
       this.id,
       this.movieId,
       this.title,
@@ -1575,8 +1571,7 @@ class LocalFavorite {
     _setDefaultValues();
   }
   // fromMap v2.0
-  LocalFavorite.fromMap(Map<String, dynamic> o,
-      {bool setDefaultValues = true}) {
+  Favorite.fromMap(Map<String, dynamic> o, {bool setDefaultValues = true}) {
     if (setDefaultValues) {
       _setDefaultValues();
     }
@@ -1615,7 +1610,7 @@ class LocalFavorite {
       datepublication = o['datepublication'].toString();
     }
   }
-  // FIELDS (LocalFavorite)
+  // FIELDS (Favorite)
   int? id;
   int? movieId;
   String? title;
@@ -1630,13 +1625,13 @@ class LocalFavorite {
   String? datepublication;
 
   BoolResult? saveResult;
-  // end FIELDS (LocalFavorite)
+  // end FIELDS (Favorite)
 
   static const bool _softDeleteActivated = false;
-  LocalFavoriteManager? __mnLocalFavorite;
+  FavoriteManager? __mnFavorite;
 
-  LocalFavoriteManager get _mnLocalFavorite {
-    return __mnLocalFavorite = __mnLocalFavorite ?? LocalFavoriteManager();
+  FavoriteManager get _mnFavorite {
+    return __mnFavorite = __mnFavorite ?? FavoriteManager();
   }
 
   // METHODS
@@ -1748,12 +1743,12 @@ class LocalFavorite {
     return map;
   }
 
-  /// This method returns Json String [LocalFavorite]
+  /// This method returns Json String [Favorite]
   String toJson() {
     return json.encode(toMap(forJson: true));
   }
 
-  /// This method returns Json String [LocalFavorite]
+  /// This method returns Json String [Favorite]
   Future<String> toJsonWithChilds() async {
     return json.encode(await toMapWithChildren(false, true));
   }
@@ -1791,14 +1786,14 @@ class LocalFavorite {
     ];
   }
 
-  static Future<List<LocalFavorite>?> fromWebUrl(Uri uri,
+  static Future<List<Favorite>?> fromWebUrl(Uri uri,
       {Map<String, String>? headers}) async {
     try {
       final response = await http.get(uri, headers: headers);
       return await fromJson(response.body);
     } catch (e) {
       print(
-          'SQFENTITY ERROR LocalFavorite.fromWebUrl: ErrorMessage: ${e.toString()}');
+          'SQFENTITY ERROR Favorite.fromWebUrl: ErrorMessage: ${e.toString()}');
       return null;
     }
   }
@@ -1807,31 +1802,29 @@ class LocalFavorite {
     return http.post(uri, headers: headers, body: toJson());
   }
 
-  static Future<List<LocalFavorite>> fromJson(String jsonBody) async {
+  static Future<List<Favorite>> fromJson(String jsonBody) async {
     final Iterable list = await json.decode(jsonBody) as Iterable;
-    var objList = <LocalFavorite>[];
+    var objList = <Favorite>[];
     try {
       objList = list
-          .map((localfavorite) =>
-              LocalFavorite.fromMap(localfavorite as Map<String, dynamic>))
+          .map((favorite) => Favorite.fromMap(favorite as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      print(
-          'SQFENTITY ERROR LocalFavorite.fromJson: ErrorMessage: ${e.toString()}');
+      print('SQFENTITY ERROR Favorite.fromJson: ErrorMessage: ${e.toString()}');
     }
     return objList;
   }
 
-  static Future<List<LocalFavorite>> fromMapList(List<dynamic> data,
+  static Future<List<Favorite>> fromMapList(List<dynamic> data,
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields,
       bool setDefaultValues = true}) async {
-    final List<LocalFavorite> objList = <LocalFavorite>[];
+    final List<Favorite> objList = <Favorite>[];
     loadedFields = loadedFields ?? [];
     for (final map in data) {
-      final obj = LocalFavorite.fromMap(map as Map<String, dynamic>,
+      final obj = Favorite.fromMap(map as Map<String, dynamic>,
           setDefaultValues: setDefaultValues);
 
       objList.add(obj);
@@ -1839,7 +1832,7 @@ class LocalFavorite {
     return objList;
   }
 
-  /// returns LocalFavorite by ID if exist, otherwise returns null
+  /// returns Favorite by ID if exist, otherwise returns null
   ///
   /// Primary Keys: int? id
   ///
@@ -1854,8 +1847,8 @@ class LocalFavorite {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>returns LocalFavorite if exist, otherwise returns null
-  Future<LocalFavorite?> getById(int? id,
+  /// <returns>returns Favorite if exist, otherwise returns null
+  Future<Favorite?> getById(int? id,
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
@@ -1863,55 +1856,54 @@ class LocalFavorite {
     if (id == null) {
       return null;
     }
-    LocalFavorite? obj;
-    final data = await _mnLocalFavorite.getById([id]);
+    Favorite? obj;
+    final data = await _mnFavorite.getById([id]);
     if (data.length != 0) {
-      obj = LocalFavorite.fromMap(data[0] as Map<String, dynamic>);
+      obj = Favorite.fromMap(data[0] as Map<String, dynamic>);
     } else {
       obj = null;
     }
     return obj;
   }
 
-  /// Saves the (LocalFavorite) object. If the id field is null, saves as a new record and returns new id, if id is not null then updates record
+  /// Saves the (Favorite) object. If the id field is null, saves as a new record and returns new id, if id is not null then updates record
 
   /// <returns>Returns id
   Future<int?> save() async {
     if (id == null || id == 0) {
-      id = await _mnLocalFavorite.insert(this);
+      id = await _mnFavorite.insert(this);
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
-      await _mnLocalFavorite.update(this);
+      await _mnFavorite.update(this);
     }
 
     return id;
   }
 
-  /// saveAs LocalFavorite. Returns a new Primary Key value of LocalFavorite
+  /// saveAs Favorite. Returns a new Primary Key value of Favorite
 
-  /// <returns>Returns a new Primary Key value of LocalFavorite
+  /// <returns>Returns a new Primary Key value of Favorite
   Future<int?> saveAs() async {
     id = null;
 
     return save();
   }
 
-  /// saveAll method saves the sent List<LocalFavorite> as a bulk in one transaction
+  /// saveAll method saves the sent List<Favorite> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
-  static Future<List<dynamic>> saveAll(
-      List<LocalFavorite> localfavorites) async {
-    // final results = _mnLocalFavorite.saveAll('INSERT OR REPLACE INTO localFavorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',localfavorites);
+  static Future<List<dynamic>> saveAll(List<Favorite> favorites) async {
+    // final results = _mnFavorite.saveAll('INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',favorites);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
-    for (final obj in localfavorites) {
+    for (final obj in favorites) {
       await obj.save();
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < localfavorites.length; i++) {
-      if (localfavorites[i].id == null) {
-        localfavorites[i].id = result![i] as int;
+    for (int i = 0; i < favorites.length; i++) {
+      if (favorites[i].id == null) {
+        favorites[i].id = result![i] as int;
       }
     }
 
@@ -1924,8 +1916,8 @@ class LocalFavorite {
 
   Future<int?> upsert() async {
     try {
-      final result = await _mnLocalFavorite.rawInsert(
-          'INSERT OR REPLACE INTO localFavorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+      final result = await _mnFavorite.rawInsert(
+          'INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
             movieId,
@@ -1943,59 +1935,58 @@ class LocalFavorite {
       if (result! > 0) {
         saveResult = BoolResult(
             success: true,
-            successMessage: 'LocalFavorite id=$id updated successfully');
+            successMessage: 'Favorite id=$id updated successfully');
       } else {
         saveResult = BoolResult(
-            success: false,
-            errorMessage: 'LocalFavorite id=$id did not update');
+            success: false, errorMessage: 'Favorite id=$id did not update');
       }
       return id;
     } catch (e) {
       saveResult = BoolResult(
           success: false,
-          errorMessage: 'LocalFavorite Save failed. Error: ${e.toString()}');
+          errorMessage: 'Favorite Save failed. Error: ${e.toString()}');
       return null;
     }
   }
 
-  /// inserts or replaces the sent List<<LocalFavorite>> as a bulk in one transaction.
+  /// inserts or replaces the sent List<<Favorite>> as a bulk in one transaction.
   ///
   /// upsertAll() method is faster then saveAll() method. upsertAll() should be used when you are sure that the primary key is greater than zero
   ///
   /// Returns a BoolCommitResult
-  Future<BoolCommitResult> upsertAll(List<LocalFavorite> localfavorites) async {
-    final results = await _mnLocalFavorite.rawInsertAll(
-        'INSERT OR REPLACE INTO localFavorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-        localfavorites);
+  Future<BoolCommitResult> upsertAll(List<Favorite> favorites) async {
+    final results = await _mnFavorite.rawInsertAll(
+        'INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        favorites);
     return results;
   }
 
-  /// Deletes LocalFavorite
+  /// Deletes Favorite
 
   /// <returns>BoolResult res.success=Deleted, not res.success=Can not deleted
 
   Future<BoolResult> delete([bool hardDelete = false]) async {
-    print('SQFENTITIY: delete LocalFavorite invoked (id=$id)');
+    print('SQFENTITIY: delete Favorite invoked (id=$id)');
     if (!_softDeleteActivated || hardDelete) {
-      return _mnLocalFavorite
+      return _mnFavorite
           .delete(QueryParams(whereString: 'id=?', whereArguments: [id]));
     } else {
-      return _mnLocalFavorite.updateBatch(
+      return _mnFavorite.updateBatch(
           QueryParams(whereString: 'id=?', whereArguments: [id]),
           {'isDeleted': 1});
     }
   }
 
-  LocalFavoriteFilterBuilder select(
+  FavoriteFilterBuilder select(
       {List<String>? columnsToSelect, bool? getIsDeleted}) {
-    return LocalFavoriteFilterBuilder(this)
+    return FavoriteFilterBuilder(this)
       .._getIsDeleted = getIsDeleted == true
       ..qparams.selectColumns = columnsToSelect;
   }
 
-  LocalFavoriteFilterBuilder distinct(
+  FavoriteFilterBuilder distinct(
       {List<String>? columnsToSelect, bool? getIsDeleted}) {
-    return LocalFavoriteFilterBuilder(this)
+    return FavoriteFilterBuilder(this)
       .._getIsDeleted = getIsDeleted == true
       ..qparams.selectColumns = columnsToSelect
       ..qparams.distinct = true;
@@ -2025,225 +2016,209 @@ class LocalFavorite {
      */
   // END CUSTOM CODE
 }
-// endregion localfavorite
+// endregion favorite
 
-// region LocalFavoriteField
-class LocalFavoriteField extends SearchCriteria {
-  LocalFavoriteField(this.localfavoriteFB);
+// region FavoriteField
+class FavoriteField extends SearchCriteria {
+  FavoriteField(this.favoriteFB);
   // { param = DbParameter(); }
   DbParameter param = DbParameter();
   String _waitingNot = '';
-  LocalFavoriteFilterBuilder localfavoriteFB;
+  FavoriteFilterBuilder favoriteFB;
 
-  LocalFavoriteField get not {
+  FavoriteField get not {
     _waitingNot = ' NOT ';
     return this;
   }
 
-  LocalFavoriteFilterBuilder equals(dynamic pValue) {
+  FavoriteFilterBuilder equals(dynamic pValue) {
     param.expression = '=';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.EQuals, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.NotEQuals, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param, SqlSyntax.EQuals,
+            favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param, SqlSyntax.NotEQuals,
+            favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder equalsOrNull(dynamic pValue) {
+  FavoriteFilterBuilder equalsOrNull(dynamic pValue) {
     param.expression = '=';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.EQualsOrNull, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.NotEQualsOrNull, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.EQualsOrNull, favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.NotEQualsOrNull, favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder isNull() {
-    localfavoriteFB._addedBlocks = setCriteria(
+  FavoriteFilterBuilder isNull() {
+    favoriteFB._addedBlocks = setCriteria(
         0,
-        localfavoriteFB.parameters,
+        favoriteFB.parameters,
         param,
         SqlSyntax.IsNULL.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-        localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder contains(dynamic pValue) {
+  FavoriteFilterBuilder contains(dynamic pValue) {
     if (pValue != null) {
-      localfavoriteFB._addedBlocks = setCriteria(
+      favoriteFB._addedBlocks = setCriteria(
           '%${pValue.toString()}%',
-          localfavoriteFB.parameters,
+          favoriteFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localfavoriteFB._addedBlocks);
+          favoriteFB._addedBlocks);
       _waitingNot = '';
-      localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-          localfavoriteFB._addedBlocks.retVal;
+      favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+          favoriteFB._addedBlocks.retVal;
     }
-    return localfavoriteFB;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder startsWith(dynamic pValue) {
+  FavoriteFilterBuilder startsWith(dynamic pValue) {
     if (pValue != null) {
-      localfavoriteFB._addedBlocks = setCriteria(
+      favoriteFB._addedBlocks = setCriteria(
           '${pValue.toString()}%',
-          localfavoriteFB.parameters,
+          favoriteFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localfavoriteFB._addedBlocks);
+          favoriteFB._addedBlocks);
       _waitingNot = '';
-      localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-          localfavoriteFB._addedBlocks.retVal;
-      localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-          localfavoriteFB._addedBlocks.retVal;
+      favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+          favoriteFB._addedBlocks.retVal;
+      favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+          favoriteFB._addedBlocks.retVal;
     }
-    return localfavoriteFB;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder endsWith(dynamic pValue) {
+  FavoriteFilterBuilder endsWith(dynamic pValue) {
     if (pValue != null) {
-      localfavoriteFB._addedBlocks = setCriteria(
+      favoriteFB._addedBlocks = setCriteria(
           '%${pValue.toString()}',
-          localfavoriteFB.parameters,
+          favoriteFB.parameters,
           param,
           SqlSyntax.Contains.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localfavoriteFB._addedBlocks);
+          favoriteFB._addedBlocks);
       _waitingNot = '';
-      localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-          localfavoriteFB._addedBlocks.retVal;
+      favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+          favoriteFB._addedBlocks.retVal;
     }
-    return localfavoriteFB;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder between(dynamic pFirst, dynamic pLast) {
+  FavoriteFilterBuilder between(dynamic pFirst, dynamic pLast) {
     if (pFirst != null && pLast != null) {
-      localfavoriteFB._addedBlocks = setCriteria(
+      favoriteFB._addedBlocks = setCriteria(
           pFirst,
-          localfavoriteFB.parameters,
+          favoriteFB.parameters,
           param,
           SqlSyntax.Between.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-          localfavoriteFB._addedBlocks,
+          favoriteFB._addedBlocks,
           pLast);
     } else if (pFirst != null) {
       if (_waitingNot != '') {
-        localfavoriteFB._addedBlocks = setCriteria(
-            pFirst,
-            localfavoriteFB.parameters,
-            param,
-            SqlSyntax.LessThan,
-            localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks = setCriteria(pFirst, favoriteFB.parameters,
+            param, SqlSyntax.LessThan, favoriteFB._addedBlocks);
       } else {
-        localfavoriteFB._addedBlocks = setCriteria(
-            pFirst,
-            localfavoriteFB.parameters,
-            param,
-            SqlSyntax.GreaterThanOrEquals,
-            localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks = setCriteria(pFirst, favoriteFB.parameters,
+            param, SqlSyntax.GreaterThanOrEquals, favoriteFB._addedBlocks);
       }
     } else if (pLast != null) {
       if (_waitingNot != '') {
-        localfavoriteFB._addedBlocks = setCriteria(
-            pLast,
-            localfavoriteFB.parameters,
-            param,
-            SqlSyntax.GreaterThan,
-            localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks = setCriteria(pLast, favoriteFB.parameters,
+            param, SqlSyntax.GreaterThan, favoriteFB._addedBlocks);
       } else {
-        localfavoriteFB._addedBlocks = setCriteria(
-            pLast,
-            localfavoriteFB.parameters,
-            param,
-            SqlSyntax.LessThanOrEquals,
-            localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks = setCriteria(pLast, favoriteFB.parameters,
+            param, SqlSyntax.LessThanOrEquals, favoriteFB._addedBlocks);
       }
     }
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder greaterThan(dynamic pValue) {
+  FavoriteFilterBuilder greaterThan(dynamic pValue) {
     param.expression = '>';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.GreaterThan, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.LessThanOrEquals, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.GreaterThan, favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.LessThanOrEquals, favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder lessThan(dynamic pValue) {
+  FavoriteFilterBuilder lessThan(dynamic pValue) {
     param.expression = '<';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.LessThan, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.GreaterThanOrEquals, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param, SqlSyntax.LessThan,
+            favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.GreaterThanOrEquals, favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder greaterThanOrEquals(dynamic pValue) {
+  FavoriteFilterBuilder greaterThanOrEquals(dynamic pValue) {
     param.expression = '>=';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.GreaterThanOrEquals, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.LessThan, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.GreaterThanOrEquals, favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param, SqlSyntax.LessThan,
+            favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder lessThanOrEquals(dynamic pValue) {
+  FavoriteFilterBuilder lessThanOrEquals(dynamic pValue) {
     param.expression = '<=';
-    localfavoriteFB._addedBlocks = _waitingNot == ''
-        ? setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.LessThanOrEquals, localfavoriteFB._addedBlocks)
-        : setCriteria(pValue, localfavoriteFB.parameters, param,
-            SqlSyntax.GreaterThan, localfavoriteFB._addedBlocks);
+    favoriteFB._addedBlocks = _waitingNot == ''
+        ? setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.LessThanOrEquals, favoriteFB._addedBlocks)
+        : setCriteria(pValue, favoriteFB.parameters, param,
+            SqlSyntax.GreaterThan, favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 
-  LocalFavoriteFilterBuilder inValues(dynamic pValue) {
-    localfavoriteFB._addedBlocks = setCriteria(
+  FavoriteFilterBuilder inValues(dynamic pValue) {
+    favoriteFB._addedBlocks = setCriteria(
         pValue,
-        localfavoriteFB.parameters,
+        favoriteFB.parameters,
         param,
         SqlSyntax.IN.replaceAll(SqlSyntax.notKeyword, _waitingNot),
-        localfavoriteFB._addedBlocks);
+        favoriteFB._addedBlocks);
     _waitingNot = '';
-    localfavoriteFB._addedBlocks.needEndBlock![localfavoriteFB._blockIndex] =
-        localfavoriteFB._addedBlocks.retVal;
-    return localfavoriteFB;
+    favoriteFB._addedBlocks.needEndBlock![favoriteFB._blockIndex] =
+        favoriteFB._addedBlocks.retVal;
+    return favoriteFB;
   }
 }
-// endregion LocalFavoriteField
+// endregion FavoriteField
 
-// region LocalFavoriteFilterBuilder
-class LocalFavoriteFilterBuilder extends SearchCriteria {
-  LocalFavoriteFilterBuilder(LocalFavorite obj) {
+// region FavoriteFilterBuilder
+class FavoriteFilterBuilder extends SearchCriteria {
+  FavoriteFilterBuilder(Favorite obj) {
     whereString = '';
     groupByList = <String>[];
     _addedBlocks.needEndBlock!.add(false);
@@ -2254,13 +2229,13 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   int _blockIndex = 0;
   List<DbParameter> parameters = <DbParameter>[];
   List<String> orderByList = <String>[];
-  LocalFavorite? _obj;
+  Favorite? _obj;
   QueryParams qparams = QueryParams();
   int _pagesize = 0;
   int _page = 0;
 
   /// put the sql keyword 'AND'
-  LocalFavoriteFilterBuilder get and {
+  FavoriteFilterBuilder get and {
     if (parameters.isNotEmpty) {
       parameters[parameters.length - 1].wOperator = ' AND ';
     }
@@ -2268,7 +2243,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   }
 
   /// put the sql keyword 'OR'
-  LocalFavoriteFilterBuilder get or {
+  FavoriteFilterBuilder get or {
     if (parameters.isNotEmpty) {
       parameters[parameters.length - 1].wOperator = ' OR ';
     }
@@ -2276,7 +2251,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   }
 
   /// open parentheses
-  LocalFavoriteFilterBuilder get startBlock {
+  FavoriteFilterBuilder get startBlock {
     _addedBlocks.waitingStartBlock!.add(true);
     _addedBlocks.needEndBlock!.add(false);
     _blockIndex++;
@@ -2287,8 +2262,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   }
 
   /// String whereCriteria, write raw query without 'where' keyword. Like this: 'field1 like 'test%' and field2 = 3'
-  LocalFavoriteFilterBuilder where(String? whereCriteria,
-      {dynamic parameterValue}) {
+  FavoriteFilterBuilder where(String? whereCriteria, {dynamic parameterValue}) {
     if (whereCriteria != null && whereCriteria != '') {
       final DbParameter param = DbParameter(
           columnName: parameterValue == null ? null : '',
@@ -2303,7 +2277,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// page = page number,
   ///
   /// pagesize = row(s) per page
-  LocalFavoriteFilterBuilder page(int page, int pagesize) {
+  FavoriteFilterBuilder page(int page, int pagesize) {
     if (page > 0) {
       _page = page;
     }
@@ -2314,7 +2288,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   }
 
   /// int count = LIMIT
-  LocalFavoriteFilterBuilder top(int count) {
+  FavoriteFilterBuilder top(int count) {
     if (count > 0) {
       _pagesize = count;
     }
@@ -2322,7 +2296,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   }
 
   /// close parentheses
-  LocalFavoriteFilterBuilder get endBlock {
+  FavoriteFilterBuilder get endBlock {
     if (_addedBlocks.needEndBlock![_blockIndex]) {
       parameters[parameters.length - 1].whereString += ' ) ';
     }
@@ -2337,7 +2311,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='name, date'
   ///
   /// Example 2: argFields = ['name', 'date']
-  LocalFavoriteFilterBuilder orderBy(dynamic argFields) {
+  FavoriteFilterBuilder orderBy(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         orderByList.add(argFields);
@@ -2357,7 +2331,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='field1, field2'
   ///
   /// Example 2: argFields = ['field1', 'field2']
-  LocalFavoriteFilterBuilder orderByDesc(dynamic argFields) {
+  FavoriteFilterBuilder orderByDesc(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         orderByList.add('$argFields desc ');
@@ -2377,7 +2351,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='field1, field2'
   ///
   /// Example 2: argFields = ['field1', 'field2']
-  LocalFavoriteFilterBuilder groupBy(dynamic argFields) {
+  FavoriteFilterBuilder groupBy(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         groupByList.add(' $argFields ');
@@ -2397,7 +2371,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// Example 1: argFields='name, date'
   ///
   /// Example 2: argFields = ['name', 'date']
-  LocalFavoriteFilterBuilder having(dynamic argFields) {
+  FavoriteFilterBuilder having(dynamic argFields) {
     if (argFields != null) {
       if (argFields is String) {
         havingList.add(argFields);
@@ -2412,72 +2386,71 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     return this;
   }
 
-  LocalFavoriteField setField(
-      LocalFavoriteField? field, String colName, DbType dbtype) {
-    return LocalFavoriteField(this)
+  FavoriteField setField(FavoriteField? field, String colName, DbType dbtype) {
+    return FavoriteField(this)
       ..param = DbParameter(
           dbType: dbtype,
           columnName: colName,
           wStartBlock: _addedBlocks.waitingStartBlock![_blockIndex]);
   }
 
-  LocalFavoriteField? _id;
-  LocalFavoriteField get id {
+  FavoriteField? _id;
+  FavoriteField get id {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  LocalFavoriteField? _movieId;
-  LocalFavoriteField get movieId {
+  FavoriteField? _movieId;
+  FavoriteField get movieId {
     return _movieId = setField(_movieId, 'movieId', DbType.integer);
   }
 
-  LocalFavoriteField? _title;
-  LocalFavoriteField get title {
+  FavoriteField? _title;
+  FavoriteField get title {
     return _title = setField(_title, 'title', DbType.text);
   }
 
-  LocalFavoriteField? _image;
-  LocalFavoriteField get image {
+  FavoriteField? _image;
+  FavoriteField get image {
     return _image = setField(_image, 'image', DbType.text);
   }
 
-  LocalFavoriteField? _rating;
-  LocalFavoriteField get rating {
+  FavoriteField? _rating;
+  FavoriteField get rating {
     return _rating = setField(_rating, 'rating', DbType.real);
   }
 
-  LocalFavoriteField? _quality;
-  LocalFavoriteField get quality {
+  FavoriteField? _quality;
+  FavoriteField get quality {
     return _quality = setField(_quality, 'quality', DbType.text);
   }
 
-  LocalFavoriteField? _year;
-  LocalFavoriteField get year {
+  FavoriteField? _year;
+  FavoriteField get year {
     return _year = setField(_year, 'year', DbType.text);
   }
 
-  LocalFavoriteField? _language;
-  LocalFavoriteField get language {
+  FavoriteField? _language;
+  FavoriteField get language {
     return _language = setField(_language, 'language', DbType.text);
   }
 
-  LocalFavoriteField? _country;
-  LocalFavoriteField get country {
+  FavoriteField? _country;
+  FavoriteField get country {
     return _country = setField(_country, 'country', DbType.text);
   }
 
-  LocalFavoriteField? _story;
-  LocalFavoriteField get story {
+  FavoriteField? _story;
+  FavoriteField get story {
     return _story = setField(_story, 'story', DbType.text);
   }
 
-  LocalFavoriteField? _source;
-  LocalFavoriteField get source {
+  FavoriteField? _source;
+  FavoriteField get source {
     return _source = setField(_source, 'source', DbType.text);
   }
 
-  LocalFavoriteField? _datepublication;
-  LocalFavoriteField get datepublication {
+  FavoriteField? _datepublication;
+  FavoriteField get datepublication {
     return _datepublication =
         setField(_datepublication, 'datepublication', DbType.text);
   }
@@ -2560,7 +2533,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
         whereString += param.whereString;
       }
     }
-    if (LocalFavorite._softDeleteActivated) {
+    if (Favorite._softDeleteActivated) {
       if (whereString != '') {
         whereString =
             '${!_getIsDeleted ? 'ifnull(isDeleted,0)=0 AND' : ''} ($whereString)';
@@ -2579,17 +2552,17 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
       ..having = havingList.join(',');
   }
 
-  /// Deletes List<LocalFavorite> bulk by query
+  /// Deletes List<Favorite> bulk by query
   ///
   /// <returns>BoolResult res.success=Deleted, not res.success=Can not deleted
   Future<BoolResult> delete([bool hardDelete = false]) async {
     _buildParameters();
     var r = BoolResult(success: false);
 
-    if (LocalFavorite._softDeleteActivated && !hardDelete) {
-      r = await _obj!._mnLocalFavorite.updateBatch(qparams, {'isDeleted': 1});
+    if (Favorite._softDeleteActivated && !hardDelete) {
+      r = await _obj!._mnFavorite.updateBatch(qparams, {'isDeleted': 1});
     } else {
-      r = await _obj!._mnLocalFavorite.delete(qparams);
+      r = await _obj!._mnFavorite.delete(qparams);
     }
     return r;
   }
@@ -2603,12 +2576,12 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     _buildParameters();
     if (qparams.limit! > 0 || qparams.offset! > 0) {
       qparams.whereString =
-          'id IN (SELECT id from localFavorite ${qparams.whereString!.isNotEmpty ? 'WHERE ${qparams.whereString}' : ''}${qparams.limit! > 0 ? ' LIMIT ${qparams.limit}' : ''}${qparams.offset! > 0 ? ' OFFSET ${qparams.offset}' : ''})';
+          'id IN (SELECT id from Favorite ${qparams.whereString!.isNotEmpty ? 'WHERE ${qparams.whereString}' : ''}${qparams.limit! > 0 ? ' LIMIT ${qparams.limit}' : ''}${qparams.offset! > 0 ? ' OFFSET ${qparams.offset}' : ''})';
     }
-    return _obj!._mnLocalFavorite.updateBatch(qparams, values);
+    return _obj!._mnFavorite.updateBatch(qparams, values);
   }
 
-  /// This method always returns LocalFavorite Obj if exist, otherwise returns null
+  /// This method always returns Favorite Obj if exist, otherwise returns null
   ///
   /// bool preload: if true, loads all related child objects (Set preload to true if you want to load all fields related to child or parent)
   ///
@@ -2621,41 +2594,40 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>List<LocalFavorite>
-  Future<LocalFavorite?> toSingle(
+  /// <returns>List<Favorite>
+  Future<Favorite?> toSingle(
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields}) async {
     _pagesize = 1;
     _buildParameters();
-    final objFuture = _obj!._mnLocalFavorite.toList(qparams);
+    final objFuture = _obj!._mnFavorite.toList(qparams);
     final data = await objFuture;
-    LocalFavorite? obj;
+    Favorite? obj;
     if (data.isNotEmpty) {
-      obj = LocalFavorite.fromMap(data[0] as Map<String, dynamic>);
+      obj = Favorite.fromMap(data[0] as Map<String, dynamic>);
     } else {
       obj = null;
     }
     return obj;
   }
 
-  /// This method returns int. [LocalFavorite]
+  /// This method returns int. [Favorite]
   ///
   /// <returns>int
-  Future<int> toCount(
-      [VoidCallback Function(int c)? localfavoriteCount]) async {
+  Future<int> toCount([VoidCallback Function(int c)? favoriteCount]) async {
     _buildParameters();
     qparams.selectColumns = ['COUNT(1) AS CNT'];
-    final localfavoritesFuture = await _obj!._mnLocalFavorite.toList(qparams);
-    final int count = localfavoritesFuture[0]['CNT'] as int;
-    if (localfavoriteCount != null) {
-      localfavoriteCount(count);
+    final favoritesFuture = await _obj!._mnFavorite.toList(qparams);
+    final int count = favoritesFuture[0]['CNT'] as int;
+    if (favoriteCount != null) {
+      favoriteCount(count);
     }
     return count;
   }
 
-  /// This method returns List<LocalFavorite> [LocalFavorite]
+  /// This method returns List<Favorite> [Favorite]
   ///
   /// bool preload: if true, loads all related child objects (Set preload to true if you want to load all fields related to child or parent)
   ///
@@ -2668,24 +2640,23 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
   /// bool loadParents: if true, loads all parent objects until the object has no parent
 
   ///
-  /// <returns>List<LocalFavorite>
-  Future<List<LocalFavorite>> toList(
+  /// <returns>List<Favorite>
+  Future<List<Favorite>> toList(
       {bool preload = false,
       List<String>? preloadFields,
       bool loadParents = false,
       List<String>? loadedFields}) async {
     final data = await toMapList();
-    final List<LocalFavorite> localfavoritesData =
-        await LocalFavorite.fromMapList(data,
-            preload: preload,
-            preloadFields: preloadFields,
-            loadParents: loadParents,
-            loadedFields: loadedFields,
-            setDefaultValues: qparams.selectColumns == null);
-    return localfavoritesData;
+    final List<Favorite> favoritesData = await Favorite.fromMapList(data,
+        preload: preload,
+        preloadFields: preloadFields,
+        loadParents: loadParents,
+        loadedFields: loadedFields,
+        setDefaultValues: qparams.selectColumns == null);
+    return favoritesData;
   }
 
-  /// This method returns Json String [LocalFavorite]
+  /// This method returns Json String [Favorite]
   Future<String> toJson() async {
     final list = <dynamic>[];
     final data = await toList();
@@ -2695,7 +2666,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     return json.encode(list);
   }
 
-  /// This method returns Json String. [LocalFavorite]
+  /// This method returns Json String. [Favorite]
   Future<String> toJsonWithChilds() async {
     final list = <dynamic>[];
     final data = await toList();
@@ -2705,15 +2676,15 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     return json.encode(list);
   }
 
-  /// This method returns List<dynamic>. [LocalFavorite]
+  /// This method returns List<dynamic>. [Favorite]
   ///
   /// <returns>List<dynamic>
   Future<List<dynamic>> toMapList() async {
     _buildParameters();
-    return await _obj!._mnLocalFavorite.toList(qparams);
+    return await _obj!._mnFavorite.toList(qparams);
   }
 
-  /// This method returns Primary Key List SQL and Parameters retVal = Map<String,dynamic>. [LocalFavorite]
+  /// This method returns Primary Key List SQL and Parameters retVal = Map<String,dynamic>. [Favorite]
   ///
   /// retVal['sql'] = SQL statement string, retVal['args'] = whereArguments List<dynamic>;
   ///
@@ -2723,8 +2694,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     if (buildParameters) {
       _buildParameters();
     }
-    _retVal['sql'] =
-        'SELECT `id` FROM localFavorite WHERE ${qparams.whereString}';
+    _retVal['sql'] = 'SELECT `id` FROM Favorite WHERE ${qparams.whereString}';
     _retVal['args'] = qparams.whereArguments;
     return _retVal;
   }
@@ -2737,7 +2707,7 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     }
     final List<int> idData = <int>[];
     qparams.selectColumns = ['id'];
-    final idFuture = await _obj!._mnLocalFavorite.toList(qparams);
+    final idFuture = await _obj!._mnFavorite.toList(qparams);
 
     final int count = idFuture.length;
     for (int i = 0; i < count; i++) {
@@ -2746,13 +2716,13 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     return idData;
   }
 
-  /// Returns List<dynamic> for selected columns. Use this method for 'groupBy' with min,max,avg..  [LocalFavorite]
+  /// Returns List<dynamic> for selected columns. Use this method for 'groupBy' with min,max,avg..  [Favorite]
   ///
   /// Sample usage: (see EXAMPLE 4.2 at https://github.com/hhtokpinar/sqfEntity#group-by)
   Future<List<dynamic>> toListObject() async {
     _buildParameters();
 
-    final objectFuture = _obj!._mnLocalFavorite.toList(qparams);
+    final objectFuture = _obj!._mnFavorite.toList(qparams);
 
     final List<dynamic> objectsData = <dynamic>[];
     final data = await objectFuture;
@@ -2765,12 +2735,12 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
 
   /// Returns List<String> for selected first column
   ///
-  /// Sample usage: await LocalFavorite.select(columnsToSelect: ['columnName']).toListString()
+  /// Sample usage: await Favorite.select(columnsToSelect: ['columnName']).toListString()
   Future<List<String>> toListString(
       [VoidCallback Function(List<String> o)? listString]) async {
     _buildParameters();
 
-    final objectFuture = _obj!._mnLocalFavorite.toList(qparams);
+    final objectFuture = _obj!._mnFavorite.toList(qparams);
 
     final List<String> objectsData = <String>[];
     final data = await objectFuture;
@@ -2784,10 +2754,10 @@ class LocalFavoriteFilterBuilder extends SearchCriteria {
     return objectsData;
   }
 }
-// endregion LocalFavoriteFilterBuilder
+// endregion FavoriteFilterBuilder
 
-// region LocalFavoriteFields
-class LocalFavoriteFields {
+// region FavoriteFields
+class FavoriteFields {
   static TableField? _fId;
   static TableField get id {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
@@ -2858,21 +2828,21 @@ class LocalFavoriteFields {
         SqlSyntax.setField(_fDatepublication, 'datepublication', DbType.text);
   }
 }
-// endregion LocalFavoriteFields
+// endregion FavoriteFields
 
-//region LocalFavoriteManager
-class LocalFavoriteManager extends SqfEntityProvider {
-  LocalFavoriteManager()
+//region FavoriteManager
+class FavoriteManager extends SqfEntityProvider {
+  FavoriteManager()
       : super(MyMovieDataBase(),
             tableName: _tableName,
             primaryKeyList: _primaryKeyList,
             whereStr: _whereStr);
-  static final String _tableName = 'localFavorite';
+  static final String _tableName = 'Favorite';
   static final List<String> _primaryKeyList = ['id'];
   static final String _whereStr = 'id=?';
 }
 
-//endregion LocalFavoriteManager
+//endregion FavoriteManager
 // region LocalCategory
 class LocalCategory {
   LocalCategory({this.id, this.identity, this.label}) {

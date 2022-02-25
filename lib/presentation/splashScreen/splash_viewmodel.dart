@@ -31,7 +31,7 @@ class SplashViewModel extends BaseViewModel
       token = await _appPreferences.getToken();
       _startTimer(token);
     } else {
-      checkPermission();
+      login();
     }
   }
 
@@ -39,28 +39,10 @@ class SplashViewModel extends BaseViewModel
     timer = Timer(Duration(seconds: 3), (){intputgoNext.add(token);});
   }
 
-  checkPermission()async{
-    bool isGranted = await isPhonePermissionGaranted();
-    if(isGranted){
-      getInfo();
-    }else{
-      SystemNavigator.pop();
-    }
-  }
-
-  getInfo() async {
-    (await _splashUseCase.execute(Void)).fold((failure) {
-      print(failure.message);
-      inputState.add(ErrorState(failure.message,StateRendererType.POPUP_ERROR_STATE));
-    }, (userInfo) {
-      login(userInfo.toUseCaseInput());
-    });
-  }
 
   @override
-  login(SplashUseCaseInput splashUseCaseInput) async {
-    (await _splashUseCase.signUp(splashUseCaseInput)).fold((failure) {
-      // print(failure.message);
+  login() async {
+    (await _splashUseCase.signUp(Void)).fold((failure) {
       inputState.add(ErrorState(failure.message,StateRendererType.POPUP_ERROR_STATE));
     }, (token) {
       _appPreferences.setIsUserLoggedIn();
@@ -85,27 +67,10 @@ class SplashViewModel extends BaseViewModel
 }
 
 abstract class SplashViewModelInput {
-  login(SplashUseCaseInput splashUseCaseInput);
+  login();
   Sink get intputgoNext;
 }
 
 abstract class SplashViewModelOutput {
   Stream<String> get outputgoNext;
-}
-
-extension UserInfoExtension on UserInfo {
-  SplashUseCaseInput toUseCaseInput() {
-    return SplashUseCaseInput(
-      query,
-      country,
-      region,
-      regionName,
-      city,
-      zip,
-      lat,
-      lon,
-      timezone,
-      isp,
-    );
-  }
 }

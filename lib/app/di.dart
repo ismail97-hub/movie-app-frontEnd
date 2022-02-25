@@ -9,6 +9,7 @@ import 'package:movieapp/data/data_source/remote_data_source.dart';
 import 'package:movieapp/data/local/repository/category_repository.dart';
 import 'package:movieapp/data/local/repository/favorite_repository.dart';
 import 'package:movieapp/data/local/repository/genre_repositry.dart';
+import 'package:movieapp/data/local/repository/history_repository.dart';
 import 'package:movieapp/data/network/app_api/app_api.dart';
 import 'package:movieapp/data/network/dio_factory.dart';
 import 'package:movieapp/data/network/network_info.dart';
@@ -67,12 +68,15 @@ Future<void> initAppModule()async{
   // local favorite repository
   instance.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl());
 
+  // local genre repository
+  instance.registerLazySingleton<HistoryRepository>(() => HistoryRepositoryImpl());
+  
   // local category repository
   instance.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl());
 
   // local genre repository
   instance.registerLazySingleton<GenreRepository>(() => GenreRepositoryImpl());
-
+  
 }
 
 initHomeModule(){
@@ -84,7 +88,7 @@ initHomeModule(){
 
 initMovieDetailsModule(){
   if(!GetIt.I.isRegistered<MovieDetailsUseCase>()){
-    instance.registerFactory<MovieDetailsUseCase>(() => MovieDetailsUseCase(instance()));
+    instance.registerFactory<MovieDetailsUseCase>(() => MovieDetailsUseCase(instance(),instance(),instance()));
     instance.registerFactory<MovieDetailsViewModel>(() => MovieDetailsViewModel(instance()));
   }
 }

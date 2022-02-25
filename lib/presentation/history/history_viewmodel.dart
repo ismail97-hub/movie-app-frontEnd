@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/domain/use_case/history_usecase.dart';
 import 'package:movieapp/presentation/base/base_viewmodel.dart';
@@ -12,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 
 class HistoryViewModel extends BaseViewModel
     with HistoryViewModelInput, HistoryViewModelOutput {
-  StreamController _historyStreamController = BehaviorSubject<List<Movie>>();
+  StreamController _historyStreamController = BehaviorSubject<List<History>>();
   HistoryUseCase _useCase;
   HistoryViewModel(this._useCase);
 
@@ -22,18 +23,13 @@ class HistoryViewModel extends BaseViewModel
   }
 
   _getHistory() async {
-    inputState.add(LoadingState());
-    (await _useCase.execute(Void)).fold((failure) {
-      inputState.add(ErrorState(
-          failure.message, StateRendererType.FULL_SCREEN_ERROR_STATE));
-    }, (history) {
-      if (history.isEmpty) {
-        inputState.add(EmptyState(AppStrings.emptyHistory, JsonAssets.history));
-      } else {
-        inputHistory.add(history);
-        inputState.add(ContentState());
-      }
-    });
+    inputState.add(ContentState());
+    List<History> history = await _useCase.getAll();
+    if (history.isEmpty) {
+      inputState.add(EmptyState(AppStrings.emptyHistory, JsonAssets.history));
+    } else {
+      inputHistory.add(history);
+    }
   }
 
   @override
@@ -46,7 +42,7 @@ class HistoryViewModel extends BaseViewModel
   Sink get inputHistory => _historyStreamController.sink;
 
   @override
-  Stream<List<Movie>> get outputHistory =>
+  Stream<List<History>> get outputHistory =>
       _historyStreamController.stream.map((history) => history);
 }
 
@@ -55,5 +51,5 @@ abstract class HistoryViewModelInput {
 }
 
 abstract class HistoryViewModelOutput {
-  Stream<List<Movie>> get outputHistory;
+  Stream<List<History>> get outputHistory;
 }

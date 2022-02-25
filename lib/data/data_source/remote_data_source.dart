@@ -12,6 +12,7 @@ abstract class RemoteDataSource {
   Future<List<MovieResponse>> search(String query);
   Future<UserInfoResponse> userInfo();
   Future<SignUpResponse> signUp(SignUpRequest signUpRequest);
+  Future<SignUpResponse> signIn(SignInRequest signInRequest);
   Future<String> view(String id);
   Future<bool> favorite(String id);
   Future<List<MovieResponse>> myFavorite();
@@ -60,6 +61,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<MovieResponse>> search(String query) {
     return _appServiceClient.search(query);
+  }
+
+  @override
+  Future<SignUpResponse> signIn(SignInRequest signInRequest) {
+    return _appServiceClient.signIn(
+      signInRequest.username,
+      signInRequest.password);
   }
 
   @override

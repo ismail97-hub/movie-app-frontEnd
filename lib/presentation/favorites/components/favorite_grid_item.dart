@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/data/local/model.dart';
+import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/components/movie_image_item.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
@@ -9,10 +11,12 @@ import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 
 class FavoriteGridItem extends StatelessWidget {
-  final Movie movie;
+  final Favorite favorite;
+  final Function onTap;
   final Function unFavorite;
   const FavoriteGridItem(
-    this.movie, {
+    this.favorite, {
+    required this.onTap, 
     required this.unFavorite,
     Key? key,
   }) : super(key: key);
@@ -21,8 +25,7 @@ class FavoriteGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.movieDetailsRoute,
-            arguments: movie.id);
+        onTap.call();
       },
       child: Stack(
         fit: StackFit.expand,
@@ -32,7 +35,7 @@ class FavoriteGridItem extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: MovieImageItem(
-                  image: movie.image,
+                  image: favorite.image??EMPTY,
                   radius: AppSize.s8,
                 ),
               ),
@@ -42,13 +45,13 @@ class FavoriteGridItem extends StatelessWidget {
                   padding: EdgeInsets.all(AppPadding.p5),
                   child: Column(
                     children: [
-                      Text(movie.title,
+                      Text(favorite.title??EMPTY,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: getSemiBoldStyle(
                               fontSize: FontSize.s12, color: Colors.white)),
-                      Text(movie.year,
+                      Text(favorite.year??EMPTY,
                           style: getBoldStyle(
                               fontSize: FontSize.s12,
                               color: ColorManager.secondary)),

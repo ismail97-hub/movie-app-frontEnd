@@ -71,6 +71,20 @@ class RepositoryImpl extends Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+  
+  @override
+  Future<Either<Failure, String>> signIn(SignInRequest signInRequest)async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final response = await _remoteDataSource.signIn(signInRequest);
+        return Right(response.token??EMPTY);
+      } catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, String>> signUp(SignUpRequest signUpRequest) async{
@@ -155,5 +169,6 @@ class RepositoryImpl extends Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
 
 }
