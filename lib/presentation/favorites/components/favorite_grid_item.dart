@@ -37,6 +37,7 @@ class FavoriteGridItem extends StatelessWidget {
                 child: MovieImageItem(
                   image: favorite.image??EMPTY,
                   radius: AppSize.s8,
+                  width: AppSize.s150,
                 ),
               ),
               Expanded(
@@ -63,7 +64,7 @@ class FavoriteGridItem extends StatelessWidget {
           ),
           Positioned(
             top: AppSize.s5,
-            left: AppSize.s10,
+            left: AppSize.s15,
             height: AppSize.s35,
             width: AppSize.s35,
             child: CircleAvatar(

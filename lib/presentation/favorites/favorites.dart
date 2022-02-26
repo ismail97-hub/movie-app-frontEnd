@@ -78,7 +78,7 @@ class _FavoritesViewState extends State<FavoritesView> {
           physics: ClampingScrollPhysics(),
           crossAxisCount: 2,
           childAspectRatio: 4 / 7,
-          children: favorites
+          children: favorites.reversed
               .map((favorite) => FavoriteGridItem(
                     favorite,
                     unFavorite: () {

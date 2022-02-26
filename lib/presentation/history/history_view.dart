@@ -76,7 +76,7 @@ class _HistoryViewState extends State<HistoryView> {
           physics: ClampingScrollPhysics(),
           crossAxisCount: 2,
           childAspectRatio: 4 / 7,
-          children: histories.map((history) => HistoryGridItem(history)).toList(),
+          children: histories.reversed.map((history) => HistoryGridItem(history)).toList(),
         ),
       );
     } else {
