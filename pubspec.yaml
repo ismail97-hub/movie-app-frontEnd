@@ -67,6 +67,7 @@ dependencies:
     firebase_messaging: ^11.2.6
     device_information: ^0.0.4
     permission_handler: 
+    device_preview: ^0.7.4
 
 dev_dependencies:
   flutter_test:

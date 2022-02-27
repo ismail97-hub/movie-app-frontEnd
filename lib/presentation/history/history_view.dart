@@ -8,6 +8,7 @@ import 'package:movieapp/presentation/history/components/history_grid_item.dart'
 import 'package:movieapp/presentation/history/history_viewmodel.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
+import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 
@@ -76,7 +77,9 @@ class _HistoryViewState extends State<HistoryView> {
           physics: ClampingScrollPhysics(),
           crossAxisCount: 2,
           childAspectRatio: 4 / 7,
-          children: histories.reversed.map((history) => HistoryGridItem(history)).toList(),
+          children: histories.reversed.map((history) => HistoryGridItem(history, onTap: (){
+            Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: history.movieId).then((value) {_bind();});
+          })).toList(),
         ),
       );
     } else {

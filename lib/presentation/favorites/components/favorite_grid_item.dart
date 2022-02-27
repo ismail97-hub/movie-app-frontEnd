@@ -23,6 +23,8 @@ class FavoriteGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    print(width);
     return InkWell(
       onTap: () {
         onTap.call();
@@ -34,10 +36,13 @@ class FavoriteGridItem extends StatelessWidget {
             children: [
               Expanded(
                 flex: 10,
-                child: MovieImageItem(
-                  image: favorite.image??EMPTY,
-                  radius: AppSize.s8,
-                  width: AppSize.s150,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width>AppSize.s550?AppSize.s20:AppSize.s10),
+                  child: MovieImageItem(
+                    image: favorite.image??EMPTY,
+                    radius: AppSize.s8,
+                    width: double.infinity,
+                  ),
                 ),
               ),
               Expanded(
@@ -64,7 +69,7 @@ class FavoriteGridItem extends StatelessWidget {
           ),
           Positioned(
             top: AppSize.s5,
-            left: AppSize.s15,
+            left:  width>AppSize.s550?AppSize.s24:AppSize.s15,
             height: AppSize.s35,
             width: AppSize.s35,
             child: CircleAvatar(

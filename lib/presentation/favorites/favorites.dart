@@ -70,8 +70,8 @@ class _FavoritesViewState extends State<FavoritesView> {
     if (favorites != null) {
       return Padding(
         padding: EdgeInsets.only(
-          right: AppPadding.p10,
-          left: AppPadding.p10,
+          right: AppPadding.p5,
+          left: AppPadding.p5,
         ),
         child: GridView.count(
           shrinkWrap: true,

@@ -80,12 +80,13 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   }
 
   Widget _getDetailsWidget(MoviesDetailsData detailsData) {
+    double width = MediaQuery.of(context).size.width;
     Movie movie = detailsData.movie;
     return SingleChildScrollView(
       child: Stack(
         children: [
           SizedBox(
-            height: AppSize.s350,
+            height: width > AppSize.s600?AppSize.s500:AppSize.s350,
             child: CachedNetworkImage(
               imageUrl: movie.image,
               imageBuilder: (context, imageProvider) => Container(
@@ -100,7 +101,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           ),
           detailsAppBar(context: context, viewModel: _viewModel, movie: movie),
           Container(
-            margin: EdgeInsets.only(top: AppSize.s160, left: AppPadding.p20),
+            margin: EdgeInsets.only(top:AppSize.s160, left: AppPadding.p20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -109,7 +110,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                     Expanded(
                       flex: 1,
                       child: SizedBox(
-                          height: AppSize.s250,
+                          height: width > AppSize.s600?AppSize.s550:AppSize.s250,
                           child: MovieImageItem(image: movie.image)),
                     ),
                     Expanded(
