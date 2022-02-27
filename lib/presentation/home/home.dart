@@ -84,6 +84,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _getContentWidget() {
+    double height = MediaQuery.of(context).size.height;
     return StreamBuilder<HomeData>(
         stream: _viewModel.outputHomeData,
         builder: (context, snapshot) {
@@ -93,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: AppSize.s80),
+                SizedBox(height: height>=AppSize.s800?AppSize.s100:AppSize.s80),
                 _getSection(AppStrings.trending,
                     _onTap(HomeSections.TRENDING.getMovieListArgs())),
                 _getCarousel(homeData.trending),
@@ -120,7 +121,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _getSection(String title, Function() onTap) {
     return Padding(
       padding: EdgeInsets.only(
-          top: AppPadding.p12,
+          top: AppPadding.p15,
           left: AppPadding.p12,
           right: AppPadding.p12,
           bottom: AppSize.s15),
@@ -151,13 +152,14 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _getCarousel(List<Movie> movies) {
+    double width = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.only(bottom: AppMargin.m20),
+      margin: EdgeInsets.only(bottom: AppMargin.m30),
       child: MovieCarousel(
         movies,
-        width: AppSize.s250,
-        height: AppSize.s250,
-        viewportFraction: 0.6,
+        width: width >AppSize.s450?AppSize.s350:AppSize.s250,
+        height: width >AppSize.s450?AppSize.s350:AppSize.s250,
+        viewportFraction:  width >AppSize.s550?0.4:0.6,
       ),
     );
   }
