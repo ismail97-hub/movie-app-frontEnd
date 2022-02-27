@@ -21,7 +21,6 @@ class MoviePlayer extends StatefulWidget {
 
 class _MoviePlayerState extends State<MoviePlayer> {
   MoviePlayerViewModel _viewModel = instance<MoviePlayerViewModel>();
-  bool isPageFinished = false;
 
   @override
   void initState() {
@@ -39,12 +38,13 @@ class _MoviePlayerState extends State<MoviePlayer> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        setState(() {
-          isPageFinished = false;
-        });
         return _viewModel.onWillPop();
       },
-      child: Scaffold(
+      child: StreamBuilder<bool>(
+          stream: _viewModel.outputIsPageFinished,
+          builder: (context, snapshot) {
+            bool isPageFinished = snapshot.data ?? false;
+            return Scaffold(
                     backgroundColor: ColorManager.black,
                     body: SizedBox(
                       width: MediaQuery.of(context).size.width,
@@ -61,9 +61,7 @@ class _MoviePlayerState extends State<MoviePlayer> {
                             },
                             onPageFinished: (finish) {
                               print(finish);
-                              setState(() {
-                                isPageFinished = true;
-                              });
+                              _viewModel.inputIsPageFinished.add(true);
                             },
                             gestureNavigationEnabled: true,
                             zoomEnabled: false,
@@ -72,7 +70,9 @@ class _MoviePlayerState extends State<MoviePlayer> {
                         ],
                       ),
                     ),
-    ));
+                  );
+          }),
+    );
   }
 
   Widget _getAnimatedImage() {
