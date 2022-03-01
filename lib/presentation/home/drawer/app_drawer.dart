@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/data/mapper/mapper.dart';
+import 'package:movieapp/presentation/home/drawer/app_drawer_header.dart';
 import 'package:movieapp/presentation/home/home_viewmodel.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
@@ -29,17 +30,7 @@ class AppDrawer extends StatelessWidget {
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
                   children: [
-                    DrawerHeader(
-                      margin: EdgeInsets.all(0.0),
-                      padding: EdgeInsets.all(0.0),
-                      child: Center(
-                          child: Text(
-                        "N",
-                        style:
-                            getBoldStyle(color: ColorManager.secondary, fontSize: 80),
-                      )),
-                      decoration: BoxDecoration(color: ColorManager.black),
-                    ),
+                    AppDrawerHeader(),
                     _getListTile(
                         context,
                         AppStrings.topMovies,
@@ -79,7 +70,9 @@ class AppDrawer extends StatelessWidget {
                     _getListTile(context, AppStrings.history,
                         IconManager.history, () => _goNext(context, Routes.historyRoute)),
                     _getListTile(context, AppStrings.settings,
-                        IconManager.settings, () {}),
+                        IconManager.settings, () {
+                          _goNext(context, Routes.settingsRoute);
+                        }),
                     _getListTile(context, AppStrings.contactUs,
                         IconManager.contactUs, () {}),
                     _getListTile(
@@ -137,7 +130,7 @@ class AppDrawer extends StatelessWidget {
                   children: types
                       .map((type) => ListTile(
                             title: Text(type.label),
-                            trailing: Icon(IconManager.arrow_forward,color: ColorManager.white,size: AppSize.s15,),
+                            trailing: Icon(IconManager.arrowForward,color: ColorManager.white,size: AppSize.s15,),
                             onTap: (){ _goNext(context, Routes.movieListRoute,
                                 args: MovieListArgs(
                                     "$endPoint/${type.id}", type.label));},
@@ -157,7 +150,7 @@ class TypeObject {
 extension LocalCategoryExtension on List<LocalCategory>? {
   List<TypeObject> toTypeObject() {
     List<TypeObject>? types = (this?.map((category) => TypeObject(
-                category.identity ?? ZERO, category.label ?? EMPTY)) ??
+                category.id ?? ZERO, category.label ?? EMPTY)) ??
             Iterable.empty())
         .cast<TypeObject>()
         .toList();
@@ -168,7 +161,7 @@ extension LocalCategoryExtension on List<LocalCategory>? {
 extension LocalGenreExtension on List<LocalGenre>? {
   List<TypeObject> toTypeObject() {
     List<TypeObject>? types = (this?.map((genre) =>
-                TypeObject(genre.identity ?? ZERO, genre.label ?? EMPTY)) ??
+                TypeObject(genre.id ?? ZERO, genre.label ?? EMPTY)) ??
             Iterable.empty())
         .cast<TypeObject>()
         .toList();

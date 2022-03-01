@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:movieapp/app/app_prefs.dart';
+import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/data/network/failure.dart';
@@ -19,13 +21,15 @@ class SplashViewModel extends BaseViewModel
   StreamController goNextStreamController = BehaviorSubject<String>();   
   SplashUseCase _splashUseCase;
   AppPreferences _appPreferences;
-  SplashViewModel(this._splashUseCase,this._appPreferences);
+  FirebaseMessaging _firebaseMessaging;
+  SplashViewModel(this._splashUseCase,this._appPreferences,this._firebaseMessaging);
   Timer? timer;
   late String token;
   
   @override
   void start()async{
     inputState.add(ContentState());
+    initNotification();
     bool isUserLoggedIn = await _appPreferences.isUserLoggedIn();
     if (isUserLoggedIn) {
       token = await _appPreferences.getToken();
@@ -38,7 +42,13 @@ class SplashViewModel extends BaseViewModel
   _startTimer(String token) {
     timer = Timer(Duration(seconds: 3), (){intputgoNext.add(token);});
   }
-
+  
+  initNotification()async{
+    bool isNotificationAllowed = await _appPreferences.isNotificationAllowed();
+    if (isNotificationAllowed){
+      await _firebaseMessaging.subscribeToTopic(Constant.topic); 
+    }
+  }
 
   @override
   login() async {

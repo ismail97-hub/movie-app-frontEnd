@@ -23,7 +23,7 @@ class GenreRepositoryImpl extends GenreRepository {
   @override
   Future<int?> saveToLocal(Genre? genre) async {
     LocalGenre localGenre = genre.toLocal();
-    return await localGenre.save();
+    return await localGenre.upsert();
   }
 
   @override

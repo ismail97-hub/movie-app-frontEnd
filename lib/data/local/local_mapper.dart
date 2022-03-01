@@ -5,7 +5,7 @@ import 'package:movieapp/domain/model/model.dart';
 extension FavoriteExtension on Movie? {
   Favorite toFavorite() {
     Favorite favorite = Favorite();
-    favorite.movieId = this?.id;
+    favorite.id = this?.id;
     favorite.title = this?.title;
     favorite.image = this?.image;
     favorite.rating = this?.rating;
@@ -23,7 +23,7 @@ extension FavoriteExtension on Movie? {
 extension HistoryExtension on Movie? {
   History toHistory() {
     History history = History();
-    history.movieId = this?.id;
+    history.id = this?.id;
     history.title = this?.title;
     history.image = this?.image;
     history.rating = this?.rating;
@@ -41,7 +41,7 @@ extension HistoryExtension on Movie? {
 extension LocalCategoryExtension on Category? {
   LocalCategory toLocal(){
     LocalCategory localCategory = LocalCategory();
-    localCategory.identity = this?.id;
+    localCategory.id = this?.id;
     localCategory.label = this?.label;
     return localCategory;
   }
@@ -50,7 +50,7 @@ extension LocalCategoryExtension on Category? {
 extension LocalGenreExtension on Genre? {
   LocalGenre toLocal(){
     LocalGenre localGenre = LocalGenre();
-    localGenre.identity= this?.id;
+    localGenre.id= this?.id;
     localGenre.label = this?.label;
     return localGenre;
   }

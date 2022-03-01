@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/data/local/repository/favorite_repository.dart';
 import 'package:movieapp/data/network/failure.dart';
 import 'package:movieapp/domain/model/model.dart';
@@ -9,6 +10,7 @@ import 'package:movieapp/presentation/common/state_renderer/state_renderer.dart'
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
+import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MovieDetailsViewModel extends BaseViewModel
@@ -52,8 +54,10 @@ class MovieDetailsViewModel extends BaseViewModel
   }
 
   @override
-  onFavoriteClick(Movie movie) async{
-    IconData currentIcon = await _useCase.onFavoriteClick(movie);
+  onFavoriteClick(BuildContext context,Movie movie) async{
+    IconData currentIcon = await _useCase.onFavoriteClick(movie,onSave: (){
+      showSnackBar(context,AppStrings.addedToFavorite);
+    });
     inputFavoriteIcon.add(currentIcon);
   }
   
@@ -87,7 +91,7 @@ class MovieDetailsViewModel extends BaseViewModel
 
 abstract class MovieViewModelInputs {
   watch(BuildContext context,Movie movie);
-  onFavoriteClick(Movie movie);
+  onFavoriteClick(BuildContext context,Movie movie);
 
   Sink get inputDetails;
   Sink get inputFavoriteIcon;

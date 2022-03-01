@@ -23,7 +23,7 @@ class HistoryRepositoryImpl extends HistoryRepository {
   @override
   Future<int?> save(Movie? movie) async{
      History history = movie.toHistory();
-     return await history.save(); 
+     return await history.upsert(); 
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/components/movie_image_item.dart';
@@ -10,11 +11,12 @@ class MovieCarousel extends StatelessWidget {
   final double width;
   final double height;
   final double viewportFraction;
-  const MovieCarousel(this.movies,{Key? key,double? width,double? height,double? viewportFraction}) : 
-    height = height ??AppSize.s210,
-    width = width ?? AppSize.s210,
-    viewportFraction = viewportFraction?? AppSize.s0_5,
-    super(key: key);
+  const MovieCarousel(this.movies,
+      {Key? key, double? width, double? height, double? viewportFraction})
+      : height = height ?? AppSize.s210,
+        width = width ?? AppSize.s210,
+        viewportFraction = viewportFraction ?? AppSize.s0_5,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,10 @@ class MovieCarousel extends StatelessWidget {
                       Navigator.pushNamed(context, Routes.movieDetailsRoute,
                           arguments: movie.id);
                     },
-                    child: MovieImageItem(image: movie.image,width: width,),
+                    child: MovieImageItem(
+                      image: movie.image,
+                      width: width,
+                    ),
                   ),
                 ))
             .toList(),

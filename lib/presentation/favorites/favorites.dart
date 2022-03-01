@@ -82,10 +82,10 @@ class _FavoritesViewState extends State<FavoritesView> {
               .map((favorite) => FavoriteGridItem(
                     favorite,
                     unFavorite: () {
-                      _viewModel.delete(favorite.movieId);
+                      _viewModel.delete(favorite.id);
                     },
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: favorite.movieId)
+                      Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: favorite.id)
                           .then((_) => _bind());
                     },
                   ))

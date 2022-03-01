@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class IconManager {
@@ -19,5 +20,10 @@ class IconManager {
   static IconData share = FontAwesomeIcons.share;
   static IconData contactUs = Icons.email_outlined;
   static IconData settings = Icons.settings;
-  static IconData arrow_forward = Icons.arrow_forward_ios;
+  static IconData arrowForward = Icons.arrow_forward_ios;
+  static IconData delete = Icons.delete_outline;
+  static IconData facebook = FontAwesome.facebook;
+  static IconData twitter = FontAwesome.twitter;
+  static IconData instagram = FontAwesome.instagram;
+  static IconData link = FontAwesome.external_link;
 }

@@ -10,6 +10,7 @@ import 'package:movieapp/presentation/movie_details/movie_details.dart';
 import 'package:movieapp/presentation/movie_list/movie_list.dart';
 import 'package:movieapp/presentation/movie_player/movie_player.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
+import 'package:movieapp/presentation/settings/settings_view.dart';
 import 'package:movieapp/presentation/splashScreen/splash_view.dart';
 import 'package:movieapp/web_view.dart';
 
@@ -21,6 +22,7 @@ class Routes {
   static const movieListRoute = "/topMovies";
   static const movieDetailsRoute = "/movieDetails";
   static const watchRoute = "/watch";
+  static const settingsRoute = "/settings";
 }
 
 class RouteGenerator {
@@ -45,14 +47,14 @@ class RouteGenerator {
       case Routes.watchRoute:
         initMoviePlayerModule();
         String url = routeSettings.arguments as String;
-        return CupertinoPageRoute(builder: (_) => MoviePlayer(url: url));  
+        return CupertinoPageRoute(builder: (_) => MoviePlayer(url: url));
+      case Routes.settingsRoute:
+        initSettingsModule();
+        return CupertinoPageRoute(builder: (_) => SettingsView());   
       case Routes.movieDetailsRoute:
         initMovieDetailsModule();
         int id = routeSettings.arguments as int;
-        return CupertinoPageRoute(
-            builder: (_) => MovieDetailsView(
-                  id: id,
-                ));
+        return CupertinoPageRoute(builder: (_) => MovieDetailsView(id: id));
       default:
         return unDefinedRoute();
     }

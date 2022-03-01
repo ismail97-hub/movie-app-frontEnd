@@ -23,7 +23,7 @@ class CategoryRepositoryImpl extends CategoryRepository {
   @override
   Future<int?> saveToLocal(Category? category) async{
      LocalCategory localCategory = category.toLocal();
-     return await localCategory.save(); 
+     return await localCategory.upsert(); 
   }
 
   @override

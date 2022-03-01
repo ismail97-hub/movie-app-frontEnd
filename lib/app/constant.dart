@@ -3,6 +3,7 @@ class Constant {
   static const String infoBaseUrl = "http://ip-api.com/json";
   static const String paginationEndPoint = "?page=";
   static const String client = "client";
+  static const String topic = "newMovie";
 }
 
 class Endpoints {

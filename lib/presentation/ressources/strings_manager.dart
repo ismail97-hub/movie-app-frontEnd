@@ -34,6 +34,10 @@ class AppStrings {
   
   static const String showMore = "Show more";
   static const String showLess = "Show less";
+
+  //message 
+  static const String addedToFavorite = "added to favorites";
+
   
   // error handler
   static const String success = "Success";

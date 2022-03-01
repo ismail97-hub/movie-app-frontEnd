@@ -10,7 +10,6 @@ const String DATABASE_PATH = 'myMovieDataBase.db';
 const String DATABASE_NAME = 'MyMovieDataBase';
 
 const List<SqfEntityField> movieFields = [
-    SqfEntityField('movieId', DbType.integer),
     SqfEntityField('title', DbType.text),
     SqfEntityField('image', DbType.text),    
     SqfEntityField('rating', DbType.real, defaultValue: 0),
@@ -24,14 +23,14 @@ const List<SqfEntityField> movieFields = [
 ];
 
 const List<SqfEntityField> typeFields = [
-    SqfEntityField('identity', DbType.integer),
     SqfEntityField('label', DbType.text),
+    SqfEntityField('labelEn', DbType.text),
 ];
 
 const tableHistory = SqfEntityTable(
   tableName: 'History',
   primaryKeyName: 'id',
-  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  primaryKeyType: PrimaryKeyType.integer_unique,
   useSoftDeleting: false,
   fields: movieFields
 );
@@ -39,21 +38,21 @@ const tableHistory = SqfEntityTable(
 const tableFavorite = SqfEntityTable(
   tableName: 'Favorite',
   primaryKeyName: 'id',
-  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  primaryKeyType: PrimaryKeyType.integer_unique,
   useSoftDeleting: false,
   fields: movieFields);
 
 const tableCategory = SqfEntityTable(
   tableName: 'localCategory',
   primaryKeyName: 'id',
-  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  primaryKeyType: PrimaryKeyType.integer_unique,
   useSoftDeleting: false,
   fields: typeFields);
 
 const tableGenre = SqfEntityTable(
   tableName: 'localGenre',
   primaryKeyName: 'id',
-  primaryKeyType: PrimaryKeyType.integer_auto_incremental,
+  primaryKeyType: PrimaryKeyType.integer_unique,
   useSoftDeleting: false,
   fields: typeFields);
 

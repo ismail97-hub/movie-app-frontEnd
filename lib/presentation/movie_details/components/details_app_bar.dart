@@ -43,7 +43,7 @@ AppBar detailsAppBar(
                   backgroundColor: ColorManager.black.withOpacity(0.3),
                   child: IconButton(
                       onPressed: () {
-                        viewModel.onFavoriteClick(movie);
+                        viewModel.onFavoriteClick(context,movie);
                       },
                       icon: Icon(
                         snapshot.data,

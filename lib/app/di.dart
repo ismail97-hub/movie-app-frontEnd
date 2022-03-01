@@ -27,6 +27,7 @@ import 'package:movieapp/presentation/home/home_viewmodel.dart';
 import 'package:movieapp/presentation/movie_details/movie_details_viewmodel.dart';
 import 'package:movieapp/presentation/movie_list/movie_list_viewmodel.dart';
 import 'package:movieapp/presentation/movie_player/movie_player_viewmodel.dart';
+import 'package:movieapp/presentation/settings/settings_viewmodel.dart';
 import 'package:movieapp/presentation/splashScreen/splash_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -118,13 +119,19 @@ initMovieListModule(){
 initSplashModule(){
   if(!GetIt.I.isRegistered<SplashUseCase>()){
     instance.registerFactory<SplashUseCase>(() => SplashUseCase(instance(),instance()));
-    instance.registerFactory<SplashViewModel>(() => SplashViewModel(instance(),instance()));
+    instance.registerFactory<SplashViewModel>(() => SplashViewModel(instance(),instance(),instance()));
   }
 }
 
 initMoviePlayerModule(){
   if(!GetIt.I.isRegistered<MoviePlayerViewModel>()){
     instance.registerFactory<MoviePlayerViewModel>(() => MoviePlayerViewModel());
+  }
+}
+
+initSettingsModule(){
+  if(!GetIt.I.isRegistered<SettingsViewModel>()){
+    instance.registerFactory<SettingsViewModel>(() => SettingsViewModel(instance(),instance()));
   }
 }
 

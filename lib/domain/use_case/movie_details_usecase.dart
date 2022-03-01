@@ -25,8 +25,8 @@ class MovieDetailsUseCase extends BaseUseCase<String,MoviesDetailsData> {
     return _historyRepository.save(movie);
   }
 
-  Future<IconData> onFavoriteClick(Movie movie)async {
-    return _favoriteRepository.onFavoriteClick(movie);
+  Future<IconData> onFavoriteClick(Movie movie,{required Function onSave})async {
+    return _favoriteRepository.onFavoriteClick(movie,onSave:onSave);
   }
 
   Future<IconData> getFavoriteIcon(int id)async {

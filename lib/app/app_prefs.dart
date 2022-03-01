@@ -1,8 +1,10 @@
 import 'package:movieapp/data/mapper/mapper.dart';
+import 'package:movieapp/presentation/favorites/favorites_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String PREFS_KEY_IS_USER_LOGGED_IN = "PREFS_KEY_IS_USER_LOGGED_IN";
 const String PREFS_KEY_TOKEN = "PREFS_KEY_TOKEN";
+const String PREFS_KEY_NOTIFICATION = "PREFS_KEY_NOTIFICATION";
 
 class AppPreferences {
    SharedPreferences _sharedPreferences;
@@ -29,6 +31,19 @@ class AppPreferences {
      _sharedPreferences.remove(PREFS_KEY_IS_USER_LOGGED_IN);
      _sharedPreferences.remove(PREFS_KEY_TOKEN);
    }
+   
+   Future<void> allowNotification()async{
+    _sharedPreferences.setBool(PREFS_KEY_NOTIFICATION, true);
+   }
+
+   Future<void> disAllowNotification()async{
+    _sharedPreferences.setBool(PREFS_KEY_NOTIFICATION, false);
+   }
+   
+   Future<bool> isNotificationAllowed()async{
+    return _sharedPreferences.getBool(PREFS_KEY_NOTIFICATION)??true;
+   }
+
 }
 
 

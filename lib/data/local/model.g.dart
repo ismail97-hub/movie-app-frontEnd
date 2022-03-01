@@ -25,14 +25,12 @@ class TableHistory extends SqfEntityTableBase {
     // declare properties of EntityTable
     tableName = 'History';
     primaryKeyName = 'id';
-    primaryKeyType = PrimaryKeyType.integer_auto_incremental;
+    primaryKeyType = PrimaryKeyType.integer_unique;
     useSoftDeleting = false;
     // when useSoftDeleting is true, creates a field named 'isDeleted' on the table, and set to '1' this field when item deleted (does not hard delete)
 
     // declare fields
     fields = [
-      SqfEntityFieldBase('movieId', DbType.integer,
-          isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('title', DbType.text,
           isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('image', DbType.text,
@@ -68,14 +66,12 @@ class TableFavorite extends SqfEntityTableBase {
     // declare properties of EntityTable
     tableName = 'Favorite';
     primaryKeyName = 'id';
-    primaryKeyType = PrimaryKeyType.integer_auto_incremental;
+    primaryKeyType = PrimaryKeyType.integer_unique;
     useSoftDeleting = false;
     // when useSoftDeleting is true, creates a field named 'isDeleted' on the table, and set to '1' this field when item deleted (does not hard delete)
 
     // declare fields
     fields = [
-      SqfEntityFieldBase('movieId', DbType.integer,
-          isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('title', DbType.text,
           isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('image', DbType.text,
@@ -111,15 +107,15 @@ class TableLocalCategory extends SqfEntityTableBase {
     // declare properties of EntityTable
     tableName = 'localCategory';
     primaryKeyName = 'id';
-    primaryKeyType = PrimaryKeyType.integer_auto_incremental;
+    primaryKeyType = PrimaryKeyType.integer_unique;
     useSoftDeleting = false;
     // when useSoftDeleting is true, creates a field named 'isDeleted' on the table, and set to '1' this field when item deleted (does not hard delete)
 
     // declare fields
     fields = [
-      SqfEntityFieldBase('identity', DbType.integer,
-          isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('label', DbType.text,
+          isUnique: false, isNotNull: false, isIndex: false),
+      SqfEntityFieldBase('labelEn', DbType.text,
           isUnique: false, isNotNull: false, isIndex: false),
     ];
     super.init();
@@ -136,15 +132,15 @@ class TableLocalGenre extends SqfEntityTableBase {
     // declare properties of EntityTable
     tableName = 'localGenre';
     primaryKeyName = 'id';
-    primaryKeyType = PrimaryKeyType.integer_auto_incremental;
+    primaryKeyType = PrimaryKeyType.integer_unique;
     useSoftDeleting = false;
     // when useSoftDeleting is true, creates a field named 'isDeleted' on the table, and set to '1' this field when item deleted (does not hard delete)
 
     // declare fields
     fields = [
-      SqfEntityFieldBase('identity', DbType.integer,
-          isUnique: false, isNotNull: false, isIndex: false),
       SqfEntityFieldBase('label', DbType.text,
+          isUnique: false, isNotNull: false, isIndex: false),
+      SqfEntityFieldBase('labelEn', DbType.text,
           isUnique: false, isNotNull: false, isIndex: false),
     ];
     super.init();
@@ -209,7 +205,6 @@ class MyMovieDataBase extends SqfEntityModelProvider {
 class History {
   History(
       {this.id,
-      this.movieId,
       this.title,
       this.image,
       this.rating,
@@ -223,7 +218,7 @@ class History {
     _setDefaultValues();
   }
   History.withFields(
-      this.movieId,
+      this.id,
       this.title,
       this.image,
       this.rating,
@@ -238,7 +233,6 @@ class History {
   }
   History.withId(
       this.id,
-      this.movieId,
       this.title,
       this.image,
       this.rating,
@@ -257,9 +251,6 @@ class History {
       _setDefaultValues();
     }
     id = int.tryParse(o['id'].toString());
-    if (o['movieId'] != null) {
-      movieId = int.tryParse(o['movieId'].toString());
-    }
     if (o['title'] != null) {
       title = o['title'].toString();
     }
@@ -290,10 +281,11 @@ class History {
     if (o['datepublication'] != null) {
       datepublication = o['datepublication'].toString();
     }
+
+    isSaved = true;
   }
   // FIELDS (History)
   int? id;
-  int? movieId;
   String? title;
   String? image;
   double? rating;
@@ -304,7 +296,7 @@ class History {
   String? story;
   String? source;
   String? datepublication;
-
+  bool? isSaved;
   BoolResult? saveResult;
   // end FIELDS (History)
 
@@ -322,10 +314,6 @@ class History {
     if (id != null) {
       map['id'] = id;
     }
-    if (movieId != null) {
-      map['movieId'] = movieId;
-    }
-
     if (title != null) {
       map['title'] = title;
     }
@@ -377,10 +365,6 @@ class History {
     if (id != null) {
       map['id'] = id;
     }
-    if (movieId != null) {
-      map['movieId'] = movieId;
-    }
-
     if (title != null) {
       map['title'] = title;
     }
@@ -436,7 +420,7 @@ class History {
 
   List<dynamic> toArgs() {
     return [
-      movieId,
+      id,
       title,
       image,
       rating,
@@ -453,7 +437,6 @@ class History {
   List<dynamic> toArgsWithIds() {
     return [
       id,
-      movieId,
       title,
       image,
       rating,
@@ -551,8 +534,11 @@ class History {
 
   /// <returns>Returns id
   Future<int?> save() async {
-    if (id == null || id == 0) {
-      id = await _mnHistory.insert(this);
+    if (id == null || id == 0 || !isSaved!) {
+      await _mnHistory.insert(this);
+      if (saveResult!.success) {
+        isSaved = true;
+      }
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
       await _mnHistory.update(this);
@@ -561,20 +547,11 @@ class History {
     return id;
   }
 
-  /// saveAs History. Returns a new Primary Key value of History
-
-  /// <returns>Returns a new Primary Key value of History
-  Future<int?> saveAs() async {
-    id = null;
-
-    return save();
-  }
-
   /// saveAll method saves the sent List<History> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
   static Future<List<dynamic>> saveAll(List<History> histories) async {
-    // final results = _mnHistory.saveAll('INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',histories);
+    // final results = _mnHistory.saveAll('INSERT OR REPLACE INTO History (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',histories);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
     for (final obj in histories) {
@@ -582,11 +559,6 @@ class History {
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < histories.length; i++) {
-      if (histories[i].id == null) {
-        histories[i].id = result![i] as int;
-      }
-    }
 
     return result!;
   }
@@ -598,10 +570,9 @@ class History {
   Future<int?> upsert() async {
     try {
       final result = await _mnHistory.rawInsert(
-          'INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT OR REPLACE INTO History (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
-            movieId,
             title,
             image,
             rating,
@@ -637,7 +608,7 @@ class History {
   /// Returns a BoolCommitResult
   Future<BoolCommitResult> upsertAll(List<History> histories) async {
     final results = await _mnHistory.rawInsertAll(
-        'INSERT OR REPLACE INTO History (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT OR REPLACE INTO History (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',
         histories);
     return results;
   }
@@ -674,6 +645,7 @@ class History {
   }
 
   void _setDefaultValues() {
+    isSaved = false;
     rating = rating ?? 0;
   }
   // END METHODS
@@ -1080,11 +1052,6 @@ class HistoryFilterBuilder extends SearchCriteria {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  HistoryField? _movieId;
-  HistoryField get movieId {
-    return _movieId = setField(_movieId, 'movieId', DbType.integer);
-  }
-
   HistoryField? _title;
   HistoryField get title {
     return _title = setField(_title, 'title', DbType.text);
@@ -1444,12 +1411,6 @@ class HistoryFields {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
   }
 
-  static TableField? _fMovieId;
-  static TableField get movieId {
-    return _fMovieId =
-        _fMovieId ?? SqlSyntax.setField(_fMovieId, 'movieId', DbType.integer);
-  }
-
   static TableField? _fTitle;
   static TableField get title {
     return _fTitle =
@@ -1528,7 +1489,6 @@ class HistoryManager extends SqfEntityProvider {
 class Favorite {
   Favorite(
       {this.id,
-      this.movieId,
       this.title,
       this.image,
       this.rating,
@@ -1542,7 +1502,7 @@ class Favorite {
     _setDefaultValues();
   }
   Favorite.withFields(
-      this.movieId,
+      this.id,
       this.title,
       this.image,
       this.rating,
@@ -1557,7 +1517,6 @@ class Favorite {
   }
   Favorite.withId(
       this.id,
-      this.movieId,
       this.title,
       this.image,
       this.rating,
@@ -1576,9 +1535,6 @@ class Favorite {
       _setDefaultValues();
     }
     id = int.tryParse(o['id'].toString());
-    if (o['movieId'] != null) {
-      movieId = int.tryParse(o['movieId'].toString());
-    }
     if (o['title'] != null) {
       title = o['title'].toString();
     }
@@ -1609,10 +1565,11 @@ class Favorite {
     if (o['datepublication'] != null) {
       datepublication = o['datepublication'].toString();
     }
+
+    isSaved = true;
   }
   // FIELDS (Favorite)
   int? id;
-  int? movieId;
   String? title;
   String? image;
   double? rating;
@@ -1623,7 +1580,7 @@ class Favorite {
   String? story;
   String? source;
   String? datepublication;
-
+  bool? isSaved;
   BoolResult? saveResult;
   // end FIELDS (Favorite)
 
@@ -1641,10 +1598,6 @@ class Favorite {
     if (id != null) {
       map['id'] = id;
     }
-    if (movieId != null) {
-      map['movieId'] = movieId;
-    }
-
     if (title != null) {
       map['title'] = title;
     }
@@ -1696,10 +1649,6 @@ class Favorite {
     if (id != null) {
       map['id'] = id;
     }
-    if (movieId != null) {
-      map['movieId'] = movieId;
-    }
-
     if (title != null) {
       map['title'] = title;
     }
@@ -1755,7 +1704,7 @@ class Favorite {
 
   List<dynamic> toArgs() {
     return [
-      movieId,
+      id,
       title,
       image,
       rating,
@@ -1772,7 +1721,6 @@ class Favorite {
   List<dynamic> toArgsWithIds() {
     return [
       id,
-      movieId,
       title,
       image,
       rating,
@@ -1870,8 +1818,11 @@ class Favorite {
 
   /// <returns>Returns id
   Future<int?> save() async {
-    if (id == null || id == 0) {
-      id = await _mnFavorite.insert(this);
+    if (id == null || id == 0 || !isSaved!) {
+      await _mnFavorite.insert(this);
+      if (saveResult!.success) {
+        isSaved = true;
+      }
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
       await _mnFavorite.update(this);
@@ -1880,20 +1831,11 @@ class Favorite {
     return id;
   }
 
-  /// saveAs Favorite. Returns a new Primary Key value of Favorite
-
-  /// <returns>Returns a new Primary Key value of Favorite
-  Future<int?> saveAs() async {
-    id = null;
-
-    return save();
-  }
-
   /// saveAll method saves the sent List<Favorite> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
   static Future<List<dynamic>> saveAll(List<Favorite> favorites) async {
-    // final results = _mnFavorite.saveAll('INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',favorites);
+    // final results = _mnFavorite.saveAll('INSERT OR REPLACE INTO Favorite (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',favorites);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
     for (final obj in favorites) {
@@ -1901,11 +1843,6 @@ class Favorite {
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < favorites.length; i++) {
-      if (favorites[i].id == null) {
-        favorites[i].id = result![i] as int;
-      }
-    }
 
     return result!;
   }
@@ -1917,10 +1854,9 @@ class Favorite {
   Future<int?> upsert() async {
     try {
       final result = await _mnFavorite.rawInsert(
-          'INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT OR REPLACE INTO Favorite (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
-            movieId,
             title,
             image,
             rating,
@@ -1956,7 +1892,7 @@ class Favorite {
   /// Returns a BoolCommitResult
   Future<BoolCommitResult> upsertAll(List<Favorite> favorites) async {
     final results = await _mnFavorite.rawInsertAll(
-        'INSERT OR REPLACE INTO Favorite (id,movieId, title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT OR REPLACE INTO Favorite (id,title, image, rating, quality, year, language, country, story, source, datepublication)  VALUES (?,?,?,?,?,?,?,?,?,?,?)',
         favorites);
     return results;
   }
@@ -1993,6 +1929,7 @@ class Favorite {
   }
 
   void _setDefaultValues() {
+    isSaved = false;
     rating = rating ?? 0;
   }
   // END METHODS
@@ -2399,11 +2336,6 @@ class FavoriteFilterBuilder extends SearchCriteria {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  FavoriteField? _movieId;
-  FavoriteField get movieId {
-    return _movieId = setField(_movieId, 'movieId', DbType.integer);
-  }
-
   FavoriteField? _title;
   FavoriteField get title {
     return _title = setField(_title, 'title', DbType.text);
@@ -2763,12 +2695,6 @@ class FavoriteFields {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
   }
 
-  static TableField? _fMovieId;
-  static TableField get movieId {
-    return _fMovieId =
-        _fMovieId ?? SqlSyntax.setField(_fMovieId, 'movieId', DbType.integer);
-  }
-
   static TableField? _fTitle;
   static TableField get title {
     return _fTitle =
@@ -2845,13 +2771,13 @@ class FavoriteManager extends SqfEntityProvider {
 //endregion FavoriteManager
 // region LocalCategory
 class LocalCategory {
-  LocalCategory({this.id, this.identity, this.label}) {
+  LocalCategory({this.id, this.label, this.labelEn}) {
     _setDefaultValues();
   }
-  LocalCategory.withFields(this.identity, this.label) {
+  LocalCategory.withFields(this.id, this.label, this.labelEn) {
     _setDefaultValues();
   }
-  LocalCategory.withId(this.id, this.identity, this.label) {
+  LocalCategory.withId(this.id, this.label, this.labelEn) {
     _setDefaultValues();
   }
   // fromMap v2.0
@@ -2861,18 +2787,20 @@ class LocalCategory {
       _setDefaultValues();
     }
     id = int.tryParse(o['id'].toString());
-    if (o['identity'] != null) {
-      identity = int.tryParse(o['identity'].toString());
-    }
     if (o['label'] != null) {
       label = o['label'].toString();
     }
+    if (o['labelEn'] != null) {
+      labelEn = o['labelEn'].toString();
+    }
+
+    isSaved = true;
   }
   // FIELDS (LocalCategory)
   int? id;
-  int? identity;
   String? label;
-
+  String? labelEn;
+  bool? isSaved;
   BoolResult? saveResult;
   // end FIELDS (LocalCategory)
 
@@ -2890,12 +2818,12 @@ class LocalCategory {
     if (id != null) {
       map['id'] = id;
     }
-    if (identity != null) {
-      map['identity'] = identity;
-    }
-
     if (label != null) {
       map['label'] = label;
+    }
+
+    if (labelEn != null) {
+      map['labelEn'] = labelEn;
     }
 
     return map;
@@ -2909,12 +2837,12 @@ class LocalCategory {
     if (id != null) {
       map['id'] = id;
     }
-    if (identity != null) {
-      map['identity'] = identity;
-    }
-
     if (label != null) {
       map['label'] = label;
+    }
+
+    if (labelEn != null) {
+      map['labelEn'] = labelEn;
     }
 
     return map;
@@ -2931,11 +2859,11 @@ class LocalCategory {
   }
 
   List<dynamic> toArgs() {
-    return [identity, label];
+    return [id, label, labelEn];
   }
 
   List<dynamic> toArgsWithIds() {
-    return [id, identity, label];
+    return [id, label, labelEn];
   }
 
   static Future<List<LocalCategory>?> fromWebUrl(Uri uri,
@@ -3024,8 +2952,11 @@ class LocalCategory {
 
   /// <returns>Returns id
   Future<int?> save() async {
-    if (id == null || id == 0) {
-      id = await _mnLocalCategory.insert(this);
+    if (id == null || id == 0 || !isSaved!) {
+      await _mnLocalCategory.insert(this);
+      if (saveResult!.success) {
+        isSaved = true;
+      }
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
       await _mnLocalCategory.update(this);
@@ -3034,21 +2965,12 @@ class LocalCategory {
     return id;
   }
 
-  /// saveAs LocalCategory. Returns a new Primary Key value of LocalCategory
-
-  /// <returns>Returns a new Primary Key value of LocalCategory
-  Future<int?> saveAs() async {
-    id = null;
-
-    return save();
-  }
-
   /// saveAll method saves the sent List<LocalCategory> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
   static Future<List<dynamic>> saveAll(
       List<LocalCategory> localcategories) async {
-    // final results = _mnLocalCategory.saveAll('INSERT OR REPLACE INTO localCategory (id,identity, label)  VALUES (?,?,?)',localcategories);
+    // final results = _mnLocalCategory.saveAll('INSERT OR REPLACE INTO localCategory (id,label, labelEn)  VALUES (?,?,?)',localcategories);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
     for (final obj in localcategories) {
@@ -3056,11 +2978,6 @@ class LocalCategory {
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < localcategories.length; i++) {
-      if (localcategories[i].id == null) {
-        localcategories[i].id = result![i] as int;
-      }
-    }
 
     return result!;
   }
@@ -3072,8 +2989,8 @@ class LocalCategory {
   Future<int?> upsert() async {
     try {
       final result = await _mnLocalCategory.rawInsert(
-          'INSERT OR REPLACE INTO localCategory (id,identity, label)  VALUES (?,?,?)',
-          [id, identity, label]);
+          'INSERT OR REPLACE INTO localCategory (id,label, labelEn)  VALUES (?,?,?)',
+          [id, label, labelEn]);
       if (result! > 0) {
         saveResult = BoolResult(
             success: true,
@@ -3100,7 +3017,7 @@ class LocalCategory {
   Future<BoolCommitResult> upsertAll(
       List<LocalCategory> localcategories) async {
     final results = await _mnLocalCategory.rawInsertAll(
-        'INSERT OR REPLACE INTO localCategory (id,identity, label)  VALUES (?,?,?)',
+        'INSERT OR REPLACE INTO localCategory (id,label, labelEn)  VALUES (?,?,?)',
         localcategories);
     return results;
   }
@@ -3136,7 +3053,9 @@ class LocalCategory {
       ..qparams.distinct = true;
   }
 
-  void _setDefaultValues() {}
+  void _setDefaultValues() {
+    isSaved = false;
+  }
   // END METHODS
   // BEGIN CUSTOM CODE
   /*
@@ -3559,14 +3478,14 @@ class LocalCategoryFilterBuilder extends SearchCriteria {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  LocalCategoryField? _identity;
-  LocalCategoryField get identity {
-    return _identity = setField(_identity, 'identity', DbType.integer);
-  }
-
   LocalCategoryField? _label;
   LocalCategoryField get label {
     return _label = setField(_label, 'label', DbType.text);
+  }
+
+  LocalCategoryField? _labelEn;
+  LocalCategoryField get labelEn {
+    return _labelEn = setField(_labelEn, 'labelEn', DbType.text);
   }
 
   bool _getIsDeleted = false;
@@ -3880,16 +3799,16 @@ class LocalCategoryFields {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
   }
 
-  static TableField? _fIdentity;
-  static TableField get identity {
-    return _fIdentity = _fIdentity ??
-        SqlSyntax.setField(_fIdentity, 'identity', DbType.integer);
-  }
-
   static TableField? _fLabel;
   static TableField get label {
     return _fLabel =
         _fLabel ?? SqlSyntax.setField(_fLabel, 'label', DbType.text);
+  }
+
+  static TableField? _fLabelEn;
+  static TableField get labelEn {
+    return _fLabelEn =
+        _fLabelEn ?? SqlSyntax.setField(_fLabelEn, 'labelEn', DbType.text);
   }
 }
 // endregion LocalCategoryFields
@@ -3909,13 +3828,13 @@ class LocalCategoryManager extends SqfEntityProvider {
 //endregion LocalCategoryManager
 // region LocalGenre
 class LocalGenre {
-  LocalGenre({this.id, this.identity, this.label}) {
+  LocalGenre({this.id, this.label, this.labelEn}) {
     _setDefaultValues();
   }
-  LocalGenre.withFields(this.identity, this.label) {
+  LocalGenre.withFields(this.id, this.label, this.labelEn) {
     _setDefaultValues();
   }
-  LocalGenre.withId(this.id, this.identity, this.label) {
+  LocalGenre.withId(this.id, this.label, this.labelEn) {
     _setDefaultValues();
   }
   // fromMap v2.0
@@ -3924,18 +3843,20 @@ class LocalGenre {
       _setDefaultValues();
     }
     id = int.tryParse(o['id'].toString());
-    if (o['identity'] != null) {
-      identity = int.tryParse(o['identity'].toString());
-    }
     if (o['label'] != null) {
       label = o['label'].toString();
     }
+    if (o['labelEn'] != null) {
+      labelEn = o['labelEn'].toString();
+    }
+
+    isSaved = true;
   }
   // FIELDS (LocalGenre)
   int? id;
-  int? identity;
   String? label;
-
+  String? labelEn;
+  bool? isSaved;
   BoolResult? saveResult;
   // end FIELDS (LocalGenre)
 
@@ -3953,12 +3874,12 @@ class LocalGenre {
     if (id != null) {
       map['id'] = id;
     }
-    if (identity != null) {
-      map['identity'] = identity;
-    }
-
     if (label != null) {
       map['label'] = label;
+    }
+
+    if (labelEn != null) {
+      map['labelEn'] = labelEn;
     }
 
     return map;
@@ -3972,12 +3893,12 @@ class LocalGenre {
     if (id != null) {
       map['id'] = id;
     }
-    if (identity != null) {
-      map['identity'] = identity;
-    }
-
     if (label != null) {
       map['label'] = label;
+    }
+
+    if (labelEn != null) {
+      map['labelEn'] = labelEn;
     }
 
     return map;
@@ -3994,11 +3915,11 @@ class LocalGenre {
   }
 
   List<dynamic> toArgs() {
-    return [identity, label];
+    return [id, label, labelEn];
   }
 
   List<dynamic> toArgsWithIds() {
-    return [id, identity, label];
+    return [id, label, labelEn];
   }
 
   static Future<List<LocalGenre>?> fromWebUrl(Uri uri,
@@ -4087,8 +4008,11 @@ class LocalGenre {
 
   /// <returns>Returns id
   Future<int?> save() async {
-    if (id == null || id == 0) {
-      id = await _mnLocalGenre.insert(this);
+    if (id == null || id == 0 || !isSaved!) {
+      await _mnLocalGenre.insert(this);
+      if (saveResult!.success) {
+        isSaved = true;
+      }
     } else {
       // id= await _upsert(); // removed in sqfentity_gen 1.3.0+6
       await _mnLocalGenre.update(this);
@@ -4097,20 +4021,11 @@ class LocalGenre {
     return id;
   }
 
-  /// saveAs LocalGenre. Returns a new Primary Key value of LocalGenre
-
-  /// <returns>Returns a new Primary Key value of LocalGenre
-  Future<int?> saveAs() async {
-    id = null;
-
-    return save();
-  }
-
   /// saveAll method saves the sent List<LocalGenre> as a bulk in one transaction
   ///
   /// Returns a <List<BoolResult>>
   static Future<List<dynamic>> saveAll(List<LocalGenre> localgenres) async {
-    // final results = _mnLocalGenre.saveAll('INSERT OR REPLACE INTO localGenre (id,identity, label)  VALUES (?,?,?)',localgenres);
+    // final results = _mnLocalGenre.saveAll('INSERT OR REPLACE INTO localGenre (id,label, labelEn)  VALUES (?,?,?)',localgenres);
     // return results; removed in sqfentity_gen 1.3.0+6
     await MyMovieDataBase().batchStart();
     for (final obj in localgenres) {
@@ -4118,11 +4033,6 @@ class LocalGenre {
     }
     //    return MyMovieDataBase().batchCommit();
     final result = await MyMovieDataBase().batchCommit();
-    for (int i = 0; i < localgenres.length; i++) {
-      if (localgenres[i].id == null) {
-        localgenres[i].id = result![i] as int;
-      }
-    }
 
     return result!;
   }
@@ -4134,8 +4044,8 @@ class LocalGenre {
   Future<int?> upsert() async {
     try {
       final result = await _mnLocalGenre.rawInsert(
-          'INSERT OR REPLACE INTO localGenre (id,identity, label)  VALUES (?,?,?)',
-          [id, identity, label]);
+          'INSERT OR REPLACE INTO localGenre (id,label, labelEn)  VALUES (?,?,?)',
+          [id, label, labelEn]);
       if (result! > 0) {
         saveResult = BoolResult(
             success: true,
@@ -4160,7 +4070,7 @@ class LocalGenre {
   /// Returns a BoolCommitResult
   Future<BoolCommitResult> upsertAll(List<LocalGenre> localgenres) async {
     final results = await _mnLocalGenre.rawInsertAll(
-        'INSERT OR REPLACE INTO localGenre (id,identity, label)  VALUES (?,?,?)',
+        'INSERT OR REPLACE INTO localGenre (id,label, labelEn)  VALUES (?,?,?)',
         localgenres);
     return results;
   }
@@ -4196,7 +4106,9 @@ class LocalGenre {
       ..qparams.distinct = true;
   }
 
-  void _setDefaultValues() {}
+  void _setDefaultValues() {
+    isSaved = false;
+  }
   // END METHODS
   // BEGIN CUSTOM CODE
   /*
@@ -4603,14 +4515,14 @@ class LocalGenreFilterBuilder extends SearchCriteria {
     return _id = setField(_id, 'id', DbType.integer);
   }
 
-  LocalGenreField? _identity;
-  LocalGenreField get identity {
-    return _identity = setField(_identity, 'identity', DbType.integer);
-  }
-
   LocalGenreField? _label;
   LocalGenreField get label {
     return _label = setField(_label, 'label', DbType.text);
+  }
+
+  LocalGenreField? _labelEn;
+  LocalGenreField get labelEn {
+    return _labelEn = setField(_labelEn, 'labelEn', DbType.text);
   }
 
   bool _getIsDeleted = false;
@@ -4921,16 +4833,16 @@ class LocalGenreFields {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
   }
 
-  static TableField? _fIdentity;
-  static TableField get identity {
-    return _fIdentity = _fIdentity ??
-        SqlSyntax.setField(_fIdentity, 'identity', DbType.integer);
-  }
-
   static TableField? _fLabel;
   static TableField get label {
     return _fLabel =
         _fLabel ?? SqlSyntax.setField(_fLabel, 'label', DbType.text);
+  }
+
+  static TableField? _fLabelEn;
+  static TableField get labelEn {
+    return _fLabelEn =
+        _fLabelEn ?? SqlSyntax.setField(_fLabelEn, 'labelEn', DbType.text);
   }
 }
 // endregion LocalGenreFields

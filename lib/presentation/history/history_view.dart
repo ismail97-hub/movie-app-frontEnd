@@ -78,7 +78,7 @@ class _HistoryViewState extends State<HistoryView> {
           crossAxisCount: 2,
           childAspectRatio: 4 / 7,
           children: histories.reversed.map((history) => HistoryGridItem(history, onTap: (){
-            Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: history.movieId).then((value) {_bind();});
+            Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: history.id).then((value) {_bind();});
           })).toList(),
         ),
       );

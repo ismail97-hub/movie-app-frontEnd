@@ -8,6 +8,7 @@ import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
+import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/splashScreen/splash_viewmodel.dart';
@@ -74,7 +75,7 @@ class _SplashViewState extends State<SplashView> {
           SizedBox(height:20),
           Text(
             "MOVCIMA",
-            style: getBoldStyle(color: ColorManager.secondary, fontSize: 30),
+            style: getBoldStyle(color: ColorManager.secondary, fontSize: FontSize.s30),
           ),
         ],
       ),
