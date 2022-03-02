@@ -163,12 +163,12 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           // quality and category
           InfoText(
             info1: movie.quality,
-            info2: movie.category.label,
+            info2: movie.category.labelEn,
             onTap2: () {
               Navigator.pushNamed(context, Routes.movieListRoute,
                   arguments: MovieListArgs(
                       "${Endpoints.category}/${movie.category.id}",
-                      movie.category.label));
+                      movie.category.labelEn));
             },
           ),
           // language and country

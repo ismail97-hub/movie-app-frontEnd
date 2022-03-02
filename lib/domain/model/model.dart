@@ -1,16 +1,17 @@
 class BaseType {
   int id;
   String label;
+  String labelEn;
 
-  BaseType(this.id, this.label);
+  BaseType(this.id, this.label,this.labelEn);
 }
 
 class Category extends BaseType {
-  Category(int id, String label) : super(id, label);
+  Category(int id, String label,String labelEn) : super(id, label,labelEn);
 }
 
 class Genre extends BaseType {
-  Genre(int id, String label) : super(id, label);
+  Genre(int id, String label,String labelEn) : super(id, label,labelEn);
 }
 
 class Movie {

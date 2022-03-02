@@ -9,6 +9,9 @@ class BaseTypeResponse {
 
   @JsonKey(name: "label")
   String? label;
+
+  @JsonKey(name: "labelEn")
+  String? labelEn;
 }
 
 @JsonSerializable()

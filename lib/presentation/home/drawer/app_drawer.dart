@@ -67,12 +67,15 @@ class AppDrawer extends StatelessWidget {
                         AppStrings.favorites,
                         IconManager.favorite,
                         () => _goNext(context, Routes.favoritesRoute)),
-                    _getListTile(context, AppStrings.history,
-                        IconManager.history, () => _goNext(context, Routes.historyRoute)),
-                    _getListTile(context, AppStrings.settings,
-                        IconManager.settings, () {
-                          _goNext(context, Routes.settingsRoute);
-                        }),
+                    _getListTile(
+                        context,
+                        AppStrings.history,
+                        IconManager.history,
+                        () => _goNext(context, Routes.historyRoute)),
+                    _getListTile(
+                        context, AppStrings.settings, IconManager.settings, () {
+                      _goNext(context, Routes.settingsRoute);
+                    }),
                     _getListTile(context, AppStrings.contactUs,
                         IconManager.contactUs, () {}),
                     _getListTile(
@@ -117,7 +120,8 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  showTypesPopUp(BuildContext context, String title, List<TypeObject> types, String endPoint) async {
+  showTypesPopUp(BuildContext context, String title, List<TypeObject> types,
+      String endPoint) async {
     await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -129,11 +133,17 @@ class AppDrawer extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   children: types
                       .map((type) => ListTile(
-                            title: Text(type.label),
-                            trailing: Icon(IconManager.arrowForward,color: ColorManager.white,size: AppSize.s15,),
-                            onTap: (){ _goNext(context, Routes.movieListRoute,
-                                args: MovieListArgs(
-                                    "$endPoint/${type.id}", type.label));},
+                            title: Text(type.labelEn),
+                            trailing: Icon(
+                              IconManager.arrowForward,
+                              color: ColorManager.white,
+                              size: AppSize.s15,
+                            ),
+                            onTap: () {
+                              _goNext(context, Routes.movieListRoute,
+                                  args: MovieListArgs(
+                                      "$endPoint/${type.id}", type.labelEn));
+                            },
                           ))
                       .toList()));
         });
@@ -143,14 +153,17 @@ class AppDrawer extends StatelessWidget {
 class TypeObject {
   int id;
   String label;
+  String labelEn;
 
-  TypeObject(this.id, this.label);
+  TypeObject(this.id, this.label, this.labelEn);
 }
 
 extension LocalCategoryExtension on List<LocalCategory>? {
   List<TypeObject> toTypeObject() {
     List<TypeObject>? types = (this?.map((category) => TypeObject(
-                category.id ?? ZERO, category.label ?? EMPTY)) ??
+                category.id ?? ZERO,
+                category.label ?? EMPTY,
+                category.labelEn ?? EMPTY)) ??
             Iterable.empty())
         .cast<TypeObject>()
         .toList();
@@ -160,8 +173,8 @@ extension LocalCategoryExtension on List<LocalCategory>? {
 
 extension LocalGenreExtension on List<LocalGenre>? {
   List<TypeObject> toTypeObject() {
-    List<TypeObject>? types = (this?.map((genre) =>
-                TypeObject(genre.id ?? ZERO, genre.label ?? EMPTY)) ??
+    List<TypeObject>? types = (this?.map((genre) => TypeObject(genre.id ?? ZERO,
+                genre.label ?? EMPTY, genre.labelEn ?? EMPTY)) ??
             Iterable.empty())
         .cast<TypeObject>()
         .toList();

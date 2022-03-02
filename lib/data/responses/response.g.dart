@@ -9,37 +9,43 @@ part of 'response.dart';
 BaseTypeResponse _$BaseTypeResponseFromJson(Map<String, dynamic> json) {
   return BaseTypeResponse()
     ..id = json['id'] as int?
-    ..label = json['label'] as String?;
+    ..label = json['label'] as String?
+    ..labelEn = json['labelEn'] as String?;
 }
 
 Map<String, dynamic> _$BaseTypeResponseToJson(BaseTypeResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,
+      'labelEn': instance.labelEn,
     };
 
 GenreResponse _$GenreResponseFromJson(Map<String, dynamic> json) {
   return GenreResponse()
     ..id = json['id'] as int?
-    ..label = json['label'] as String?;
+    ..label = json['label'] as String?
+    ..labelEn = json['labelEn'] as String?;
 }
 
 Map<String, dynamic> _$GenreResponseToJson(GenreResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,
+      'labelEn': instance.labelEn,
     };
 
 CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) {
   return CategoryResponse()
     ..id = json['id'] as int?
-    ..label = json['label'] as String?;
+    ..label = json['label'] as String?
+    ..labelEn = json['labelEn'] as String?;
 }
 
 Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,
+      'labelEn': instance.labelEn,
     };
 
 MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) {

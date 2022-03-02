@@ -43,6 +43,7 @@ extension LocalCategoryExtension on Category? {
     LocalCategory localCategory = LocalCategory();
     localCategory.id = this?.id;
     localCategory.label = this?.label;
+    localCategory.labelEn = this?.labelEn;
     return localCategory;
   }
 }
@@ -52,6 +53,7 @@ extension LocalGenreExtension on Genre? {
     LocalGenre localGenre = LocalGenre();
     localGenre.id= this?.id;
     localGenre.label = this?.label;
+    localGenre.labelEn = this?.labelEn;
     return localGenre;
   }
 }

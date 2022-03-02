@@ -24,7 +24,7 @@ class TagItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Navigator.pushNamed(context, Routes.movieListRoute,arguments: MovieListArgs("${Endpoints.genre}/${genre.id}",genre.label));
+        Navigator.pushNamed(context, Routes.movieListRoute,arguments: MovieListArgs("${Endpoints.genre}/${genre.id}",genre.labelEn));
       },
       child: Padding(
         padding: padding,
@@ -38,7 +38,7 @@ class TagItem extends StatelessWidget {
           // color: ColorManager.white.withOpacity(0.1),
           child: Center(
             child: Text(
-              genre.label,
+              genre.labelEn,
               style: getRegularStyle(fontSize: FontSize.s12, color: ColorManager.white.withOpacity(0.8)),
             ),
           ),

@@ -10,13 +10,18 @@ const ZERODOUBLE = 0.0;
 extension CategoryResponseMapper on CategoryResponse? {
   Category toDomain() {
     return Category(
-        this?.id?.orZero() ?? ZERO, this?.label?.orEmpty() ?? EMPTY);
+        this?.id?.orZero() ?? ZERO, 
+        this?.label?.orEmpty() ?? EMPTY,
+        this?.labelEn.orEmpty()??EMPTY);
   }
 }
 
 extension GenreResponseMapper on GenreResponse? {
   Genre toDomain() {
-    return Genre(this?.id?.orZero() ?? ZERO, this?.label?.orEmpty() ?? EMPTY);
+    return Genre(
+      this?.id?.orZero() ?? ZERO, 
+      this?.label?.orEmpty() ?? EMPTY,
+      this?.labelEn.orEmpty() ?? EMPTY);
   }
 }
 
