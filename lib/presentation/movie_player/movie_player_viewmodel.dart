@@ -33,17 +33,17 @@ class MoviePlayerViewModel extends BaseViewModel
     _timer?.cancel();
     _backTimer?.cancel();
     _isPageFinishedstreamController.close();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
   @override
   Future<bool> onWillPop() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     inputIsPageFinished.add(false);
-    return Future.delayed(const Duration(milliseconds: 1000), () => true);
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    return Future.delayed(const Duration(milliseconds: 500), () => true);
   }
 
   @override
