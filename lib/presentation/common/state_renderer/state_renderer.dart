@@ -6,6 +6,7 @@ import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum StateRendererType {
   // POPUP STATES
@@ -81,7 +82,7 @@ class StateRenderer extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(AppPadding.p18),
         child: Text(
-          message,
+          message.tr(),
           textAlign: TextAlign.center,
           style:
               getMediumStyle(fontSize: FontSize.s16, color: color??ColorManager.white),
@@ -131,7 +132,7 @@ class StateRenderer extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(primary: ColorManager.secondary),
             onPressed: (){retryActionFunction?.call(); },
-            child: Text(AppStrings.retryAgain,style: getSemiBoldStyle(color: ColorManager.white),),
+            child: Text(AppStrings.retryAgain.tr(),style: getSemiBoldStyle(color: ColorManager.white),),
           ),
         ),
       ),

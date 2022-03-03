@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/data/local/model.dart';
-import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:movieapp/presentation/favorites/components/favorite_grid_item.dart';
-import 'package:movieapp/presentation/favorites/components/favorite_list_item.dart';
 import 'package:movieapp/presentation/favorites/favorites_viewmodel.dart';
-import 'package:movieapp/presentation/movie_list/components/grid_item.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FavoritesView extends StatefulWidget {
   const FavoritesView({Key? key}) : super(key: key);
@@ -44,7 +42,7 @@ class _FavoritesViewState extends State<FavoritesView> {
     return Scaffold(
       backgroundColor: ColorManager.primary,
       appBar: AppBar(
-        title: Text(AppStrings.favorites),
+        title: Text(AppStrings.favorites.tr()),
         elevation: AppSize.s4,
         actions: [IconButton(onPressed: () {}, icon: Icon(IconManager.info))],
       ),

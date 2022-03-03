@@ -11,6 +11,7 @@ import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HistoryView extends StatefulWidget {
   const HistoryView({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _HistoryViewState extends State<HistoryView> {
     return Scaffold(
       backgroundColor: ColorManager.primary,
       appBar: AppBar(
-        title: Text(AppStrings.history),
+        title: Text(AppStrings.history.tr()),
         elevation: AppSize.s4,
         actions: [IconButton(onPressed: () {}, icon: Icon(IconManager.info))],
       ),

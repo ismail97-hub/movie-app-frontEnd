@@ -7,8 +7,11 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
+import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
+import 'package:movieapp/presentation/ressources/values_manager.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 Future<DeviceInfo> getDeviceDetails() async {
   String name = "Unknown";
@@ -34,7 +37,7 @@ Future<DeviceInfo> getDeviceDetails() async {
 showSnackBar(BuildContext context,String content) {
   final snackBar = SnackBar(
     backgroundColor: ColorManager.secondary,
-    content: Text(content,style: getMediumStyle(color: ColorManager.black),),
+    content: Text(content.tr(),style: getMediumStyle(color: ColorManager.black),),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
@@ -47,6 +50,18 @@ Future<bool> isPhonePermissionGaranted() async {
   } else {
     return Future.value(false);
   }
+}
+
+bool isArabic(BuildContext context){
+  return context.locale==ARABIC_LOCAL;
+} 
+
+EdgeInsets paddingTr(BuildContext context,{required double padding,double? top,double? bottom}){
+  return EdgeInsets.only(   
+            top: top??AppPadding.p0,
+            bottom: bottom??AppPadding.p0,
+            left:isArabic(context)?AppPadding.p0:padding,
+            right: isArabic(context)?padding:AppPadding.p0);
 }
 
 bool isRTL(String text) {

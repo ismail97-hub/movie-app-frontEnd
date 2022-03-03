@@ -14,25 +14,28 @@ AppBar detailsAppBar(
   return AppBar(
     backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
-    leadingWidth: AppSize.s46,
+    leadingWidth: AppSize.s58,
     leading: Padding(
-      padding: EdgeInsets.only(left: AppPadding.p6),
-      child: CircleAvatar(
-        radius: AppSize.s40,
-        backgroundColor: ColorManager.black.withOpacity(0.3),
-        child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              IconManager.back,
-              color: ColorManager.secondary,
-            )),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p8),
+      child: SizedBox(
+        width: AppSize.s40,
+        child: CircleAvatar(
+          radius: AppSize.s40,
+          backgroundColor: ColorManager.black.withOpacity(0.3),
+          child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                IconManager.back,
+                color: ColorManager.secondary,
+              )),
+        ),
       ),
     ),
     actions: [
       Padding(
-        padding: EdgeInsets.only(right: AppPadding.p8),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.p8),
         child: StreamBuilder<IconData>(
             stream: viewModel.outputFavoriteIcon,
             builder: (context, snapshot) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
+import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 
 class TitleYearItem extends StatelessWidget {
@@ -26,7 +28,7 @@ class TitleYearItem extends StatelessWidget {
     return RichText(
       text: TextSpan(children: [
         TextSpan(
-          text: title + " ",
+          text: title + "  ",
           style: Theme.of(context).textTheme.headline1,
         ),
         WidgetSpan(

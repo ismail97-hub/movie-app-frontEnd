@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/app_prefs.dart';
+import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/font_manager.dart';
+import 'package:movieapp/presentation/ressources/language_manager.dart';
+import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 import 'package:movieapp/presentation/settings/settings_viewmodel.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -33,7 +38,7 @@ class _SettingsViewState extends State<SettingsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text(AppStrings.settings.tr()),
         elevation: AppSize.s4,
       ),
       backgroundColor: ColorManager.primary,
@@ -50,11 +55,14 @@ class _SettingsViewState extends State<SettingsView> {
               ),
               sections: [
                 SettingsSection(
-                  title: Text('Common'),
+                  title: Text(AppStrings.common.tr()),
                   tiles: <SettingsTile>[
                     SettingsTile.navigation(
-                      title: Text('Language'),
-                      value: Text('English'),
+                      title: Text(AppStrings.language.tr()),
+                      value: Text(AppStrings.lang.tr()),
+                      onPressed: (context) {
+                        _viewModel.changeLanguage(context);
+                      },
                     ),
                     SettingsTile.switchTile(
                       onToggle: (value) {
@@ -62,33 +70,37 @@ class _SettingsViewState extends State<SettingsView> {
                       },
                       initialValue: isNotificationAllowed,
                       activeSwitchColor: ColorManager.secondary,
-                      title: Text('Notification'),
+                      title: Text(AppStrings.notification.tr()),
                     ),
                   ],
                 ),
                 SettingsSection(
-                  title: Text('Cache'),
+                  title: Text(AppStrings.cache.tr()),
                   tiles: <SettingsTile>[
                     SettingsTile.navigation(
-                      title: Text('Favorite'),
-                      trailing: _cacheTrailing(onPressed: (){_viewModel.deleteFavorite(context);}),
+                      title: Text(AppStrings.favorites.tr()),
+                      trailing: _cacheTrailing(onPressed: () {
+                        _viewModel.deleteFavorite(context);
+                      }),
                     ),
                     SettingsTile.navigation(
-                      title: Text('History'),
-                      trailing:_cacheTrailing(onPressed: (){_viewModel.deleteHistory(context);}),
+                      title: Text(AppStrings.history.tr()),
+                      trailing: _cacheTrailing(onPressed: () {
+                        _viewModel.deleteHistory(context);
+                      }),
                     ),
                   ],
                 ),
                 SettingsSection(
-                  title: Text('About'),
+                  title: Text(AppStrings.about.tr()),
                   tiles: <SettingsTile>[
                     SettingsTile.navigation(
-                      title: Text('Visit site'),
-                      value: Text('https://www.movcima.com'),
+                      title: Text(AppStrings.visitSite.tr()),
+                      value: Text(Constant.site),
                     ),
                     SettingsTile.navigation(
-                      title: Text('Version'),
-                      value: Text('1.0.0'),
+                      title: Text(AppStrings.Version.tr()),
+                      value: Text(Constant.version),
                     ),
                   ],
                 ),
@@ -99,15 +111,14 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   Widget _cacheTrailing({required Function onPressed}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: AppPadding.p6),
-      child: TextButton(
-          onPressed: () {onPressed.call();},
-          child: Text(
-            "delete",
-            style: getMediumStyle(
-                color: ColorManager.secondary, fontSize: FontSize.s12),
-          )),
-    );
+    return TextButton(
+        onPressed: () {
+          onPressed.call();
+        },
+        child: Text(
+          AppStrings.delete.tr(),
+          style: getMediumStyle(
+              color: ColorManager.secondary, fontSize: FontSize.s12),
+        ));
   }
 }

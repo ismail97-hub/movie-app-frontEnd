@@ -5,6 +5,7 @@ import 'package:movieapp/app/di.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_appbar/state_appbar_impl.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/horizontal_list.dart';
 import 'package:movieapp/presentation/home/drawer/app_drawer.dart';
 import 'package:movieapp/presentation/components/horizontal_list_item.dart';
 import 'package:movieapp/presentation/home/components/movie_carousel.dart';
@@ -17,7 +18,7 @@ import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'home_enum.dart';
 
 class HomeView extends StatefulWidget {
@@ -129,14 +130,14 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            title,
+            title.tr(),
             style: getBoldStyle(
                 fontSize: FontSize.s15, color: ColorManager.secondary),
           ),
           InkWell(
             onTap: onTap,
             child: Text(
-              AppStrings.viewAll,
+              AppStrings.viewAll.tr(),
               style: getSemiBoldStyle(
                   color: ColorManager.white.withOpacity(0.8),
                   fontSize: AppSize.s12),
@@ -168,14 +169,8 @@ class _HomeViewState extends State<HomeView> {
     List<Movie> movies,
   ) {
     return Container(
-      height: AppSize.s250,
-      margin: EdgeInsets.only(left: AppMargin.m15, bottom: AppMargin.m20),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children: movies.map((movie) => HorizontalListmovie(movie)).toList(),
-      ),
+      margin: EdgeInsets.only(bottom: AppMargin.m20),
+      child: HorizontalList(movies)
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum StateAppBarType { NORMAL_APPBAR, SEARCH_APPBAR }
 
@@ -31,7 +32,7 @@ AppBar searchAppBar(Function() onPressed,Function() onBack,Function(String) onSu
       cursorColor: ColorManager.secondary,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: AppStrings.searchHint,
+        hintText: AppStrings.searchHint.tr(),
         hintStyle: getRegularStyle(color: ColorManager.grey1,fontSize: FontSize.s18)
       ),
     ),

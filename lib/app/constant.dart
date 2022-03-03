@@ -4,6 +4,8 @@ class Constant {
   static const String paginationEndPoint = "?page=";
   static const String client = "client";
   static const String topic = "newMovie";
+  static const String site = "http://www.movcima.com";
+  static const String version = "1.0.0";
 }
 
 class Endpoints {

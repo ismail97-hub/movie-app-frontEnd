@@ -6,10 +6,11 @@ import 'package:movieapp/presentation/home/drawer/app_drawer_header.dart';
 import 'package:movieapp/presentation/home/home_viewmodel.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
+import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
-import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AppDrawer extends StatelessWidget {
   final HomeViewModel viewModel;
@@ -37,14 +38,14 @@ class AppDrawer extends StatelessWidget {
                         IconManager.top,
                         () => _goNext(context, Routes.movieListRoute,
                             args: MovieListArgs(
-                                Endpoints.top, AppStrings.topMovies))),
+                                Endpoints.top, AppStrings.topMovies.tr()))),
                     _getListTile(
                         context,
                         AppStrings.newMovies,
                         IconManager.neW,
                         () => _goNext(context, Routes.movieListRoute,
                             args: MovieListArgs(
-                                Endpoints.neW, AppStrings.newMovies))),
+                                Endpoints.neW, AppStrings.newMovies.tr()))),
                     _getListTile(
                         context, AppStrings.byCategory, IconManager.category,
                         () async {
@@ -80,6 +81,7 @@ class AppDrawer extends StatelessWidget {
                         IconManager.contactUs, () {}),
                     _getListTile(
                         context, AppStrings.share, IconManager.share, () {}),
+                    SizedBox(height: AppSize.s30)    
                   ],
                 ),
               ),
@@ -115,7 +117,7 @@ class AppDrawer extends StatelessWidget {
 
   Widget _getTitle(BuildContext context, String title) {
     return Text(
-      title,
+      title.tr(),
       style: Theme.of(context).textTheme.headline5,
     );
   }
@@ -127,25 +129,26 @@ class AppDrawer extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
               backgroundColor: ColorManager.primary,
-              title: Text(title),
+              title: Text(title.tr()),
               content: ListView(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  children: types
-                      .map((type) => ListTile(
-                            title: Text(type.labelEn),
-                            trailing: Icon(
-                              IconManager.arrowForward,
-                              color: ColorManager.white,
-                              size: AppSize.s15,
-                            ),
-                            onTap: () {
-                              _goNext(context, Routes.movieListRoute,
-                                  args: MovieListArgs(
-                                      "$endPoint/${type.id}", type.labelEn));
-                            },
-                          ))
-                      .toList()));
+                  children: types.map((type) {
+                    String label = context.locale==ARABIC_LOCAL?type.label:type.labelEn;
+                    return ListTile(
+                      title: Text(label),
+                      trailing: Icon(
+                        IconManager.arrowForward,
+                        color: ColorManager.white,
+                        size: AppSize.s15,
+                      ),
+                      onTap: () {
+                        _goNext(context, Routes.movieListRoute,
+                            args: MovieListArgs(
+                                "$endPoint/${type.id}",label));
+                      },
+                    );
+                  }).toList()));
         });
   }
 }

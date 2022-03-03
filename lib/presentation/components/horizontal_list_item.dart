@@ -8,10 +8,8 @@ import 'package:movieapp/presentation/ressources/values_manager.dart';
 class HorizontalListmovie extends StatelessWidget {
   final Movie movie;
   final double width;
-  final EdgeInsets padding;
   const HorizontalListmovie(this.movie,{Key? key,double? width, EdgeInsets? padding}) : 
       width = width ?? AppSize.s150,
-      padding = padding ?? const EdgeInsets.only(right: AppPadding.p10),
       super(key: key);
 
   @override
@@ -20,8 +18,7 @@ class HorizontalListmovie extends StatelessWidget {
       onTap: (){
         Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: movie.id);
       },
-      child: Container(
-        padding: padding,
+      child: SizedBox(
         width: width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

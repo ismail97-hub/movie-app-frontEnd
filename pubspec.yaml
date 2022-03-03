@@ -112,6 +112,7 @@ flutter:
     - assets/json/favorite.json
     - assets/json/history.json
     - assets/images/logo.png
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

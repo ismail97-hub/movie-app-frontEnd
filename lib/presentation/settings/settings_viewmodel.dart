@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/presentation/base/base_viewmodel.dart';
+import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:rxdart/subjects.dart';
 
 class SettingsViewModel extends BaseViewModel
@@ -41,17 +43,23 @@ class SettingsViewModel extends BaseViewModel
     inputIsNotificaitonAllowed.add(value);
   }
 
-    @override
+  @override
+  changeLanguage(BuildContext context) {
+    _appPreferences.setLanguageChanged();
+    Phoenix.rebirth(context); 
+  }
+
+  @override
   deleteFavorite(BuildContext context)async {
     await Favorite().select().delete().then((value) {
-      showSnackBar(context, "your favorite is now empty");
+      showSnackBar(context, AppStrings.deleteFavoriteMessage);
     });
   }
 
   @override
   deleteHistory(BuildContext context) async{
     await History().select().delete().then((value) {
-      showSnackBar(context, "your history is now empty");
+      showSnackBar(context, AppStrings.deleteHistoryMessage);
     });
   } 
 
@@ -77,6 +85,7 @@ class SettingsViewModel extends BaseViewModel
 }
 
 abstract class SettingsViewModelInput {
+  changeLanguage(BuildContext context);
   onNotificationToggle(bool value);
   deleteFavorite(BuildContext context);
   deleteHistory(BuildContext context);

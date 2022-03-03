@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/horizontal_list.dart';
 import 'package:movieapp/presentation/components/horizontal_list_item.dart';
 import 'package:movieapp/presentation/components/movie_image_item.dart';
 import 'package:movieapp/presentation/components/tag_item.dart';
@@ -17,10 +19,12 @@ import 'package:movieapp/presentation/movie_details/movie_details_viewmodel.dart
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
+import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MovieDetailsView extends StatefulWidget {
   final int id;
@@ -101,7 +105,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           ),
           detailsAppBar(context: context, viewModel: _viewModel, movie: movie),
           Container(
-            margin: EdgeInsets.only(top:AppSize.s160, left: AppPadding.p20),
+            margin: EdgeInsets.only(top:AppSize.s160),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -109,7 +113,8 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: SizedBox(
+                      child: Container(
+                          padding: paddingTr(context, padding: AppPadding.p20),
                           height: width > AppSize.s600?AppSize.s550:AppSize.s250,
                           child: MovieImageItem(image: movie.image)),
                     ),
@@ -149,8 +154,9 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   }
 
   Widget _getMetaSection(Movie movie) {
+    String categoryLabel = context.locale == ARABIC_LOCAL?movie.category.label:movie.category.labelEn;
     return Container(
-      padding: EdgeInsets.only(right: AppPadding.p20),
+      padding:paddingTr(context, padding: AppPadding.p20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -163,12 +169,12 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
           // quality and category
           InfoText(
             info1: movie.quality,
-            info2: movie.category.labelEn,
+            info2: categoryLabel,
             onTap2: () {
               Navigator.pushNamed(context, Routes.movieListRoute,
                   arguments: MovieListArgs(
                       "${Endpoints.category}/${movie.category.id}",
-                      movie.category.labelEn));
+                     categoryLabel));
             },
           ),
           // language and country
@@ -201,21 +207,14 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // related section title
-          _getSection(AppStrings.related),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal:AppPadding.p20),
+            child: _getSection(AppStrings.related),
+          ),
           SizedBox(
             height: AppPadding.p15,
           ),
-          SizedBox(
-            height: AppSize.s250,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              children: relatedMovies
-                  .map((movie) => HorizontalListmovie(movie))
-                  .toList(),
-            ),
-          ),
+          HorizontalList(relatedMovies,aroundSpace: AppSize.s10,)
         ],
       );
     } else {
@@ -225,7 +224,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
 
   Widget _getSection(String title) {
     return Text(
-      title,
+      title.tr(),
       style:
           getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary),
     );
