@@ -38,6 +38,7 @@
   "Version":"version",
   "delete_favorite_message":"your favorite is now empty",
   "delete_history_message":"your history is now empty",
+  "url_luncher_error":"some thing went wrong",
   "success": "success",
   "bad_request_error": "bad request. try again later",
   "forbidden_error": "forbidden request. try again later",

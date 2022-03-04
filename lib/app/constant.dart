@@ -4,8 +4,12 @@ class Constant {
   static const String paginationEndPoint = "?page=";
   static const String client = "client";
   static const String topic = "newMovie";
+  static const String instagramUrl = "https://www.instagram.com/movcima/";
+  static const String facebookUrl = "https://www.facebook.com/Live-sports-101766254669401";
+  static const String twitterUrl = "https://twitter.com/movcima1";
   static const String site = "http://www.movcima.com";
   static const String version = "1.0.0";
+  static const String shareText = "Free movies!!!  http://www.movcima.com";
 }
 
 class Endpoints {

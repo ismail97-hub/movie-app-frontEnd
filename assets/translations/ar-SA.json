@@ -38,6 +38,7 @@
   "Version":"الإصدار",
   "delete_favorite_message":"المفضلة لديك الآن فارغة",
   "delete_history_message":"سجل مشاهدتك فارغ الآن",
+  "url_luncher_error":"حدث خطأ ما",
   "success": "تم النجاح",
   "bad_request_error": "طلب غير صالح. حاول مرة أخرى لاحقًا",
   "forbidden_error": "طلب محظور. حاول مرة أخرى لاحقًا",

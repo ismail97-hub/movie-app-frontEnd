@@ -17,8 +17,8 @@ class TagItem extends StatelessWidget {
   final double radius;
   final double padding;
   const TagItem(this.genre,{Key? key,double? width,double? height,double? radius,double? padding}) : 
-    height = height ?? AppSize.s30,
-    width = width ?? AppSize.s80,
+    height = height ?? AppSize.s40,
+    width = width ?? AppSize.s90,
     radius = radius ?? AppSize.s10,
     padding = padding ?? AppPadding.p8,
     super(key: key);
@@ -35,17 +35,18 @@ class TagItem extends StatelessWidget {
           right:isArabic(context)?AppPadding.p0:padding,
           left: isArabic(context)?padding:AppPadding.p0),
         child: Container(
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(color: ColorManager.secondary,width: AppSize.s0_5)
           ),
-          width: width,
+          // width: width,
           height: height,
           // color: ColorManager.white.withOpacity(0.1),
           child: Center(
             child: Text(
               genreLabel,
-              style: getRegularStyle(fontSize: FontSize.s12, color: ColorManager.white.withOpacity(0.8)),
+              style: getRegularStyle(fontSize: FontSize.s11, color: ColorManager.white.withOpacity(0.8)),
             ),
           ),
         ),

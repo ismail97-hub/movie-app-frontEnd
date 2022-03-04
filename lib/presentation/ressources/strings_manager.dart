@@ -51,6 +51,8 @@ class AppStrings {
   static const String deleteFavoriteMessage="delete_favorite_message";
   static const String deleteHistoryMessage="delete_history_message";
 
+  static const String urlLuncherError="url_luncher_error";
+
   // error handler
   static const String success = "success";
   static const String badRequestError = "bad_request_error";

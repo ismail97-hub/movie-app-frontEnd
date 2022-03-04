@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:movieapp/app/constant.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
@@ -39,15 +41,15 @@ class AppDrawerHeader extends StatelessWidget {
                   _getWebsiteWidget(context),
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     _getSocialMediaWidget(context, IconManager.facebook, () {
-                      // customLaunch(Constant.facebookUrl);
+                      customLaunch(Constant.facebookUrl);
                     }),
                     SizedBox(width: AppSize.s15),
                     _getSocialMediaWidget(context, IconManager.twitter, () {
-                      // customLaunch(Constant.goToSalhi);
+                      customLaunch(Constant.twitterUrl);
                     }),
                     SizedBox(width: AppSize.s15),
                     _getSocialMediaWidget(context, IconManager.instagram, () {
-                      // customLaunch(Constant.instagramUrl);
+                      customLaunch(Constant.instagramUrl);
                     }),
                   ])
                 ],
@@ -60,19 +62,24 @@ class AppDrawerHeader extends StatelessWidget {
   }
 
   Widget _getWebsiteWidget(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: AppPadding.p3),
-          child: Icon(IconManager.link, size: AppSize.s12,color: ColorManager.white),
-        ),
-        SizedBox(width: AppSize.s3),
-        Text(
-          "www.movcima.com",
-          style: Theme.of(context).textTheme.headline6,
-        )
-      ],
+    return InkWell(
+      onTap: (){
+        customLaunch(Constant.site);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: AppPadding.p3),
+            child: Icon(IconManager.link, size: AppSize.s12,color: ColorManager.white),
+          ),
+          SizedBox(width: AppSize.s3),
+          Text(
+            "www.movcima.com",
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
+      ),
     );
   }
 

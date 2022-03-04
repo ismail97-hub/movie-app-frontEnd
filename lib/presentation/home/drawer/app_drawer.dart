@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/constant.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/presentation/home/drawer/app_drawer_header.dart';
@@ -77,10 +78,12 @@ class AppDrawer extends StatelessWidget {
                         context, AppStrings.settings, IconManager.settings, () {
                       _goNext(context, Routes.settingsRoute);
                     }),
-                    _getListTile(context, AppStrings.contactUs,
-                        IconManager.contactUs, () {}),
+                    // _getListTile(context, AppStrings.contactUs,
+                    //     IconManager.contactUs, () {}),
                     _getListTile(
-                        context, AppStrings.share, IconManager.share, () {}),
+                        context, AppStrings.share, IconManager.share, () {
+                          share();
+                        }),
                     SizedBox(height: AppSize.s30)    
                   ],
                 ),
