@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/functions.dart';
+import 'package:movieapp/presentation/ressources/assets_manager.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
@@ -21,8 +22,9 @@ class AppDrawerHeader extends StatelessWidget {
         children: [
           Expanded(
               flex: 2,
-              child: Icon(FontAwesomeIcons.play,
-                  size: 70, color: ColorManager.secondary)),
+              child: Image(
+                image: AssetImage(ImageAssets.splashLogo),
+              )),
           Expanded(
             flex: 3,
             child: Padding(
@@ -63,7 +65,7 @@ class AppDrawerHeader extends StatelessWidget {
 
   Widget _getWebsiteWidget(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         customLaunch(Constant.site);
       },
       child: Row(
@@ -71,7 +73,8 @@ class AppDrawerHeader extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: AppPadding.p3),
-            child: Icon(IconManager.link, size: AppSize.s12,color: ColorManager.white),
+            child: Icon(IconManager.link,
+                size: AppSize.s12, color: ColorManager.white),
           ),
           SizedBox(width: AppSize.s3),
           Text(

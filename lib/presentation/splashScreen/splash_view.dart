@@ -7,6 +7,7 @@ import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/ressources/assets_manager.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
@@ -71,12 +72,16 @@ class _SplashViewState extends State<SplashView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(FontAwesomeIcons.play, size: 100, color: ColorManager.secondary),
-          SizedBox(height:20),
-          Text(
-            "MOVCIMA",
-            style: getBoldStyle(color: ColorManager.secondary, fontSize: FontSize.s30),
+          // Icon(FontAwesomeIcons.play, size: 100, color: ColorManager.secondary),
+          Image(
+            image: AssetImage(ImageAssets.splashLogo),
           ),
+          // SizedBox(height: 20),
+          // Text(
+          //   "MOVCIMA",
+          //   style: getBoldStyle(
+          //       color: ColorManager.secondary, fontSize: FontSize.s30),
+          // ),
         ],
       ),
     );
