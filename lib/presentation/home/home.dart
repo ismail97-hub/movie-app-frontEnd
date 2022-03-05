@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/app_prefs.dart';
+import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_appbar/state_appbar_impl.dart';
@@ -55,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: ColorManager.primary,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("MOVCIMA",
+        title: Text(Constant.appName,
             style: getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary)),
         centerTitle: false,
         actions: [
@@ -125,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
           top: AppPadding.p15,
           left: AppPadding.p12,
           right: AppPadding.p12,
-          bottom: AppSize.s15),
+          bottom: AppSize.s20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -155,7 +156,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _getCarousel(List<Movie> movies) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.only(bottom: AppMargin.m30),
+      margin: EdgeInsets.only(bottom: AppMargin.m26),
       child: MovieCarousel(
         movies,
         width: width >AppSize.s450?AppSize.s350:AppSize.s250,

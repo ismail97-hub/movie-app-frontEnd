@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/font_manager.dart';
 import 'package:movieapp/presentation/ressources/language_manager.dart';
@@ -97,6 +98,9 @@ class _SettingsViewState extends State<SettingsView> {
                     SettingsTile.navigation(
                       title: Text(AppStrings.visitSite.tr()),
                       value: Text(Constant.site),
+                      onPressed: (context) {
+                        customLaunch(Constant.site);
+                      },
                     ),
                     SettingsTile.navigation(
                       title: Text(AppStrings.Version.tr()),

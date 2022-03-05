@@ -33,10 +33,10 @@ class AppDrawerHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("MOVCIMA",
+                  Text(Constant.appName,
                       style: getBoldStyle(
                           color: ColorManager.secondary, fontSize: 20)),
-                  Text("Version 1.0.0",
+                  Text("Version ${Constant.version}",
                       style: getLightStyle(
                           color: ColorManager.white.withOpacity(0.8),
                           fontSize: 10)),

@@ -1,4 +1,5 @@
 class Constant {
+  static const String appName = "MOVCIMA";
   static const String baseUrl = "http://167.114.2.30:8080/api";
   static const String infoBaseUrl = "http://ip-api.com/json";
   static const String paginationEndPoint = "?page=";

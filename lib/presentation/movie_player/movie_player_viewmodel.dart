@@ -34,7 +34,7 @@ class MoviePlayerViewModel extends BaseViewModel
     _backTimer?.cancel();
     _isPageFinishedstreamController.close();
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -42,7 +42,7 @@ class MoviePlayerViewModel extends BaseViewModel
   Future<bool> onWillPop() {
     inputIsPageFinished.add(false);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     return Future.delayed(const Duration(milliseconds: 1000), () => true);
   }
 
