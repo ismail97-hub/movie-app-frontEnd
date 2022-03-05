@@ -9,7 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MoviePlayerViewModel extends BaseViewModel
     with MoviePlayerViewModelInput, MoviePlayerViewModelOutput {
-  StreamController _isPageFinishedstreamController = BehaviorSubject<bool>();    
+  StreamController _isPageFinishedstreamController = BehaviorSubject<bool>();
   Timer? _timer;
   Timer? _backTimer;
 
@@ -34,23 +34,26 @@ class MoviePlayerViewModel extends BaseViewModel
     _backTimer?.cancel();
     _isPageFinishedstreamController.close();
     // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
   @override
   Future<bool> onWillPop() {
     inputIsPageFinished.add(false);
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-    return Future.delayed(const Duration(milliseconds: 1000), () => true);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    });
+    return Future.delayed(const Duration(milliseconds: 1500), () => true);
   }
 
   @override
   Sink get inputIsPageFinished => _isPageFinishedstreamController.sink;
 
   @override
-  Stream<bool> get outputIsPageFinished => _isPageFinishedstreamController.stream.map((isPageFinished) => isPageFinished);
+  Stream<bool> get outputIsPageFinished =>
+      _isPageFinishedstreamController.stream
+          .map((isPageFinished) => isPageFinished);
 }
 
 abstract class MoviePlayerViewModelInput {
@@ -60,5 +63,4 @@ abstract class MoviePlayerViewModelInput {
 
 abstract class MoviePlayerViewModelOutput {
   Stream<bool> get outputIsPageFinished;
-
 }
