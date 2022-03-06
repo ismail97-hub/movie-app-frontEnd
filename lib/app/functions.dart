@@ -40,10 +40,13 @@ Future<DeviceInfo> getDeviceDetails() async {
   return DeviceInfo(name, identifier);
 }
 
-showSnackBar(BuildContext context,String content) {
+showSnackBar(BuildContext context, String content) {
   final snackBar = SnackBar(
     backgroundColor: ColorManager.secondary,
-    content: Text(content.tr(),style: getMediumStyle(color: ColorManager.black),),
+    content: Text(
+      content.tr(),
+      style: getMediumStyle(color: ColorManager.black),
+    ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
@@ -58,21 +61,23 @@ Future<bool> isPhonePermissionGaranted() async {
   }
 }
 
-bool isArabic(BuildContext context){
-  return context.locale==ARABIC_LOCAL;
-} 
+bool isArabic(BuildContext context) {
+  return context.locale == ARABIC_LOCAL;
+}
 
-EdgeInsets paddingTr(BuildContext context,{required double padding,double? top,double? bottom}){
-  return EdgeInsets.only(   
-            top: top??AppPadding.p0,
-            bottom: bottom??AppPadding.p0,
-            left:isArabic(context)?AppPadding.p0:padding,
-            right: isArabic(context)?padding:AppPadding.p0);
+EdgeInsets paddingTr(BuildContext context,
+    {required double padding, double? top, double? bottom}) {
+  return EdgeInsets.only(
+      top: top ?? AppPadding.p0,
+      bottom: bottom ?? AppPadding.p0,
+      left: isArabic(context) ? AppPadding.p0 : padding,
+      right: isArabic(context) ? padding : AppPadding.p0);
 }
 
 bool isRTL(String text) {
   return intl.Bidi.detectRtlDirectionality(text);
 }
+
 void share() {
   Share.share(Constant.shareText);
 }
@@ -92,3 +97,17 @@ void customLaunch(command) async {
   }
 }
 
+dialogList(BuildContext context,
+    {required String title, required List<Widget> children}) async {
+  await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            backgroundColor: ColorManager.primary,
+            title: Text(title.tr()),
+            content: ListView(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                children: children));
+      });
+}

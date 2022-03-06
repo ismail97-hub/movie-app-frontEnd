@@ -1,5 +1,7 @@
 {
   "lang":"العربية",
+  "english":"الانجليزية",
+  "arabic":"العربية",
   "no_route_found":"لا توجد شاشه",
   "loading":"جاري التحميل...",
   "retry_again":"حاول مره اخرى",
@@ -28,6 +30,7 @@
   "show_more":"أظهر المزيد",
   "show_less":"أظهر اقل",
   "added_to_favorites":"تم اضافته إلى المفضلة",
+  "exit_message":"انقر مرة أخرى للخروج",
   "common":"عام",
   "language":"اللغة",
   "notification":"الإشعارات",

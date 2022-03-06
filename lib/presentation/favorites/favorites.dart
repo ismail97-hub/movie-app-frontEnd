@@ -44,7 +44,6 @@ class _FavoritesViewState extends State<FavoritesView> {
       appBar: AppBar(
         title: Text(AppStrings.favorites.tr()),
         elevation: AppSize.s4,
-        actions: [IconButton(onPressed: () {}, icon: Icon(IconManager.info))],
       ),
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,

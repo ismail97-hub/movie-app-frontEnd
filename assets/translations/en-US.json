@@ -1,5 +1,7 @@
 { 
   "lang":"English",
+  "english":"English",
+  "arabic":"Arabic",
   "no_route_found":"no route found",
   "loading":"loading ......",
   "retry_again":"Retry Again",
@@ -28,6 +30,7 @@
   "show_more":"Show more",
   "show_less":"Show less",
   "added_to_favorites":"added to favorites",
+  "exit_message":"Tap back again to leave",
   "common":"Common",
   "language":"Language",
   "notification":"Notification",

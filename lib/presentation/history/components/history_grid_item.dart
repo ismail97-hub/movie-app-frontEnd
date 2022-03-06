@@ -20,39 +20,42 @@ class HistoryGridItem extends StatelessWidget {
       onTap: () {
         onTap.call();
       },
-      child: Column(
-        children: [
-          Expanded(
-              flex: 10,
+      child: Padding(
+        padding: EdgeInsets.only(top:AppPadding.p10),
+        child: Column(
+          children: [
+            Expanded(
+                flex: 10,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width > AppSize.s550 ? AppSize.s20 : AppSize.s10),
+                  child: MovieImageItem(
+                    image: history.image ?? EMPTY,
+                    radius: AppSize.s8,
+                    width: double.infinity,
+                  ),
+                )),
+            Expanded(
+              flex: 3,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width > AppSize.s550 ? AppSize.s20 : AppSize.s10),
-                child: MovieImageItem(
-                  image: history.image ?? EMPTY,
-                  radius: AppSize.s8,
-                  width: double.infinity,
+                padding: EdgeInsets.all(AppPadding.p5),
+                child: Column(
+                  children: [
+                    Text(history.title ?? EMPTY,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: getSemiBoldStyle(
+                            fontSize: FontSize.s12, color: Colors.white)),
+                    Text(history.year ?? EMPTY,
+                        style: getBoldStyle(
+                            fontSize: FontSize.s12,
+                            color: ColorManager.secondary)),
+                  ],
                 ),
-              )),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.all(AppPadding.p5),
-              child: Column(
-                children: [
-                  Text(history.title ?? EMPTY,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: getSemiBoldStyle(
-                          fontSize: FontSize.s12, color: Colors.white)),
-                  Text(history.year ?? EMPTY,
-                      style: getBoldStyle(
-                          fontSize: FontSize.s12,
-                          color: ColorManager.secondary)),
-                ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

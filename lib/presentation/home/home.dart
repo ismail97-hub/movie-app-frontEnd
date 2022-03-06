@@ -1,8 +1,10 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
+import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_appbar/state_appbar_impl.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -35,7 +37,9 @@ class _HomeViewState extends State<HomeView> {
   FirebaseMessaging _firebaseMessaging = instance<FirebaseMessaging>();
   _bind() {
     _viewModel.start();
-    _firebaseMessaging.getToken().then((value) => print("fireBase token:"+value.toString()));
+    _firebaseMessaging
+        .getToken()
+        .then((value) => print("fireBase token:" + value.toString()));
   }
 
   @override
@@ -57,7 +61,8 @@ class _HomeViewState extends State<HomeView> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(Constant.appName,
-            style: getBoldStyle(fontSize: FontSize.s18, color: ColorManager.secondary)),
+            style: getBoldStyle(
+                fontSize: FontSize.s18, color: ColorManager.secondary)),
         centerTitle: false,
         actions: [
           IconButton(
@@ -69,19 +74,26 @@ class _HomeViewState extends State<HomeView> {
       drawer: AppDrawer(
         viewModel: _viewModel,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: StreamBuilder<FlowState>(
-              stream: _viewModel.outputState,
-              builder: (context, snapshot) {
-                return snapshot.data
-                        ?.getScreenWidget(context, _getContentWidget(), () {
-                      _viewModel.start();
-                    }) ??
-                    Container();
-              }),
-        ),
-      ),
+      body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+              backgroundColor: ColorManager.secondary,
+              content: Text(
+                AppStrings.exitMessage.tr(),
+                style: getMediumStyle(color: ColorManager.black),
+              )),
+          child: Center(
+            child: SingleChildScrollView(
+              child: StreamBuilder<FlowState>(
+                  stream: _viewModel.outputState,
+                  builder: (context, snapshot) {
+                    return snapshot.data
+                            ?.getScreenWidget(context, _getContentWidget(), () {
+                          _viewModel.start();
+                        }) ??
+                        Container();
+                  }),
+            ),
+          )),
     );
   }
 
@@ -96,7 +108,9 @@ class _HomeViewState extends State<HomeView> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: height>=AppSize.s800?AppSize.s100:AppSize.s80),
+                SizedBox(
+                    height:
+                        height >= AppSize.s800 ? AppSize.s100 : AppSize.s80),
                 _getSection(AppStrings.trending,
                     _onTap(HomeSections.TRENDING.getMovieListArgs())),
                 _getCarousel(homeData.trending),
@@ -159,9 +173,9 @@ class _HomeViewState extends State<HomeView> {
       margin: EdgeInsets.only(bottom: AppMargin.m26),
       child: MovieCarousel(
         movies,
-        width: width >AppSize.s450?AppSize.s350:AppSize.s250,
-        height: width >AppSize.s450?AppSize.s350:AppSize.s250,
-        viewportFraction:  width >AppSize.s550?0.4:0.6,
+        width: width > AppSize.s450 ? AppSize.s350 : AppSize.s250,
+        height: width > AppSize.s450 ? AppSize.s350 : AppSize.s250,
+        viewportFraction: width > AppSize.s550 ? 0.4 : 0.6,
       ),
     );
   }
@@ -170,9 +184,8 @@ class _HomeViewState extends State<HomeView> {
     List<Movie> movies,
   ) {
     return Container(
-      margin: EdgeInsets.only(bottom: AppMargin.m20),
-      child: HorizontalList(movies)
-    );
+        margin: EdgeInsets.only(bottom: AppMargin.m20),
+        child: HorizontalList(movies));
   }
 
   Function() _onTap(MovieListArgs movieListArgs) {

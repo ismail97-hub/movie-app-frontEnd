@@ -80,11 +80,11 @@ class AppDrawer extends StatelessWidget {
                     }),
                     // _getListTile(context, AppStrings.contactUs,
                     //     IconManager.contactUs, () {}),
-                    _getListTile(
-                        context, AppStrings.share, IconManager.share, () {
-                          share();
-                        }),
-                    SizedBox(height: AppSize.s30)    
+                    _getListTile(context, AppStrings.share, IconManager.share,
+                        () {
+                      share();
+                    }),
+                    SizedBox(height: AppSize.s30)
                   ],
                 ),
               ),
@@ -127,32 +127,24 @@ class AppDrawer extends StatelessWidget {
 
   showTypesPopUp(BuildContext context, String title, List<TypeObject> types,
       String endPoint) async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              backgroundColor: ColorManager.primary,
-              title: Text(title.tr()),
-              content: ListView(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  children: types.map((type) {
-                    String label = context.locale==ARABIC_LOCAL?type.label:type.labelEn;
-                    return ListTile(
-                      title: Text(label),
-                      trailing: Icon(
-                        IconManager.arrowForward,
-                        color: ColorManager.white,
-                        size: AppSize.s15,
-                      ),
-                      onTap: () {
-                        _goNext(context, Routes.movieListRoute,
-                            args: MovieListArgs(
-                                "$endPoint/${type.id}",label));
-                      },
-                    );
-                  }).toList()));
-        });
+    await dialogList(context,
+        title: title,
+        children: types.map((type) {
+          String label =
+              context.locale == ARABIC_LOCAL ? type.label : type.labelEn;
+          return ListTile(
+            title: Text(label),
+            trailing: Icon(
+              IconManager.arrowForward,
+              color: ColorManager.white,
+              size: AppSize.s15,
+            ),
+            onTap: () {
+              _goNext(context, Routes.movieListRoute,
+                  args: MovieListArgs("$endPoint/${type.id}", label));
+            },
+          );
+        }).toList());
   }
 }
 

@@ -46,7 +46,6 @@ class _HistoryViewState extends State<HistoryView> {
       appBar: AppBar(
         title: Text(AppStrings.history.tr()),
         elevation: AppSize.s4,
-        actions: [IconButton(onPressed: () {}, icon: Icon(IconManager.info))],
       ),
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,

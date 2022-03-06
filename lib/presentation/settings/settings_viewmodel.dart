@@ -18,10 +18,10 @@ class SettingsViewModel extends BaseViewModel
 
   AppPreferences _appPreferences;
   FirebaseMessaging _firebaseMessaging;
-  SettingsViewModel(this._appPreferences,this._firebaseMessaging);    
+  SettingsViewModel(this._appPreferences, this._firebaseMessaging);
 
   @override
-  void start()async {
+  void start() async {
     bool isNotificatinAllowed = await _appPreferences.isNotificationAllowed();
     print(isNotificatinAllowed);
     inputIsNotificaitonAllowed.add(isNotificatinAllowed);
@@ -35,7 +35,7 @@ class SettingsViewModel extends BaseViewModel
 
   @override
   onNotificationToggle(bool value) {
-    if (value==false) {
+    if (value == false) {
       disAllowNotification();
     } else {
       allowNotification();
@@ -44,24 +44,28 @@ class SettingsViewModel extends BaseViewModel
   }
 
   @override
-  changeLanguage(BuildContext context) {
-    _appPreferences.setLanguageChanged();
-    Phoenix.rebirth(context); 
+  changeLanguage(BuildContext context,Locale appLocale,Locale selectedLocale) {
+    if (appLocale == selectedLocale) {
+      Navigator.of(context).pop();
+    } else {
+      _appPreferences.setLanguageChanged();
+      Phoenix.rebirth(context);
+    }
   }
 
   @override
-  deleteFavorite(BuildContext context)async {
+  deleteFavorite(BuildContext context) async {
     await Favorite().select().delete().then((value) {
       showSnackBar(context, AppStrings.deleteFavoriteMessage);
     });
   }
 
   @override
-  deleteHistory(BuildContext context) async{
+  deleteHistory(BuildContext context) async {
     await History().select().delete().then((value) {
       showSnackBar(context, AppStrings.deleteHistoryMessage);
     });
-  } 
+  }
 
   @override
   Sink get inputIsNotificaitonAllowed =>
@@ -72,20 +76,19 @@ class SettingsViewModel extends BaseViewModel
       _isNotificaionAllowedStreamController.stream
           .map((isNotificationAllowed) => isNotificationAllowed);
 
-  allowNotification()async{
+  allowNotification() async {
     await _firebaseMessaging.subscribeToTopic(Constant.topic);
     await _appPreferences.allowNotification();
-  } 
+  }
 
-  disAllowNotification()async{
+  disAllowNotification() async {
     await _firebaseMessaging.unsubscribeFromTopic(Constant.topic);
     await _appPreferences.disAllowNotification();
   }
-
 }
 
 abstract class SettingsViewModelInput {
-  changeLanguage(BuildContext context);
+  changeLanguage(BuildContext context,Locale appLocale,Locale selectedLocale);
   onNotificationToggle(bool value);
   deleteFavorite(BuildContext context);
   deleteHistory(BuildContext context);

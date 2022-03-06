@@ -29,64 +29,67 @@ class FavoriteGridItem extends StatelessWidget {
       onTap: () {
         onTap.call();
       },
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 10,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width>AppSize.s550?AppSize.s20:AppSize.s10),
-                  child: MovieImageItem(
-                    image: favorite.image??EMPTY,
-                    radius: AppSize.s8,
-                    width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.only(top: AppPadding.p10),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width>AppSize.s550?AppSize.s20:AppSize.s10),
+                    child: MovieImageItem(
+                      image: favorite.image??EMPTY,
+                      radius: AppSize.s8,
+                      width: double.infinity,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: EdgeInsets.all(AppPadding.p5),
-                  child: Column(
-                    children: [
-                      Text(favorite.title??EMPTY,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: getSemiBoldStyle(
-                              fontSize: FontSize.s12, color: Colors.white)),
-                      Text(favorite.year??EMPTY,
-                          style: getBoldStyle(
-                              fontSize: FontSize.s12,
-                              color: ColorManager.secondary)),
-                    ],
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: EdgeInsets.all(AppPadding.p5),
+                    child: Column(
+                      children: [
+                        Text(favorite.title??EMPTY,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: getSemiBoldStyle(
+                                fontSize: FontSize.s12, color: Colors.white)),
+                        Text(favorite.year??EMPTY,
+                            style: getBoldStyle(
+                                fontSize: FontSize.s12,
+                                color: ColorManager.secondary)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: AppSize.s5,
-            left:  width>AppSize.s550?AppSize.s24:AppSize.s15,
-            height: AppSize.s35,
-            width: AppSize.s35,
-            child: CircleAvatar(
-              radius: AppSize.s30,
-              backgroundColor: ColorManager.black.withOpacity(0.3),
-              child: IconButton(
-                  onPressed: () {
-                    unFavorite.call();
-                  },
-                  icon: Icon(
-                    IconManager.favorite,
-                    color: ColorManager.secondary,
-                    size: FontSize.s20,
-                  )),
+              ],
             ),
-          ),
-        ],
+            Positioned(
+              top: AppSize.s5,
+              left:  width>AppSize.s550?AppSize.s24:AppSize.s15,
+              height: AppSize.s35,
+              width: AppSize.s35,
+              child: CircleAvatar(
+                radius: AppSize.s30,
+                backgroundColor: ColorManager.black.withOpacity(0.3),
+                child: IconButton(
+                    onPressed: () {
+                      unFavorite.call();
+                    },
+                    icon: Icon(
+                      IconManager.favorite,
+                      color: ColorManager.secondary,
+                      size: FontSize.s20,
+                    )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

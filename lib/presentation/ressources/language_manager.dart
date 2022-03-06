@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/presentation/ressources/strings_manager.dart';
 
 enum LanguageType { ENGLISH, ARABIC }
 
@@ -17,4 +18,23 @@ extension LanguageTypeExtension on LanguageType {
         return ARABIC;
     }
   }
+
+  String getTitle() {
+    switch (this) {
+      case LanguageType.ENGLISH:
+        return AppStrings.english;
+      case LanguageType.ARABIC:
+        return AppStrings.arabic;
+    }
+  }
+
+  Locale getLocale() {
+    switch (this) {
+      case LanguageType.ENGLISH:
+        return ENGLISH_LOCAL;
+      case LanguageType.ARABIC:
+        return ARABIC_LOCAL;
+    }
+  }
 }
+

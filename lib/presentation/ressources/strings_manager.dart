@@ -37,9 +37,12 @@ class AppStrings {
 
   //message 
   static const String addedToFavorite = "added_to_favorites";
+  static const String exitMessage = "exit_message";
 
   //settings
   static const String lang = "lang";
+  static const String english = "english";
+  static const String arabic = "arabic";
   static const String common="common";
   static const String language="language";
   static const String notification="notification";

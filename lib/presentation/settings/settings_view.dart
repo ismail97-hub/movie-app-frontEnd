@@ -5,6 +5,7 @@ import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
 import 'package:movieapp/presentation/ressources/font_manager.dart';
+import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
@@ -62,7 +63,7 @@ class _SettingsViewState extends State<SettingsView> {
                       title: Text(AppStrings.language.tr()),
                       value: Text(AppStrings.lang.tr()),
                       onPressed: (context) {
-                        _viewModel.changeLanguage(context);
+                        _languageChoiceDialog();
                       },
                     ),
                     SettingsTile.switchTile(
@@ -124,5 +125,24 @@ class _SettingsViewState extends State<SettingsView> {
           style: getMediumStyle(
               color: ColorManager.secondary, fontSize: FontSize.s12),
         ));
+  }
+
+  _languageChoiceDialog() {
+    Locale locale = context.locale;
+    dialogList(context,
+        title: AppStrings.language,
+        children: LanguageType.values.map((language) {
+          return ListTile(
+            title: Text(language.getTitle().tr()),
+            trailing: Icon(
+              IconManager.arrowForward,
+              color: ColorManager.white,
+              size: AppSize.s15,
+            ),
+            onTap: () {
+              _viewModel.changeLanguage(context, locale, language.getLocale());
+            },
+          );
+        }).toList());
   }
 }
