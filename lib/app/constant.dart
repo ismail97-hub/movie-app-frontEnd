@@ -11,6 +11,8 @@ class Constant {
   static const String site = "http://www.movcima.com";
   static const String version = "1.0.0";
   static const String shareText = "Free movies!!!  http://www.movcima.com";
+  static const String androidId = "com.movcima.app";
+  static const String dynamicLinkUrl = "https://movcima.page.link";
 }
 
 class Endpoints {

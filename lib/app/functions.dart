@@ -78,8 +78,8 @@ bool isRTL(String text) {
   return intl.Bidi.detectRtlDirectionality(text);
 }
 
-void share() {
-  Share.share(Constant.shareText);
+void share({String? shareText}) {
+  Share.share(shareText??Constant.shareText);
 }
 
 void customLaunch(command) async {

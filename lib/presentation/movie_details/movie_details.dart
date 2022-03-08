@@ -61,8 +61,8 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,
           builder: (context, snapshot) {
-            return snapshot.data
-                    ?.getScreenWidget(context, _getcontentWidget(), () {
+            return snapshot.data?.getScreenWidget(context, _getcontentWidget(),
+                    () {
                   _bind();
                 }) ??
                 Container();
@@ -90,7 +90,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
       child: Stack(
         children: [
           SizedBox(
-            height: width > AppSize.s600?AppSize.s500:AppSize.s350,
+            height: width > AppSize.s600 ? AppSize.s500 : AppSize.s350,
             child: CachedNetworkImage(
               imageUrl: movie.image,
               imageBuilder: (context, imageProvider) => Container(
@@ -103,9 +103,12 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
               ),
             ),
           ),
-          detailsAppBar(context: context, viewModel: _viewModel, movie: movie),
+          detailsAppBar(
+              context: context,
+              viewModel: _viewModel,
+              movie: movie,),
           Container(
-            margin: EdgeInsets.only(top:AppSize.s160),
+            margin: EdgeInsets.only(top: AppSize.s160),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -115,7 +118,9 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                       flex: 1,
                       child: Container(
                           padding: paddingTr(context, padding: AppPadding.p20),
-                          height: width > AppSize.s600?AppSize.s550:AppSize.s250,
+                          height: width > AppSize.s600
+                              ? AppSize.s550
+                              : AppSize.s250,
                           child: MovieImageItem(image: movie.image)),
                     ),
                     Expanded(
@@ -154,9 +159,11 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   }
 
   Widget _getMetaSection(Movie movie) {
-    String categoryLabel = context.locale == ARABIC_LOCAL?movie.category.label:movie.category.labelEn;
+    String categoryLabel = context.locale == ARABIC_LOCAL
+        ? movie.category.label
+        : movie.category.labelEn;
     return Container(
-      padding:paddingTr(context, padding: AppPadding.p20),
+      padding: paddingTr(context, padding: AppPadding.p20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -174,7 +181,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
               Navigator.pushNamed(context, Routes.movieListRoute,
                   arguments: MovieListArgs(
                       "${Endpoints.category}/${movie.category.id}",
-                     categoryLabel));
+                      categoryLabel));
             },
           ),
           // language and country
@@ -208,13 +215,16 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
         children: [
           // related section title
           Padding(
-            padding: EdgeInsets.symmetric(horizontal:AppPadding.p20),
+            padding: EdgeInsets.symmetric(horizontal: AppPadding.p20),
             child: _getSection(AppStrings.related),
           ),
           SizedBox(
             height: AppPadding.p15,
           ),
-          HorizontalList(relatedMovies,aroundSpace: AppSize.s10,)
+          HorizontalList(
+            relatedMovies,
+            aroundSpace: AppSize.s10,
+          )
         ],
       );
     } else {

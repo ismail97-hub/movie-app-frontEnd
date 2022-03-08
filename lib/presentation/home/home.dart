@@ -5,6 +5,7 @@ import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
+import 'package:movieapp/app/services.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_appbar/state_appbar_impl.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
@@ -33,13 +34,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   HomeViewModel _viewModel = instance<HomeViewModel>();
-  AppPreferences _appPreferences = instance<AppPreferences>();
-  FirebaseMessaging _firebaseMessaging = instance<FirebaseMessaging>();
+  DynamicLinksService _dynamicLinksService = instance<DynamicLinksService>();
+
   _bind() {
+    _dynamicLinksService.initDynamicLinks(context);
+    _dynamicLinksService.dynamicLinksListner(context);
     _viewModel.start();
-    _firebaseMessaging
-        .getToken()
-        .then((value) => print("fireBase token:" + value.toString()));
   }
 
   @override

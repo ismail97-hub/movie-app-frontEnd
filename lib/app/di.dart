@@ -1,9 +1,11 @@
 
 
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/app/app_prefs.dart';
+import 'package:movieapp/app/services.dart';
 import 'package:movieapp/data/data_source/local_data_source.dart';
 import 'package:movieapp/data/data_source/remote_data_source.dart';
 import 'package:movieapp/data/local/repository/category_repository.dart';
@@ -37,17 +39,21 @@ Future<void> initAppModule()async{
   
   final sharedPreferences = await SharedPreferences.getInstance();
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
   
-  //shared Prefernces
+  // shared Prefernces
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
-  //app preferences
+  // app preferences
   instance.registerLazySingleton<AppPreferences>(() => AppPreferences(instance()));
   
-  //FireBase Messaging
+  // FireBase Messaging
   instance.registerLazySingleton<FirebaseMessaging>(() => firebaseMessaging);
 
-  //network info
+  // dynamic link
+  instance.registerLazySingleton<FirebaseDynamicLinks>(() => dynamicLinks);
+
+  // network info
   instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(DataConnectionChecker()));
 
   // dio factory
@@ -56,6 +62,9 @@ Future<void> initAppModule()async{
   // app service client
   final dio = await instance<DioFactory>().getDio();
   instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
+
+  // dynamic link service
+  instance.registerLazySingleton<DynamicLinksService>(() => DynamicLinksServiceImpl(instance()));
 
   // remote data source
   instance.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(instance()));
@@ -90,7 +99,7 @@ initHomeModule(){
 initMovieDetailsModule(){
   if(!GetIt.I.isRegistered<MovieDetailsUseCase>()){
     instance.registerFactory<MovieDetailsUseCase>(() => MovieDetailsUseCase(instance(),instance(),instance()));
-    instance.registerFactory<MovieDetailsViewModel>(() => MovieDetailsViewModel(instance()));
+    instance.registerFactory<MovieDetailsViewModel>(() => MovieDetailsViewModel(instance(),instance()));
   }
 }
 

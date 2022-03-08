@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/data/local/repository/category_repository.dart';
 import 'package:movieapp/data/local/repository/genre_repositry.dart';
+import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/domain/use_case/home_usecase.dart';
 import 'package:movieapp/presentation/base/base_viewmodel.dart';
@@ -26,7 +26,7 @@ class HomeViewModel extends BaseViewModel
 
   _getHome() async {
     inputState.add(LoadingState());
-    (await _homeUseCase.execute(Void)).fold((failure) {
+    (await _homeUseCase.execute(EMPTY)).fold((failure) {
       inputState.add(ErrorState(failure.message,StateRendererType.FULL_SCREEN_ERROR_STATE));
     }, (homeData) {
       inputState.add(ContentState());

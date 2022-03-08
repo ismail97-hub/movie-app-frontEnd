@@ -6,12 +6,11 @@ part of 'response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BaseTypeResponse _$BaseTypeResponseFromJson(Map<String, dynamic> json) {
-  return BaseTypeResponse()
-    ..id = json['id'] as int?
-    ..label = json['label'] as String?
-    ..labelEn = json['labelEn'] as String?;
-}
+BaseTypeResponse _$BaseTypeResponseFromJson(Map<String, dynamic> json) =>
+    BaseTypeResponse()
+      ..id = json['id'] as int?
+      ..label = json['label'] as String?
+      ..labelEn = json['labelEn'] as String?;
 
 Map<String, dynamic> _$BaseTypeResponseToJson(BaseTypeResponse instance) =>
     <String, dynamic>{
@@ -20,12 +19,11 @@ Map<String, dynamic> _$BaseTypeResponseToJson(BaseTypeResponse instance) =>
       'labelEn': instance.labelEn,
     };
 
-GenreResponse _$GenreResponseFromJson(Map<String, dynamic> json) {
-  return GenreResponse()
-    ..id = json['id'] as int?
-    ..label = json['label'] as String?
-    ..labelEn = json['labelEn'] as String?;
-}
+GenreResponse _$GenreResponseFromJson(Map<String, dynamic> json) =>
+    GenreResponse()
+      ..id = json['id'] as int?
+      ..label = json['label'] as String?
+      ..labelEn = json['labelEn'] as String?;
 
 Map<String, dynamic> _$GenreResponseToJson(GenreResponse instance) =>
     <String, dynamic>{
@@ -34,12 +32,11 @@ Map<String, dynamic> _$GenreResponseToJson(GenreResponse instance) =>
       'labelEn': instance.labelEn,
     };
 
-CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) {
-  return CategoryResponse()
-    ..id = json['id'] as int?
-    ..label = json['label'] as String?
-    ..labelEn = json['labelEn'] as String?;
-}
+CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) =>
+    CategoryResponse()
+      ..id = json['id'] as int?
+      ..label = json['label'] as String?
+      ..labelEn = json['labelEn'] as String?;
 
 Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
     <String, dynamic>{
@@ -48,31 +45,30 @@ Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
       'labelEn': instance.labelEn,
     };
 
-MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) {
-  return MovieResponse(
-    json['id'] as int?,
-    json['title'] as String?,
-    json['image'] as String?,
-    json['category'] == null
-        ? null
-        : CategoryResponse.fromJson(json['category'] as Map<String, dynamic>),
-    (json['genres'] as List<dynamic>?)
-        ?.map((e) => GenreResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['rating'] as num?)?.toDouble(),
-    json['quality'] as String?,
-    json['year'] as String?,
-    json['language'] as String?,
-    json['country'] as String?,
-    json['story'] as String?,
-    json['source'] as String?,
-    json['datePublication'] as String?,
-    json['numOfFavorites'] as int?,
-    json['numOfViews'] as int?,
-    json['favorite'] as bool?,
-    json['viewed'] as bool?,
-  );
-}
+MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>
+    MovieResponse(
+      json['id'] as int?,
+      json['title'] as String?,
+      json['image'] as String?,
+      json['category'] == null
+          ? null
+          : CategoryResponse.fromJson(json['category'] as Map<String, dynamic>),
+      (json['genres'] as List<dynamic>?)
+          ?.map((e) => GenreResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['rating'] as num?)?.toDouble(),
+      json['quality'] as String?,
+      json['year'] as String?,
+      json['language'] as String?,
+      json['country'] as String?,
+      json['story'] as String?,
+      json['source'] as String?,
+      json['datePublication'] as String?,
+      json['numOfFavorites'] as int?,
+      json['numOfViews'] as int?,
+      json['favorite'] as bool?,
+      json['viewed'] as bool?,
+    );
 
 Map<String, dynamic> _$MovieResponseToJson(MovieResponse instance) =>
     <String, dynamic>{
@@ -95,31 +91,29 @@ Map<String, dynamic> _$MovieResponseToJson(MovieResponse instance) =>
       'viewed': instance.isViewed,
     };
 
-HomeResponse _$HomeResponseFromJson(Map<String, dynamic> json) {
-  return HomeResponse(
-    (json['trending'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['newMovies'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['foreignMovies'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['indianMovies'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['arabicMovies'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['categories'] as List<dynamic>?)
-        ?.map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['genres'] as List<dynamic>?)
-        ?.map((e) => GenreResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
+HomeResponse _$HomeResponseFromJson(Map<String, dynamic> json) => HomeResponse(
+      (json['trending'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['newMovies'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['foreignMovies'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['indianMovies'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['arabicMovies'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['categories'] as List<dynamic>?)
+          ?.map((e) => CategoryResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['genres'] as List<dynamic>?)
+          ?.map((e) => GenreResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$HomeResponseToJson(HomeResponse instance) =>
     <String, dynamic>{
@@ -132,16 +126,16 @@ Map<String, dynamic> _$HomeResponseToJson(HomeResponse instance) =>
       'genres': instance.genres,
     };
 
-MovieDetailsResponse _$MovieDetailsResponseFromJson(Map<String, dynamic> json) {
-  return MovieDetailsResponse(
-    json['movie'] == null
-        ? null
-        : MovieResponse.fromJson(json['movie'] as Map<String, dynamic>),
-    (json['relatedMovies'] as List<dynamic>?)
-        ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
-}
+MovieDetailsResponse _$MovieDetailsResponseFromJson(
+        Map<String, dynamic> json) =>
+    MovieDetailsResponse(
+      json['movie'] == null
+          ? null
+          : MovieResponse.fromJson(json['movie'] as Map<String, dynamic>),
+      (json['relatedMovies'] as List<dynamic>?)
+          ?.map((e) => MovieResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$MovieDetailsResponseToJson(
         MovieDetailsResponse instance) =>
@@ -150,33 +144,31 @@ Map<String, dynamic> _$MovieDetailsResponseToJson(
       'relatedMovies': instance.relatedMovies,
     };
 
-SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) {
-  return SignUpResponse(
-    json['token'] as String?,
-  );
-}
+SignUpResponse _$SignUpResponseFromJson(Map<String, dynamic> json) =>
+    SignUpResponse(
+      json['token'] as String?,
+    );
 
 Map<String, dynamic> _$SignUpResponseToJson(SignUpResponse instance) =>
     <String, dynamic>{
       'token': instance.token,
     };
 
-UserInfoResponse _$UserInfoResponseFromJson(Map<String, dynamic> json) {
-  return UserInfoResponse(
-    json['status'] as String?,
-    json['country'] as String?,
-    json['countryCode'] as String?,
-    json['region'] as String?,
-    json['regionName'] as String?,
-    json['city'] as String?,
-    json['zip'] as String?,
-    (json['lat'] as num?)?.toDouble(),
-    (json['lon'] as num?)?.toDouble(),
-    json['timezone'] as String?,
-    json['isp'] as String?,
-    json['query'] as String?,
-  );
-}
+UserInfoResponse _$UserInfoResponseFromJson(Map<String, dynamic> json) =>
+    UserInfoResponse(
+      json['status'] as String?,
+      json['country'] as String?,
+      json['countryCode'] as String?,
+      json['region'] as String?,
+      json['regionName'] as String?,
+      json['city'] as String?,
+      json['zip'] as String?,
+      (json['lat'] as num?)?.toDouble(),
+      (json['lon'] as num?)?.toDouble(),
+      json['timezone'] as String?,
+      json['isp'] as String?,
+      json['query'] as String?,
+    );
 
 Map<String, dynamic> _$UserInfoResponseToJson(UserInfoResponse instance) =>
     <String, dynamic>{

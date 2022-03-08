@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/data/local/model.dart';

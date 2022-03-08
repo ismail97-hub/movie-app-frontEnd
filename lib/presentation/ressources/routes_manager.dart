@@ -12,7 +12,6 @@ import 'package:movieapp/presentation/movie_player/movie_player.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/settings/settings_view.dart';
 import 'package:movieapp/presentation/splashScreen/splash_view.dart';
-import 'package:movieapp/web_view.dart';
 
 class Routes {
   static const spalshRoute = "/";

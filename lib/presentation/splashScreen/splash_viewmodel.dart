@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +7,7 @@ import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
+import 'package:movieapp/data/mapper/mapper.dart';
 import 'package:movieapp/data/network/failure.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/domain/use_case/splash_usecase.dart';
@@ -52,7 +52,7 @@ class SplashViewModel extends BaseViewModel
 
   @override
   login() async {
-    (await _splashUseCase.signUp(Void)).fold((failure) {
+    (await _splashUseCase.signUp(EMPTY)).fold((failure) {
       inputState.add(ErrorState(failure.message,StateRendererType.POPUP_ERROR_STATE));
     }, (token) {
       _appPreferences.setIsUserLoggedIn();

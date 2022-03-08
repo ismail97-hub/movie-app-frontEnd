@@ -10,7 +10,8 @@ import 'package:movieapp/presentation/ressources/values_manager.dart';
 AppBar detailsAppBar(
     {required BuildContext context,
     required MovieDetailsViewModel viewModel,
-    required Movie movie}) {
+    required Movie movie,
+    }) {
   return AppBar(
     backgroundColor: Colors.transparent,
     automaticallyImplyLeading: false,
@@ -46,7 +47,7 @@ AppBar detailsAppBar(
                   backgroundColor: ColorManager.black.withOpacity(0.3),
                   child: IconButton(
                       onPressed: () {
-                        viewModel.onFavoriteClick(context,movie);
+                        viewModel.onFavoriteClick(context, movie);
                       },
                       icon: Icon(
                         snapshot.data,
@@ -55,7 +56,24 @@ AppBar detailsAppBar(
                 ),
               );
             }),
-      )
+      ),
+      Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p8),
+          child: SizedBox(
+            width: AppSize.s40,
+            child: CircleAvatar(
+              radius: AppSize.s40,
+              backgroundColor: ColorManager.black.withOpacity(0.3),
+              child: IconButton(
+                  onPressed: () { 
+                    viewModel.shareMovie(movie);
+                  },
+                  icon: Icon(
+                    IconManager.share2,
+                    color: ColorManager.secondary,
+                  )),
+            ),
+          ))
     ],
   );
 }

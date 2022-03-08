@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/functions.dart';
+import 'package:movieapp/app/services.dart';
 import 'package:movieapp/data/local/repository/favorite_repository.dart';
 import 'package:movieapp/data/network/failure.dart';
 import 'package:movieapp/domain/model/model.dart';
@@ -19,7 +20,8 @@ class MovieDetailsViewModel extends BaseViewModel
   StreamController _favoriteIconStreamController = BehaviorSubject<IconData>();
 
   MovieDetailsUseCase _useCase;
-  MovieDetailsViewModel(this._useCase);
+  DynamicLinksService _dynamicLinksService;
+  MovieDetailsViewModel(this._useCase,this._dynamicLinksService);
 
   @override
   void start() async {
@@ -68,7 +70,12 @@ class MovieDetailsViewModel extends BaseViewModel
     });
   }
 
-
+  @override
+  shareMovie(Movie movie) async{
+    Uri uri = await _dynamicLinksService.getMovieDynamicLink(movie);
+    share(shareText: uri.toString());
+  }
+  
   @override
   Sink get inputDetails => _detailsDataStreamController.sink;
 
@@ -91,6 +98,7 @@ class MovieDetailsViewModel extends BaseViewModel
 
 abstract class MovieViewModelInputs {
   watch(BuildContext context,Movie movie);
+  shareMovie(Movie movie);
   onFavoriteClick(BuildContext context,Movie movie);
 
   Sink get inputDetails;

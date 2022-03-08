@@ -18,6 +18,7 @@ class IconManager {
   static IconData genre = Icons.movie_filter;
   static IconData history = FontAwesomeIcons.history;
   static IconData share = FontAwesomeIcons.share;
+  static IconData share2 = Icons.share;
   static IconData contactUs = Icons.email_outlined;
   static IconData settings = Icons.settings;
   static IconData arrowForward = Icons.arrow_forward_ios;

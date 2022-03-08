@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/di.dart';
+import 'package:movieapp/app/services.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/theme_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void didChangeDependencies() {
     _appPreferences.getLocal().then((local) => {context.setLocale(local)});
-
+    
     super.didChangeDependencies();
   }
 
