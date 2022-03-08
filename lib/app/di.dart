@@ -2,6 +2,7 @@
 
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/app/app_prefs.dart';
@@ -40,6 +41,7 @@ Future<void> initAppModule()async{
   final sharedPreferences = await SharedPreferences.getInstance();
   FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  FirebaseInAppMessaging fiam = FirebaseInAppMessaging.instance;
   
   // shared Prefernces
   instance.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
@@ -47,10 +49,13 @@ Future<void> initAppModule()async{
   // app preferences
   instance.registerLazySingleton<AppPreferences>(() => AppPreferences(instance()));
   
-  // FireBase Messaging
+  // fireBase messaging
   instance.registerLazySingleton<FirebaseMessaging>(() => firebaseMessaging);
 
-  // dynamic link
+  // fireBase in-app messaging
+  instance.registerLazySingleton<FirebaseInAppMessaging>(() => fiam);
+
+  // fireBase dynamic links
   instance.registerLazySingleton<FirebaseDynamicLinks>(() => dynamicLinks);
 
   // network info

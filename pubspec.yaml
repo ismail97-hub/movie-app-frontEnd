@@ -76,6 +76,7 @@ dependencies:
     fluttertoast: ^8.0.9
     double_back_to_close_app: ^2.1.0
     firebase_dynamic_links: ^4.0.7
+    firebase_in_app_messaging: ^0.6.0+9
 
 dev_dependencies:
   flutter_test:
