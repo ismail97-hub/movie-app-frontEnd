@@ -13,6 +13,7 @@ import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter/services.dart';
 
 class MovieDetailsViewModel extends BaseViewModel
     with MovieViewModelInputs, MovieViewModelOutputs {
@@ -91,7 +92,9 @@ class MovieDetailsViewModel extends BaseViewModel
       _favoriteIconStreamController.stream.map((favoriteIcon) => favoriteIcon);
 
   _goToMoviePlayer(BuildContext context,String url){
-    Navigator.pushNamed(context, Routes.watchRoute,arguments: url);
+    Navigator.pushNamed(context, Routes.watchRoute,arguments: url).then((_){
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.top,SystemUiOverlay.bottom]);
+    });
   }
 
 }
