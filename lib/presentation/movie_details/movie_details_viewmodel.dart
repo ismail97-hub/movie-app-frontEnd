@@ -92,9 +92,7 @@ class MovieDetailsViewModel extends BaseViewModel
       _favoriteIconStreamController.stream.map((favoriteIcon) => favoriteIcon);
 
   _goToMoviePlayer(BuildContext context,String url){
-    Navigator.pushNamed(context, Routes.watchRoute,arguments: url).then((_){
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.top,SystemUiOverlay.bottom]);
-    });
+    Navigator.pushNamed(context, Routes.watchRoute,arguments: url);
   }
 
 }

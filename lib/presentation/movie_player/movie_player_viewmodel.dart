@@ -40,9 +40,11 @@ class MoviePlayerViewModel extends BaseViewModel
 
   @override
   Future<bool> onWillPop() {
+    _timer?.cancel();
     inputIsPageFinished.add(false);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        return Future.delayed(const Duration(milliseconds: 800), () => true);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: [SystemUiOverlay.top,SystemUiOverlay.bottom]);
+    return Future.delayed(const Duration(milliseconds: 800), () => true);
   }
 
   @override

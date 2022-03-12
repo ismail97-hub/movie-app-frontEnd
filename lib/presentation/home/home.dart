@@ -39,6 +39,7 @@ class _HomeViewState extends State<HomeView> {
   _bind() {
     _dynamicLinksService.initDynamicLinks(context);
     _dynamicLinksService.dynamicLinksListner(context);
+    checkVersion(context);
     _viewModel.start();
   }
 

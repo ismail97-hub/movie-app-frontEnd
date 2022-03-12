@@ -14,6 +14,7 @@ import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
 import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
+import 'package:new_version/new_version.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:share_plus/share_plus.dart';
@@ -110,4 +111,32 @@ dialogList(BuildContext context,
                 physics: BouncingScrollPhysics(),
                 children: children));
       });
+}
+
+void checkVersion(BuildContext context) async {
+  final newVersion =
+      NewVersion(androidId: Constant.androidId);
+  final status = await newVersion.getVersionStatus();
+  if (status != null) {
+    if (status.canUpdate) {
+      newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          dialogTitle: AppStrings.update.tr(),
+          dismissButtonText: AppStrings.skip.tr(),
+          dialogText: AppStrings.updateMessage.tr() +
+              status.localVersion +
+              AppStrings.to.tr() +
+              status.storeVersion,
+          dismissAction: () {
+            // SystemNavigator.pop();
+            Navigator.of(context).pop();
+          },
+          updateButtonText: AppStrings.letsUpdate.tr(),
+          allowDismissal: false);
+    }
+
+    print("DEVICE : " + status.localVersion);
+    print("STORE : " + status.storeVersion);
+  }
 }
