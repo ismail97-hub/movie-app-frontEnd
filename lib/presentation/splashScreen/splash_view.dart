@@ -98,7 +98,7 @@ class _SplashViewState extends State<SplashView> {
               color: ColorManager.secondary, fontSize: FontSize.s25),
         ),
         Text(
-          Constant.version,
+          "v${Constant.version}",
           style: getRegularStyle(color: ColorManager.white.withOpacity(0.8)),
         ),
       ]),

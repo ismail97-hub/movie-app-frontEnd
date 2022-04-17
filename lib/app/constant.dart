@@ -6,13 +6,15 @@ class Constant {
   static const String client = "client";
   static const String topic = "newMovie";
   static const String instagramUrl = "https://www.instagram.com/movcima/";
-  static const String facebookUrl = "https://www.facebook.com/Live-sports-101766254669401";
+  static const String facebookUrl = "https://www.facebook.com/movcima/";
   static const String twitterUrl = "https://twitter.com/movcima1";
-  static const String site = "http://www.movcima.com";
-  static const String version = "1.0.0";
-  static const String shareText = "Free movies!!!  http://www.movcima.com";
-  static const String androidId = "com.movcima.app";
+  static const String webSite = "www.mocima.com";
+  static const String site = "https://www.movcima.com";
+  static const String version = "1.0.1";
+  static const String shareText = "Free movies!!!  https://www.movcima.com";
+  static const String androidId = "com.movcima.app"; //com.snapchat.android
   static const String dynamicLinkUrl = "https://movcima.page.link";
+  static const String contactUs = "mailto:contact@movcima.com";
 }
 
 class Endpoints {

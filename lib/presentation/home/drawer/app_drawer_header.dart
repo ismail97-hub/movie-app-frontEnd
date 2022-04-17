@@ -14,51 +14,54 @@ class AppDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DrawerHeader(
-      margin: EdgeInsets.all(0.0),
-      padding: EdgeInsets.all(0.0),
-      decoration: BoxDecoration(color: ColorManager.black),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 2,
-              child: Image(
-                image: AssetImage(ImageAssets.splashLogo),
-              )),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: AppPadding.p15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(Constant.appName,
-                      style: getBoldStyle(
-                          color: ColorManager.secondary, fontSize: 20)),
-                  Text("Version ${Constant.version}",
-                      style: getLightStyle(
-                          color: ColorManager.white.withOpacity(0.8),
-                          fontSize: 10)),
-                  _getWebsiteWidget(context),
-                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    _getSocialMediaWidget(context, IconManager.facebook, () {
-                      customLaunch(Constant.facebookUrl);
-                    }),
-                    SizedBox(width: AppSize.s15),
-                    _getSocialMediaWidget(context, IconManager.twitter, () {
-                      customLaunch(Constant.twitterUrl);
-                    }),
-                    SizedBox(width: AppSize.s15),
-                    _getSocialMediaWidget(context, IconManager.instagram, () {
-                      customLaunch(Constant.instagramUrl);
-                    }),
-                  ])
-                ],
+    return SizedBox(
+      height: AppSize.s200,
+      child: DrawerHeader(
+        margin: EdgeInsets.all(0.0),
+        padding: EdgeInsets.symmetric(vertical: AppPadding.p15),
+        decoration: BoxDecoration(color: ColorManager.black),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 4,
+                child: Image(
+                  image: AssetImage(ImageAssets.splashLogo),
+                )),
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: AppPadding.p15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(Constant.appName,
+                        style: getBoldStyle(
+                            color: ColorManager.secondary, fontSize: 20)),
+                    Text("Version ${Constant.version}",
+                        style: getLightStyle(
+                            color: ColorManager.white.withOpacity(0.8),
+                            fontSize: 10)),
+                    _getWebsiteWidget(context),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      _getSocialMediaWidget(context, IconManager.facebook, () {
+                        customLaunch(Constant.facebookUrl);
+                      }),
+                      SizedBox(width: AppSize.s15),
+                      _getSocialMediaWidget(context, IconManager.twitter, () {
+                        customLaunch(Constant.twitterUrl);
+                      }),
+                      SizedBox(width: AppSize.s15),
+                      _getSocialMediaWidget(context, IconManager.instagram, () {
+                        customLaunch(Constant.instagramUrl);
+                      }),
+                    ])
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -77,9 +80,13 @@ class AppDrawerHeader extends StatelessWidget {
                 size: AppSize.s12, color: ColorManager.white),
           ),
           SizedBox(width: AppSize.s3),
-          Text(
-            "www.movcima.com",
-            style: Theme.of(context).textTheme.headline6,
+          SizedBox(
+            width: AppSize.s120,
+            child: Text(
+              Constant.webSite,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.headline6,
+            ),
           )
         ],
       ),

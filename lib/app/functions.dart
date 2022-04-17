@@ -105,7 +105,7 @@ dialogList(BuildContext context,
       builder: (BuildContext context) {
         return AlertDialog(
             backgroundColor: ColorManager.primary,
-            title: Text(title.tr()),
+            title: Text(title.tr(),style: getMediumStyle(color: ColorManager.white,fontSize: FontSize.s12),),
             content: ListView(
                 shrinkWrap: true,
                 physics: BouncingScrollPhysics(),

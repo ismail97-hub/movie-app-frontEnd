@@ -10,6 +10,7 @@ import 'package:movieapp/presentation/ressources/icon_manager.dart';
 import 'package:movieapp/presentation/ressources/language_manager.dart';
 import 'package:movieapp/presentation/ressources/routes_manager.dart';
 import 'package:movieapp/presentation/ressources/strings_manager.dart';
+import 'package:movieapp/presentation/ressources/styles_manager.dart';
 import 'package:movieapp/presentation/ressources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -62,7 +63,7 @@ class AppDrawer extends StatelessWidget {
                           genres.toTypeObject(), Endpoints.genre);
                     }),
                     SizedBox(
-                      height: AppSize.s24,
+                      height: AppSize.s20,
                     ),
                     _getListTile(
                         context,
@@ -78,8 +79,10 @@ class AppDrawer extends StatelessWidget {
                         context, AppStrings.settings, IconManager.settings, () {
                       _goNext(context, Routes.settingsRoute);
                     }),
-                    // _getListTile(context, AppStrings.contactUs,
-                    //     IconManager.contactUs, () {}),
+                    _getListTile(context, AppStrings.contactUs,
+                        IconManager.contactUs, () {
+                          customLaunch(Constant.contactUs);
+                        }),
                     _getListTile(context, AppStrings.share, IconManager.share,
                         () {
                       share();
