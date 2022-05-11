@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/ad_service.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/banner_ad_widget.dart';
 import 'package:movieapp/presentation/favorites/components/favorite_grid_item.dart';
 import 'package:movieapp/presentation/favorites/favorites_viewmodel.dart';
 import 'package:movieapp/presentation/ressources/color_manager.dart';
@@ -20,9 +22,11 @@ class FavoritesView extends StatefulWidget {
 
 class _FavoritesViewState extends State<FavoritesView> {
   FavoriteViewModel _viewModel = instance<FavoriteViewModel>();
+  AdService _adService = instance<AdService>();
 
   _bind() {
     _viewModel.start();
+    _adService.createBannerAd();
   }
 
   @override
@@ -41,6 +45,8 @@ class _FavoritesViewState extends State<FavoritesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.primary,
+      floatingActionButton: BannerAdWidget(ad: _adService.getBannerAd!),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         title: Text(AppStrings.favorites.tr()),
         elevation: AppSize.s4,
@@ -82,7 +88,8 @@ class _FavoritesViewState extends State<FavoritesView> {
                       _viewModel.delete(favorite.id);
                     },
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.movieDetailsRoute,arguments: favorite.id)
+                      Navigator.pushNamed(context, Routes.movieDetailsRoute,
+                              arguments: favorite.id)
                           .then((_) => _bind());
                     },
                   ))

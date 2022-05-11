@@ -1,13 +1,11 @@
 import 'dart:io';
-
-import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/presentation/ressources/language_manager.dart';
 
@@ -17,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
+  await MobileAds.instance.initialize(); // initialize mobile ads (admob)
   await initAppModule();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

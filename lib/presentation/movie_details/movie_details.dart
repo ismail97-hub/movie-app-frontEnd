@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/ad_service.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/app/functions.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/banner_ad_widget.dart';
 import 'package:movieapp/presentation/components/horizontal_list.dart';
 import 'package:movieapp/presentation/components/horizontal_list_item.dart';
 import 'package:movieapp/presentation/components/movie_image_item.dart';
@@ -36,10 +38,13 @@ class MovieDetailsView extends StatefulWidget {
 
 class _MovieDetailsViewState extends State<MovieDetailsView> {
   MovieDetailsViewModel _viewModel = instance<MovieDetailsViewModel>();
+  AdService _adService = instance<AdService>();
 
   _bind() {
     _viewModel.start();
     _viewModel.init(widget.id);
+    _adService.createBannerAd();
+    _adService.createInnterstitialAd();
   }
 
   @override
@@ -58,6 +63,8 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
+      floatingActionButton: BannerAdWidget(ad: _adService.getBannerAd!),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,
           builder: (context, snapshot) {
@@ -104,9 +111,10 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
             ),
           ),
           detailsAppBar(
-              context: context,
-              viewModel: _viewModel,
-              movie: movie,),
+            context: context,
+            viewModel: _viewModel,
+            movie: movie,
+          ),
           Container(
             margin: EdgeInsets.only(top: AppSize.s160),
             child: Column(
@@ -131,6 +139,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                               top: AppSize.s130,
                             ),
                             onPressed: () {
+                              _adService.showInnterstitialAd();
                               _viewModel.watch(context, movie);
                             }),
                       ),
@@ -148,7 +157,7 @@ class _MovieDetailsViewState extends State<MovieDetailsView> {
                 // related movies
                 _getRelatedMovies(detailsData.relatedMovies),
                 SizedBox(
-                  height: AppPadding.p20,
+                  height: AppPadding.p70,
                 ),
               ],
             ),

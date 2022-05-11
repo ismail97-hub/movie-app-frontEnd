@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/app/ad_service.dart';
 import 'package:movieapp/app/di.dart';
 import 'package:movieapp/data/local/model.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/banner_ad_widget.dart';
 import 'package:movieapp/presentation/favorites/components/favorite_grid_item.dart';
 import 'package:movieapp/presentation/history/components/history_grid_item.dart';
 import 'package:movieapp/presentation/history/history_viewmodel.dart';
@@ -22,9 +24,11 @@ class HistoryView extends StatefulWidget {
 
 class _HistoryViewState extends State<HistoryView> {
   HistoryViewModel _viewModel = instance<HistoryViewModel>();
+   AdService _adService = instance<AdService>();
 
   _bind() {
     _viewModel.start();
+    _adService.createBannerAd();
   }
 
   @override
@@ -43,6 +47,8 @@ class _HistoryViewState extends State<HistoryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.primary,
+      floatingActionButton: BannerAdWidget(ad: _adService.getBannerAd!),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         title: Text(AppStrings.history.tr()),
         elevation: AppSize.s4,

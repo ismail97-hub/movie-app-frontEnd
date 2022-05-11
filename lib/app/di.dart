@@ -5,6 +5,8 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:movieapp/app/ad_service.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/services.dart';
 import 'package:movieapp/data/data_source/local_data_source.dart';
@@ -67,6 +69,9 @@ Future<void> initAppModule()async{
   // app service client
   final dio = await instance<DioFactory>().getDio();
   instance.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
+  
+  // admob service
+  instance.registerLazySingleton<AdService>(() => AdServicImpl());
 
   // dynamic link service
   instance.registerLazySingleton<DynamicLinksService>(() => DynamicLinksServiceImpl(instance()));

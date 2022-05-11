@@ -1,6 +1,8 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:movieapp/app/ad_service.dart';
 import 'package:movieapp/app/app_prefs.dart';
 import 'package:movieapp/app/constant.dart';
 import 'package:movieapp/app/di.dart';
@@ -9,6 +11,7 @@ import 'package:movieapp/app/services.dart';
 import 'package:movieapp/domain/model/model.dart';
 import 'package:movieapp/presentation/common/state_appbar/state_appbar_impl.dart';
 import 'package:movieapp/presentation/common/state_renderer/state_renderer_impl.dart';
+import 'package:movieapp/presentation/components/banner_ad_widget.dart';
 import 'package:movieapp/presentation/components/horizontal_list.dart';
 import 'package:movieapp/presentation/home/drawer/app_drawer.dart';
 import 'package:movieapp/presentation/components/horizontal_list_item.dart';
@@ -35,11 +38,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   HomeViewModel _viewModel = instance<HomeViewModel>();
   DynamicLinksService _dynamicLinksService = instance<DynamicLinksService>();
+  AdService _adService = instance<AdService>();
 
   _bind() {
     _dynamicLinksService.initDynamicLinks(context);
     _dynamicLinksService.dynamicLinksListner(context);
     checkVersion(context);
+    _adService.createBannerAd();
     _viewModel.start();
   }
 
@@ -118,6 +123,7 @@ class _HomeViewState extends State<HomeView> {
                 _getSection(AppStrings.newMovies,
                     _onTap(HomeSections.NEW_MOVIES.getMovieListArgs())),
                 _getListView(homeData.newMovies),
+                Center(child: BannerAdWidget(ad: _adService.getBannerAd!)),
                 _getSection(AppStrings.foreignMovies,
                     _onTap(HomeSections.FOREIGN_MOVIES.getMovieListArgs())),
                 _getListView(homeData.foreignMovies),
