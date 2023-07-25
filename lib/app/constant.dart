@@ -10,7 +10,7 @@ class Constant {
   static const String twitterUrl = "https://twitter.com/movcima1";
   static const String webSite = "www.mocima.com";
   static const String site = "https://www.movcima.com";
-  static const String version = "1.0.2";
+  static const String version = "1.0.3";
   static const String shareText = "Free movies!!!  https://www.movcima.com";
   static const String androidId = "com.movcima.app"; //com.snapchat.android
   static const String dynamicLinkUrl = "https://movcima.page.link";
